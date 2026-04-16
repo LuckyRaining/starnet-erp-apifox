@@ -4131,6 +4131,11 @@
     "responses": {},
     "securitySchemes": {}
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
   "security": []
 }
