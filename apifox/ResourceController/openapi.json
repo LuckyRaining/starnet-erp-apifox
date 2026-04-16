@@ -1,0 +1,1937 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 分类管理 (Category)"
+    },
+    {
+      "name": "2. 字典管理 (Dict)"
+    },
+    {
+      "name": "3. 系统配置 (System Configuration)"
+    },
+    {
+      "name": "4. 日志管理 (Log)"
+    },
+    {
+      "name": "5. 菜单管理 (Menu)"
+    }
+  ],
+  "paths": {
+    "/category/list": {
+      "post": {
+        "summary": "1.1 获取分类列表",
+        "deprecated": false,
+        "description": "根据分类类型获取分类列表，支持级联查询子分类（仅商品分类）\n\n业务逻辑说明:\n1. 必须传入分类类型（type）\n2. 如果是商品分类（type=10），会递归查询所有子分类，形成树形结构\n3. 其他类型分类只返回一级分类",
+        "tags": [
+          "1. 分类管理 (Category)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "integer",
+                    "title": "分类类型",
+                    "description": "10-商品分类，20-客户分类，30-供应商分类等"
+                  },
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              },
+              "example": {
+                "type": 10,
+                "query": {
+                  "keyword": "关键字"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "categoryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "分类ID"
+                              },
+                              "type": {
+                                "type": "integer",
+                                "title": "分类类型"
+                              },
+                              "parentId": {
+                                "type": "null",
+                                "title": "父分类ID",
+                                "description": "顶级分类为null"
+                              },
+                              "name": {
+                                "type": "string",
+                                "title": "分类名称"
+                              },
+                              "sortNumber": {
+                                "type": "integer",
+                                "title": "排序号"
+                              },
+                              "childList": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "title": "分类ID"
+                                    },
+                                    "type": {
+                                      "type": "integer",
+                                      "title": "分类类型"
+                                    },
+                                    "parentId": {
+                                      "type": "string",
+                                      "title": "父分类ID",
+                                      "description": "顶级分类为null"
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "title": "分类名称"
+                                    },
+                                    "sortNumber": {
+                                      "type": "integer",
+                                      "title": "排序号"
+                                    },
+                                    "childList": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "title": "子分类列表",
+                                      "description": "（仅商品分类有此字段）"
+                                    }
+                                  }
+                                },
+                                "title": "子分类列表",
+                                "description": "（仅商品分类有此字段）"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "categoryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "categoryList": [
+                      {
+                        "id": "分类ID",
+                        "type": 10,
+                        "parentId": null,
+                        "name": "电子产品",
+                        "sortNumber": 1,
+                        "childList": [
+                          {
+                            "id": "子分类ID",
+                            "type": 10,
+                            "parentId": "父分类ID",
+                            "name": "手机",
+                            "sortNumber": 1,
+                            "childList": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/detail": {
+      "post": {
+        "summary": "1.2 获取分类详情",
+        "deprecated": false,
+        "description": "根据分类ID获取分类详细信息",
+        "tags": [
+          "1. 分类管理 (Category)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryId": {
+                    "type": "string",
+                    "title": "分类ID"
+                  }
+                },
+                "required": [
+                  "categoryId"
+                ]
+              },
+              "example": {
+                "categoryId": "分类ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "分类ID"
+                            },
+                            "type": {
+                              "type": "integer",
+                              "title": "分类类型"
+                            },
+                            "parentId": {
+                              "type": "string",
+                              "title": "父分类ID"
+                            },
+                            "name": {
+                              "type": "string",
+                              "title": "分类名称"
+                            },
+                            "sortNumber": {
+                              "type": "integer",
+                              "title": "排序号"
+                            },
+                            "createdTime": {
+                              "type": "string",
+                              "title": "创建时间"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "parentId",
+                            "name",
+                            "sortNumber",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "category"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "category": {
+                      "id": "分类ID",
+                      "type": 10,
+                      "parentId": "父分类ID",
+                      "name": "分类名称",
+                      "sortNumber": 1,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/save": {
+      "post": {
+        "summary": "1.3 保存分类",
+        "deprecated": false,
+        "description": "新增或更新分类\n\n业务逻辑说明:\n1. 新增分类时，系统会自动设置 sortNumber=0\n2. 更新分类时，只能修改名称和父分类\n3. 商品分类支持父子层级关系，其他类型分类不支持\n4. 需要校验分类类型是否合法\n5. 如果指定了父分类ID，会校验父分类是否存在",
+        "tags": [
+          "1. 分类管理 (Category)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "分类ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "type": {
+                        "type": "integer",
+                        "title": "分类类型"
+                      },
+                      "parentId": {
+                        "type": "string",
+                        "description": "仅商品分类且为子分类时需要",
+                        "title": "父分类ID"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "分类名称"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "category"
+                ]
+              },
+              "example": {
+                "category": {
+                  "id": "分类ID（更新时必填，新增时不传）",
+                  "type": 10,
+                  "parentId": "父分类ID（仅商品分类需要）",
+                  "name": "分类名称"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "category": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "integer"
+                            },
+                            "parentId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "sortNumber": {
+                              "type": "integer"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "parentId",
+                            "name",
+                            "sortNumber",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "category"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "category": {
+                      "id": "分类ID",
+                      "type": 10,
+                      "parentId": "父分类ID",
+                      "name": "分类名称",
+                      "sortNumber": 0,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/delete": {
+      "post": {
+        "summary": "1.4 删除分类",
+        "deprecated": false,
+        "description": "根据分类ID删除分类\n\n业务逻辑说明:\n1. 删除前会检查该分类是否有子分类\n2. 如果存在子分类，会抛出异常：\"请先删除子分类！\"\n3. 只有没有子分类的分类才能被删除",
+        "tags": [
+          "1. 分类管理 (Category)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoryId": {
+                    "type": "string",
+                    "title": "分类ID"
+                  }
+                },
+                "required": [
+                  "categoryId"
+                ]
+              },
+              "example": {
+                "categoryId": "分类ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemList": {
+      "post": {
+        "summary": "2.1 获取字典项列表",
+        "deprecated": false,
+        "description": "根据字典编码获取字典项列表",
+        "tags": [
+          "2. 字典管理 (Dict)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dictCode": {
+                    "type": "string",
+                    "title": "字典编码",
+                    "description": "如：unit（单位）、settlement（结算方式）等"
+                  }
+                },
+                "required": [
+                  "dictCode"
+                ]
+              },
+              "example": {
+                "dictCode": "unit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "itemList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "字典项ID"
+                              },
+                              "dictCode": {
+                                "type": "string",
+                                "title": "字典编码",
+                                "description": "常见字典编码:\nunit: 计量单位\nsettlement: 结算方式\ncustomer_level: 客户等级\naccount_type: 账户类别"
+                              },
+                              "name": {
+                                "type": "string",
+                                "title": "字典项名称"
+                              },
+                              "sortNumber": {
+                                "type": "integer",
+                                "title": "排序号"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              },
+                              "updatedTime": {
+                                "type": "string",
+                                "title": "更新时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "dictCode",
+                              "name",
+                              "sortNumber",
+                              "createdTime",
+                              "updatedTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "itemList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "itemList": [
+                      {
+                        "id": "字典项ID",
+                        "dictCode": "unit",
+                        "name": "个",
+                        "sortNumber": 1,
+                        "createdTime": "2024-01-01T00:00:00",
+                        "updatedTime": "2024-01-01T00:00:00"
+                      },
+                      {
+                        "id": "字典项ID",
+                        "dictCode": "unit",
+                        "name": "件",
+                        "sortNumber": 2,
+                        "createdTime": "2024-01-01T00:00:00",
+                        "updatedTime": "2024-01-01T00:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemDetail": {
+      "post": {
+        "summary": "2.2 获取字典项详情",
+        "deprecated": false,
+        "description": "根据字典项ID获取字典项详细信息",
+        "tags": [
+          "2. 字典管理 (Dict)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "title": "字典项ID"
+                  }
+                },
+                "required": [
+                  "itemId"
+                ]
+              },
+              "example": {
+                "itemId": "字典项ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "字典项ID"
+                            },
+                            "dictCode": {
+                              "type": "string",
+                              "title": "字典编码"
+                            },
+                            "name": {
+                              "type": "string",
+                              "title": "字典项名称"
+                            },
+                            "sortNumber": {
+                              "type": "integer",
+                              "title": "排序号"
+                            },
+                            "createdTime": {
+                              "type": "string",
+                              "title": "创建时间"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "dictCode",
+                            "name",
+                            "sortNumber",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "item"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "item": {
+                      "id": "字典项ID",
+                      "dictCode": "unit",
+                      "name": "个",
+                      "sortNumber": 1,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemSave": {
+      "post": {
+        "summary": "2.3 保存字典项",
+        "deprecated": false,
+        "description": "新增或更新字典项\n\n业务逻辑说明:\n1. 新增字典项时，系统会自动设置 sortNumber=0\n2. 非开发模式下，只能修改 unit（单位）和 settlement（结算方式）两种字典\n3. 其他字典项在非开发模式下修改会抛出异常：\"没有权限！\"\n4. 需要校验字典编码是否存在\n5. 字典项名称不能为空",
+        "tags": [
+          "2. 字典管理 (Dict)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "字典项ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "dictCode": {
+                        "type": "string",
+                        "title": "字典编码"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "字典项名称"
+                      }
+                    },
+                    "required": [
+                      "dictCode",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "item"
+                ]
+              },
+              "example": {
+                "item": {
+                  "id": "字典项ID（更新时必填，新增时不传）",
+                  "dictCode": "unit",
+                  "name": "千克"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "dictCode": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "sortNumber": {
+                              "type": "integer"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "dictCode",
+                            "name",
+                            "sortNumber",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "item"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "item": {
+                      "id": "字典项ID",
+                      "dictCode": "unit",
+                      "name": "千克",
+                      "sortNumber": 0,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemDelete": {
+      "post": {
+        "summary": "2.4 删除字典项",
+        "deprecated": false,
+        "description": "根据字典项ID删除字典项\n\n业务逻辑说明:\n1. 直接删除指定的字典项\n2. 删除前会校验字典项是否存在",
+        "tags": [
+          "2. 字典管理 (Dict)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "title": "字典项ID"
+                  }
+                },
+                "required": [
+                  "itemId"
+                ]
+              },
+              "example": {
+                "itemId": "字典项ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/getSystemConfiguration": {
+      "post": {
+        "summary": "3.1 获取系统配置",
+        "deprecated": false,
+        "description": "获取系统配置信息",
+        "tags": [
+          "3. 系统配置 (System Configuration)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "configuration": {
+                          "type": "object",
+                          "properties": {
+                            "companyName": {
+                              "type": "string",
+                              "title": "公司名称"
+                            },
+                            "companyAddress": {
+                              "type": "string",
+                              "title": "公司地址"
+                            },
+                            "companyPhone": {
+                              "type": "string",
+                              "title": "公司电话"
+                            },
+                            "companyFax": {
+                              "type": "string",
+                              "title": "公司传真"
+                            },
+                            "companyPostCode": {
+                              "type": "string",
+                              "title": "公司邮编"
+                            },
+                            "startTime": {
+                              "type": "string",
+                              "title": "启用时间"
+                            },
+                            "currency": {
+                              "type": "string",
+                              "title": "本位币"
+                            },
+                            "quantityPrecision": {
+                              "type": "integer",
+                              "title": "数量精度",
+                              "description": "（小数位数）"
+                            },
+                            "pricePrecision": {
+                              "type": "integer",
+                              "description": "（小数位数）",
+                              "title": "单价精度"
+                            },
+                            "inventoryValuationMethod": {
+                              "type": "integer",
+                              "title": "存货计价方法"
+                            },
+                            "checkNegativeStock": {
+                              "type": "boolean",
+                              "title": "是否检查负库存"
+                            }
+                          },
+                          "required": [
+                            "companyName",
+                            "companyAddress",
+                            "companyPhone",
+                            "companyFax",
+                            "companyPostCode",
+                            "startTime",
+                            "currency",
+                            "quantityPrecision",
+                            "pricePrecision",
+                            "inventoryValuationMethod",
+                            "checkNegativeStock"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "configuration"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "configuration": {
+                      "companyName": "公司名称",
+                      "companyAddress": "公司地址",
+                      "companyPhone": "公司电话",
+                      "companyFax": "公司传真",
+                      "companyPostCode": "公司邮编",
+                      "startTime": "2024-01-01T00:00:00",
+                      "currency": "RMB",
+                      "quantityPrecision": 2,
+                      "pricePrecision": 2,
+                      "inventoryValuationMethod": 10,
+                      "checkNegativeStock": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/setSystemConfiguration": {
+      "post": {
+        "summary": "3.2 设置系统配置",
+        "deprecated": false,
+        "description": "设置系统配置信息\n\n业务逻辑说明:\n1. 公司名称和公司地址为必填项\n2. 其他字段为可选项，不传则保持原值\n3. 系统会保留原有的配置，只更新传入的字段\n4. 启用时间、本位币、存货计价方法等字段不能通过此接口修改",
+        "tags": [
+          "3. 系统配置 (System Configuration)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "configuration": {
+                    "type": "object",
+                    "properties": {
+                      "companyName": {
+                        "type": "string",
+                        "title": "公司名称"
+                      },
+                      "companyAddress": {
+                        "type": "string",
+                        "title": "公司地址"
+                      },
+                      "companyPhone": {
+                        "type": "string",
+                        "title": "公司电话"
+                      },
+                      "companyFax": {
+                        "type": "string",
+                        "title": "公司传真"
+                      },
+                      "companyPostCode": {
+                        "type": "string",
+                        "title": "公司邮编"
+                      },
+                      "quantityPrecision": {
+                        "type": "integer",
+                        "title": "数量精度",
+                        "description": "（小数位数）"
+                      },
+                      "pricePrecision": {
+                        "type": "integer",
+                        "title": "单价精度",
+                        "description": "（小数位数）"
+                      },
+                      "checkNegativeStock": {
+                        "type": "boolean",
+                        "title": "是否检查负库存"
+                      }
+                    },
+                    "required": [
+                      "companyAddress",
+                      "companyName"
+                    ]
+                  }
+                },
+                "required": [
+                  "configuration"
+                ]
+              },
+              "example": {
+                "configuration": {
+                  "companyName": "公司名称",
+                  "companyAddress": "公司地址",
+                  "companyPhone": "公司电话",
+                  "companyFax": "公司传真",
+                  "companyPostCode": "公司邮编",
+                  "quantityPrecision": 2,
+                  "pricePrecision": 2,
+                  "checkNegativeStock": false
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "configuration": {
+                          "type": "object",
+                          "properties": {
+                            "companyName": {
+                              "type": "string"
+                            },
+                            "companyAddress": {
+                              "type": "string"
+                            },
+                            "companyPhone": {
+                              "type": "string"
+                            },
+                            "companyFax": {
+                              "type": "string"
+                            },
+                            "companyPostCode": {
+                              "type": "string"
+                            },
+                            "startTime": {
+                              "type": "string"
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "quantityPrecision": {
+                              "type": "integer"
+                            },
+                            "pricePrecision": {
+                              "type": "integer"
+                            },
+                            "inventoryValuationMethod": {
+                              "type": "integer"
+                            },
+                            "checkNegativeStock": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "companyName",
+                            "companyAddress",
+                            "companyPhone",
+                            "companyFax",
+                            "companyPostCode",
+                            "startTime",
+                            "currency",
+                            "quantityPrecision",
+                            "pricePrecision",
+                            "inventoryValuationMethod",
+                            "checkNegativeStock"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "configuration"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "configuration": {
+                      "companyName": "公司名称",
+                      "companyAddress": "公司地址",
+                      "companyPhone": "公司电话",
+                      "companyFax": "公司传真",
+                      "companyPostCode": "公司邮编",
+                      "startTime": "2024-01-01T00:00:00",
+                      "currency": "RMB",
+                      "quantityPrecision": 2,
+                      "pricePrecision": 2,
+                      "inventoryValuationMethod": 10,
+                      "checkNegativeStock": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/log/page": {
+      "post": {
+        "summary": "4.1 分页查询日志列表",
+        "deprecated": false,
+        "description": "分页查询系统操作日志列表，支持按时间范围筛选\n\n业务逻辑说明:\n1. 开始时间和结束时间会自动补充时分秒\n2. 日志内容以JSON字符串形式存储，前端可以解析后展示",
+        "tags": [
+          "4. 日志管理 (Log)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startTime": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd（会自动补充为 yyyy-MM-dd 00:00:00）"
+                      },
+                      "endTime": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd（会自动补充为 yyyy-MM-dd 23:59:59）"
+                      },
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startTime": "2024-01-01",
+                  "endTime": "2024-12-31",
+                  "keyword": "关键字"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "logPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "日志ID"
+                                  },
+                                  "type": {
+                                    "type": "integer",
+                                    "title": "日志类型"
+                                  },
+                                  "userId": {
+                                    "type": "string",
+                                    "title": "用户ID"
+                                  },
+                                  "username": {
+                                    "type": "string",
+                                    "title": "用户名"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "用户姓名"
+                                  },
+                                  "content": {
+                                    "type": "string",
+                                    "title": "日志内容",
+                                    "description": "（JSON字符串）"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "logPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "logPage": {
+                      "records": [
+                        {
+                          "id": "日志ID",
+                          "type": 1,
+                          "userId": "用户ID",
+                          "username": "用户名",
+                          "name": "用户姓名",
+                          "content": "{\"action\":\"登录\",\"ip\":\"127.0.0.1\"}",
+                          "createdTime": "2024-01-01T12:00:00",
+                          "updatedTime": "2024-01-01T12:00:00"
+                        }
+                      ],
+                      "total": 100,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/menu/list": {
+      "post": {
+        "summary": "5.1 获取菜单列表",
+        "deprecated": false,
+        "description": "获取菜单树形列表（包含一级菜单和二级菜单）\n\n请求参数: 无（自动从当前登录用户获取权限）\n\n业务逻辑说明:\n1. 菜单列表会根据当前登录用户的权限进行过滤\n2. 只返回有权限访问的菜单\n3. 菜单结构为两级：一级菜单和二级菜单",
+        "tags": [
+          "5. 菜单管理 (Menu)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "menuList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "菜单ID"
+                              },
+                              "parentId": {
+                                "type": "null",
+                                "title": "父菜单ID",
+                                "description": "一级菜单为null"
+                              },
+                              "icon": {
+                                "type": "string",
+                                "title": "图标"
+                              },
+                              "title": {
+                                "type": "string",
+                                "title": "菜单标题"
+                              },
+                              "path": {
+                                "type": "string",
+                                "title": "路由路径"
+                              },
+                              "sortNumber": {
+                                "type": "integer",
+                                "title": "排序号"
+                              },
+                              "childList": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "title": "菜单ID"
+                                    },
+                                    "parentId": {
+                                      "type": "string",
+                                      "title": "父菜单ID",
+                                      "description": "一级菜单为null"
+                                    },
+                                    "icon": {
+                                      "type": "string",
+                                      "title": "图标"
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "title": "菜单标题"
+                                    },
+                                    "path": {
+                                      "type": "string",
+                                      "title": "路由路径"
+                                    },
+                                    "sortNumber": {
+                                      "type": "integer",
+                                      "title": "排序号"
+                                    }
+                                  }
+                                },
+                                "title": "子菜单列表"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "menuList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "menuList": [
+                      {
+                        "id": "菜单ID",
+                        "parentId": null,
+                        "icon": "el-icon-s-home",
+                        "title": "首页",
+                        "path": "/index",
+                        "sortNumber": 1,
+                        "childList": [
+                          {
+                            "id": "子菜单ID",
+                            "parentId": "父菜单ID",
+                            "icon": "el-icon-document",
+                            "title": "工作台",
+                            "path": "/dashboard",
+                            "sortNumber": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/menu/add": {
+      "post": {
+        "summary": "5.2 添加菜单",
+        "deprecated": false,
+        "description": "添加新菜单\n\n业务逻辑说明:\n1. 菜单标题和路由路径为必填项\n2. 其他字段为可选项\n3. 新增的菜单会立即生效，但需要刷新页面才能看到",
+        "tags": [
+          "5. 菜单管理 (Menu)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "menu": {
+                    "type": "object",
+                    "properties": {
+                      "parentId": {
+                        "type": "string",
+                        "title": "父菜单ID",
+                        "description": "一级菜单不传或传null"
+                      },
+                      "icon": {
+                        "type": "string",
+                        "title": "图标"
+                      },
+                      "title": {
+                        "type": "string",
+                        "title": "菜单标题"
+                      },
+                      "path": {
+                        "type": "string",
+                        "title": "路由路径"
+                      },
+                      "sortNumber": {
+                        "type": "integer",
+                        "title": "排序号"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "path"
+                    ]
+                  }
+                },
+                "required": [
+                  "menu"
+                ]
+              },
+              "example": {
+                "menu": {
+                  "parentId": "父菜单ID（一级菜单传null）",
+                  "icon": "el-icon-menu",
+                  "title": "菜单标题",
+                  "path": "/path",
+                  "sortNumber": 1
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "menu": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "parentId": {
+                              "type": "string"
+                            },
+                            "icon": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "sortNumber": {
+                              "type": "integer"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "parentId",
+                            "icon",
+                            "title",
+                            "path",
+                            "sortNumber",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "menu"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "menu": {
+                      "id": "菜单ID",
+                      "parentId": "父菜单ID",
+                      "icon": "el-icon-menu",
+                      "title": "菜单标题",
+                      "path": "/path",
+                      "sortNumber": 1,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
