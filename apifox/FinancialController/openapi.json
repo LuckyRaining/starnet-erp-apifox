@@ -1,0 +1,3709 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 收款单管理 (Collection)"
+    },
+    {
+      "name": "2. 付款单管理 (Payment)"
+    },
+    {
+      "name": "3. 收入单管理 (Income)"
+    },
+    {
+      "name": "4. 支出单管理 (Expense)"
+    }
+  ],
+  "paths": {
+    "/collection/page": {
+      "post": {
+        "summary": "1.1 分页查询收款单列表",
+        "deprecated": false,
+        "description": "分页查询收款单列表，支持按日期范围筛选",
+        "tags": [
+          "1. 收款单管理 (Collection)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "collectionPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "收款单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "customerId": {
+                                    "type": "string",
+                                    "title": "客户ID"
+                                  },
+                                  "customerName": {
+                                    "type": "string",
+                                    "title": "客户名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "collectAmount": {
+                                    "type": "number",
+                                    "title": "收款金额"
+                                  },
+                                  "issueAmount": {
+                                    "type": "number",
+                                    "title": "单据金额"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "折扣金额"
+                                  },
+                                  "verifiedAmount": {
+                                    "type": "number",
+                                    "title": "已核销金额"
+                                  },
+                                  "unverifiedAmount": {
+                                    "type": "number",
+                                    "title": "未核销金额"
+                                  },
+                                  "currentVerifiedAmount": {
+                                    "type": "number",
+                                    "title": "本次核销金额"
+                                  },
+                                  "advanceCollectAmount": {
+                                    "type": "number",
+                                    "title": "预收款金额"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "制单人姓名"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "collectionPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "collectionPage": {
+                      "records": [
+                        {
+                          "id": "收款单ID",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "customerId": "客户ID",
+                          "customerName": "客户名称",
+                          "collectAmount": 5000,
+                          "issueAmount": 5000,
+                          "discountAmount": 100,
+                          "verifiedAmount": 3000,
+                          "unverifiedAmount": 2000,
+                          "currentVerifiedAmount": 3000,
+                          "advanceCollectAmount": 0,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 50,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 5
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/detail": {
+      "post": {
+        "summary": "1.2 获取收款单详情",
+        "deprecated": false,
+        "description": "根据收款单ID获取收款单详细信息，包含账户记录和核销单据列表",
+        "tags": [
+          "1. 收款单管理 (Collection)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collectionId": {
+                    "type": "string",
+                    "title": "收款单ID"
+                  }
+                },
+                "required": [
+                  "collectionId"
+                ]
+              },
+              "example": {
+                "collectionId": "收款单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "collection": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "collectAmount": {
+                              "type": "number"
+                            },
+                            "issueAmount": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "verifiedAmount": {
+                              "type": "number"
+                            },
+                            "unverifiedAmount": {
+                              "type": "number"
+                            },
+                            "currentVerifiedAmount": {
+                              "type": "number"
+                            },
+                            "advanceCollectAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "issueList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "核销明细ID"
+                                  },
+                                  "collectionId": {
+                                    "type": "string",
+                                    "title": "收款单ID"
+                                  },
+                                  "sourceCode": {
+                                    "type": "string",
+                                    "title": "源单据编号",
+                                    "description": "（如销售单编号）"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "源单据类型"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "源单据日期"
+                                  },
+                                  "issueAmount": {
+                                    "type": "number",
+                                    "title": "源单据金额"
+                                  },
+                                  "verifiedAmount": {
+                                    "type": "number",
+                                    "title": "已核销金额"
+                                  },
+                                  "unverifiedAmount": {
+                                    "type": "number",
+                                    "title": "未核销金额"
+                                  },
+                                  "currentVerifiedAmount": {
+                                    "type": "number",
+                                    "title": "本次核销金额"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "customerId",
+                            "collectAmount",
+                            "issueAmount",
+                            "discountAmount",
+                            "verifiedAmount",
+                            "unverifiedAmount",
+                            "currentVerifiedAmount",
+                            "advanceCollectAmount",
+                            "listerId",
+                            "remark",
+                            "accountList",
+                            "issueList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "collection"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "collection": {
+                      "id": "收款单ID",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "customerId": "客户ID",
+                      "collectAmount": 5000,
+                      "issueAmount": 5000,
+                      "discountAmount": 100,
+                      "verifiedAmount": 3000,
+                      "unverifiedAmount": 2000,
+                      "currentVerifiedAmount": 3000,
+                      "advanceCollectAmount": 0,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "accountList": [
+                        {
+                          "id": "账户记录ID",
+                          "accountId": "结算账户ID",
+                          "amount": 5000,
+                          "type": "in",
+                          "issueDate": "单据日期",
+                          "businessType": "collection",
+                          "businessId": "收款单ID",
+                          "remark": "备注"
+                        }
+                      ],
+                      "issueList": [
+                        {
+                          "id": "核销明细ID",
+                          "collectionId": "收款单ID",
+                          "sourceCode": "源单据编号",
+                          "type": "sell",
+                          "issueDate": "单据日期",
+                          "issueAmount": 3000,
+                          "verifiedAmount": 3000,
+                          "unverifiedAmount": 0,
+                          "currentVerifiedAmount": 3000
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/createCode": {
+      "post": {
+        "summary": "1.3 生成收款单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的收款单编号，格式：CL + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "1. 收款单管理 (Collection)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "收款单编号",
+                          "description": "格式：CL + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "CL20240101120000000123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/save": {
+      "post": {
+        "summary": "1.4 保存收款单",
+        "deprecated": false,
+        "description": "新增或更新收款单，包含收款单基本信息、核销单据列表和账户记录列表\n\n业务逻辑说明:\n1. 新增收款单时，系统会校验单据编号是否已存在\n2. 更新收款单时，会先删除原有的账户记录和核销单据，再保存新的数据\n3. 系统会自动创建账户记录，类型为 in（收入）\n4. 系统会自动处理应收账款：\n  • 根据预收款金额更新客户的应收账款\n5. 需要校验客户ID是否存在\n6. 核销单据列表用于记录该收款单核销了哪些源单据（如销售单）",
+        "tags": [
+          "1. 收款单管理 (Collection)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collection": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "收款单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "collectAmount": {
+                        "type": "number",
+                        "title": "收款金额"
+                      },
+                      "issueAmount": {
+                        "type": "number",
+                        "title": "单据金额"
+                      },
+                      "discountAmount": {
+                        "type": "number",
+                        "title": "折扣金额"
+                      },
+                      "verifiedAmount": {
+                        "type": "number",
+                        "title": "已核销金额"
+                      },
+                      "unverifiedAmount": {
+                        "type": "number",
+                        "title": "未核销金额"
+                      },
+                      "currentVerifiedAmount": {
+                        "type": "number",
+                        "title": "本次核销金额"
+                      },
+                      "advanceCollectAmount": {
+                        "type": "number",
+                        "title": "预收款金额"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "customerId",
+                      "collectAmount",
+                      "issueAmount",
+                      "verifiedAmount",
+                      "unverifiedAmount",
+                      "currentVerifiedAmount",
+                      "listerId"
+                    ]
+                  },
+                  "issueList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sourceCode": {
+                          "type": "string",
+                          "title": "源单据编号",
+                          "description": "（如销售单编号）"
+                        },
+                        "type": {
+                          "type": "string",
+                          "title": "源单据类型"
+                        },
+                        "issueDate": {
+                          "type": "string",
+                          "title": "源单据日期"
+                        },
+                        "issueAmount": {
+                          "type": "number",
+                          "title": "源单据金额"
+                        },
+                        "verifiedAmount": {
+                          "type": "number",
+                          "title": "已核销金额"
+                        },
+                        "unverifiedAmount": {
+                          "type": "number",
+                          "title": "未核销金额"
+                        },
+                        "currentVerifiedAmount": {
+                          "type": "number",
+                          "title": "本次核销金额"
+                        }
+                      },
+                      "required": [
+                        "currentVerifiedAmount",
+                        "sourceCode",
+                        "type",
+                        "issueDate",
+                        "issueAmount",
+                        "verifiedAmount",
+                        "unverifiedAmount"
+                      ]
+                    }
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "accountId"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "collection",
+                  "issueList",
+                  "accountList"
+                ]
+              },
+              "example": {
+                "collection": {
+                  "id": "收款单ID（更新时必填，新增时不传）",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "customerId": "客户ID",
+                  "collectAmount": 5000,
+                  "issueAmount": 5000,
+                  "discountAmount": 100,
+                  "verifiedAmount": 3000,
+                  "unverifiedAmount": 2000,
+                  "currentVerifiedAmount": 3000,
+                  "advanceCollectAmount": 0,
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "issueList": [
+                  {
+                    "sourceCode": "SE202401010000000001",
+                    "type": "sell",
+                    "issueDate": "2024-01-01",
+                    "issueAmount": 3000,
+                    "verifiedAmount": 3000,
+                    "unverifiedAmount": 0,
+                    "currentVerifiedAmount": 3000
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "collection": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "collectAmount": {
+                              "type": "number"
+                            },
+                            "issueAmount": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "verifiedAmount": {
+                              "type": "number"
+                            },
+                            "unverifiedAmount": {
+                              "type": "number"
+                            },
+                            "currentVerifiedAmount": {
+                              "type": "number"
+                            },
+                            "advanceCollectAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "customerId",
+                            "collectAmount",
+                            "issueAmount",
+                            "discountAmount",
+                            "verifiedAmount",
+                            "unverifiedAmount",
+                            "currentVerifiedAmount",
+                            "advanceCollectAmount",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "collection"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "collection": {
+                      "id": "收款单ID",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "customerId": "客户ID",
+                      "collectAmount": 5000,
+                      "issueAmount": 5000,
+                      "discountAmount": 100,
+                      "verifiedAmount": 3000,
+                      "unverifiedAmount": 2000,
+                      "currentVerifiedAmount": 3000,
+                      "advanceCollectAmount": 0,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/delete": {
+      "post": {
+        "summary": "1.5 删除收款单",
+        "deprecated": false,
+        "description": "根据收款单ID删除收款单及其关联的核销单据和账户记录\n\n业务逻辑说明:\n1. 删除收款单主表记录\n2. 同时删除该收款单关联的所有核销单据记录\n3. 同时删除该收款单关联的所有账户记录\n4. 使用事务保证数据一致性",
+        "tags": [
+          "1. 收款单管理 (Collection)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collectionId": {
+                    "type": "string",
+                    "title": "收款单ID"
+                  }
+                },
+                "required": [
+                  "collectionId"
+                ]
+              },
+              "example": {
+                "collectionId": "收款单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/page": {
+      "post": {
+        "summary": "2.1 分页查询付款单列表",
+        "deprecated": false,
+        "description": "分页查询付款单列表，支持按日期范围筛选",
+        "tags": [
+          "2. 付款单管理 (Payment)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "paymentPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "付款单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "supplierId": {
+                                    "type": "string",
+                                    "title": "供应商ID"
+                                  },
+                                  "supplierName": {
+                                    "type": "string",
+                                    "title": "供应商名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "paidAmount": {
+                                    "type": "number",
+                                    "title": "付款金额"
+                                  },
+                                  "issueAmount": {
+                                    "type": "number",
+                                    "title": "单据金额"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "折扣金额"
+                                  },
+                                  "verifiedAmount": {
+                                    "type": "number",
+                                    "title": "已核销金额"
+                                  },
+                                  "unverifiedAmount": {
+                                    "type": "number",
+                                    "title": "未核销金额"
+                                  },
+                                  "currentVerifiedAmount": {
+                                    "type": "number",
+                                    "title": "本次核销金额"
+                                  },
+                                  "advancePaidAmount": {
+                                    "type": "number",
+                                    "title": "预付款金额"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "制单人姓名"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "paymentPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "paymentPage": {
+                      "records": [
+                        {
+                          "id": "付款单ID",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "supplierId": "供应商ID",
+                          "supplierName": "供应商名称",
+                          "paidAmount": 5000,
+                          "issueAmount": 5000,
+                          "discountAmount": 100,
+                          "verifiedAmount": 3000,
+                          "unverifiedAmount": 2000,
+                          "currentVerifiedAmount": 3000,
+                          "advancePaidAmount": 0,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 40,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 4
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/detail": {
+      "post": {
+        "summary": "2.2 获取付款单详情",
+        "deprecated": false,
+        "description": "根据付款单ID获取付款单详细信息，包含账户记录和核销单据列表",
+        "tags": [
+          "2. 付款单管理 (Payment)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "paymentId": {
+                    "type": "string",
+                    "title": "付款单ID"
+                  }
+                },
+                "required": [
+                  "paymentId"
+                ]
+              },
+              "example": {
+                "paymentId": "付款单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payment": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "paidAmount": {
+                              "type": "number"
+                            },
+                            "issueAmount": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "verifiedAmount": {
+                              "type": "number"
+                            },
+                            "unverifiedAmount": {
+                              "type": "number"
+                            },
+                            "currentVerifiedAmount": {
+                              "type": "number"
+                            },
+                            "advancePaidAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "issueList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "核销明细ID"
+                                  },
+                                  "paymentId": {
+                                    "type": "string",
+                                    "title": "付款单ID"
+                                  },
+                                  "sourceCode": {
+                                    "type": "string",
+                                    "title": "源单据编号",
+                                    "description": "（如购货单编号）"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "源单据类型"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "源单据日期"
+                                  },
+                                  "issueAmount": {
+                                    "type": "number",
+                                    "title": "源单据金额"
+                                  },
+                                  "verifiedAmount": {
+                                    "type": "number",
+                                    "title": "已核销金额"
+                                  },
+                                  "unverifiedAmount": {
+                                    "type": "number",
+                                    "title": "未核销金额"
+                                  },
+                                  "currentVerifiedAmount": {
+                                    "type": "number",
+                                    "title": "本次核销金额"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "supplierId",
+                            "paidAmount",
+                            "issueAmount",
+                            "discountAmount",
+                            "verifiedAmount",
+                            "unverifiedAmount",
+                            "currentVerifiedAmount",
+                            "advancePaidAmount",
+                            "listerId",
+                            "remark",
+                            "accountList",
+                            "issueList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "payment"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "payment": {
+                      "id": "付款单ID",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "supplierId": "供应商ID",
+                      "paidAmount": 5000,
+                      "issueAmount": 5000,
+                      "discountAmount": 100,
+                      "verifiedAmount": 3000,
+                      "unverifiedAmount": 2000,
+                      "currentVerifiedAmount": 3000,
+                      "advancePaidAmount": 0,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "accountList": [
+                        {
+                          "id": "账户记录ID",
+                          "accountId": "结算账户ID",
+                          "amount": 5000,
+                          "type": "out",
+                          "issueDate": "单据日期",
+                          "businessType": "payment",
+                          "businessId": "付款单ID",
+                          "remark": "备注"
+                        }
+                      ],
+                      "issueList": [
+                        {
+                          "id": "核销明细ID",
+                          "paymentId": "付款单ID",
+                          "sourceCode": "PL202401010000000001",
+                          "type": "buy",
+                          "issueDate": "单据日期",
+                          "issueAmount": 3000,
+                          "verifiedAmount": 3000,
+                          "unverifiedAmount": 0,
+                          "currentVerifiedAmount": 3000
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/createCode": {
+      "post": {
+        "summary": "2.3 生成付款单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的付款单编号，格式：FK + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "2. 付款单管理 (Payment)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "付款单编号",
+                          "description": "格式：FK + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "FK20240101120000000123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/save": {
+      "post": {
+        "summary": "2.4 保存付款单",
+        "deprecated": false,
+        "description": "新增或更新付款单，包含付款单基本信息、核销单据列表和账户记录列表\n\n业务逻辑说明:\n1. 新增付款单时，系统会校验单据编号是否已存在\n2. 更新付款单时，会先删除原有的账户记录和核销单据，再保存新的数据\n3. 系统会自动创建账户记录，类型为 out（支出）\n4. 系统会自动处理应付账款：\n  • 根据预付款金额更新供应商的应付账款\n5. 需要校验供应商ID是否存在\n6. 核销单据列表用于记录该付款单核销了哪些源单据（如购货单）",
+        "tags": [
+          "2. 付款单管理 (Payment)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "payment": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "付款单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "supplierId": {
+                        "type": "string",
+                        "title": "供应商ID"
+                      },
+                      "paidAmount": {
+                        "type": "number",
+                        "title": "付款金额"
+                      },
+                      "issueAmount": {
+                        "type": "number",
+                        "title": "单据金额"
+                      },
+                      "discountAmount": {
+                        "type": "number",
+                        "title": "折扣金额"
+                      },
+                      "verifiedAmount": {
+                        "type": "number",
+                        "title": "已核销金额"
+                      },
+                      "unverifiedAmount": {
+                        "type": "number",
+                        "title": "未核销金额"
+                      },
+                      "currentVerifiedAmount": {
+                        "type": "number",
+                        "title": "本次核销金额"
+                      },
+                      "advancePaidAmount": {
+                        "type": "number",
+                        "title": "预付款金额"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "supplierId",
+                      "paidAmount",
+                      "issueAmount",
+                      "verifiedAmount",
+                      "unverifiedAmount",
+                      "currentVerifiedAmount",
+                      "listerId"
+                    ]
+                  },
+                  "issueList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "sourceCode": {
+                          "type": "string",
+                          "title": "源单据编号",
+                          "description": "（如购货单编号）"
+                        },
+                        "type": {
+                          "type": "string",
+                          "title": "源单据类型"
+                        },
+                        "issueDate": {
+                          "type": "string",
+                          "title": "源单据日期"
+                        },
+                        "issueAmount": {
+                          "type": "number",
+                          "title": "源单据金额"
+                        },
+                        "verifiedAmount": {
+                          "type": "number",
+                          "title": "已核销金额"
+                        },
+                        "unverifiedAmount": {
+                          "type": "number",
+                          "title": "未核销金额"
+                        },
+                        "currentVerifiedAmount": {
+                          "type": "number",
+                          "title": "本次核销金额"
+                        }
+                      },
+                      "required": [
+                        "sourceCode",
+                        "type",
+                        "issueDate",
+                        "issueAmount",
+                        "verifiedAmount",
+                        "unverifiedAmount",
+                        "currentVerifiedAmount"
+                      ]
+                    }
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "accountId"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "issueList",
+                  "accountList",
+                  "payment"
+                ]
+              },
+              "example": {
+                "payment": {
+                  "id": "付款单ID（更新时必填，新增时不传）",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "supplierId": "供应商ID",
+                  "paidAmount": 5000,
+                  "issueAmount": 5000,
+                  "discountAmount": 100,
+                  "verifiedAmount": 3000,
+                  "unverifiedAmount": 2000,
+                  "currentVerifiedAmount": 3000,
+                  "advancePaidAmount": 0,
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "issueList": [
+                  {
+                    "sourceCode": "PL202401010000000001",
+                    "type": "buy",
+                    "issueDate": "2024-01-01",
+                    "issueAmount": 3000,
+                    "verifiedAmount": 3000,
+                    "unverifiedAmount": 0,
+                    "currentVerifiedAmount": 3000
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payment": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "paidAmount": {
+                              "type": "number"
+                            },
+                            "issueAmount": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "verifiedAmount": {
+                              "type": "number"
+                            },
+                            "unverifiedAmount": {
+                              "type": "number"
+                            },
+                            "currentVerifiedAmount": {
+                              "type": "number"
+                            },
+                            "advancePaidAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "supplierId",
+                            "paidAmount",
+                            "issueAmount",
+                            "discountAmount",
+                            "verifiedAmount",
+                            "unverifiedAmount",
+                            "currentVerifiedAmount",
+                            "advancePaidAmount",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "payment"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "payment": {
+                      "id": "付款单ID",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "supplierId": "供应商ID",
+                      "paidAmount": 5000,
+                      "issueAmount": 5000,
+                      "discountAmount": 100,
+                      "verifiedAmount": 3000,
+                      "unverifiedAmount": 2000,
+                      "currentVerifiedAmount": 3000,
+                      "advancePaidAmount": 0,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/2.5 删除付款单": {
+      "post": {
+        "summary": "2.5 删除付款单",
+        "deprecated": false,
+        "description": "根据付款单ID删除付款单及其关联的核销单据和账户记录\n\n业务逻辑说明:\n1. 删除付款单主表记录\n2. 同时删除该付款单关联的所有核销单据记录\n3. 同时删除该付款单关联的所有账户记录\n4. 使用事务保证数据一致性",
+        "tags": [
+          "2. 付款单管理 (Payment)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "paymentId": {
+                    "type": "string",
+                    "title": "付款单ID"
+                  }
+                },
+                "required": [
+                  "paymentId"
+                ]
+              },
+              "example": {
+                "paymentId": "付款单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/page": {
+      "post": {
+        "summary": "3.1 分页查询收入单列表",
+        "deprecated": false,
+        "description": "分页查询收入单列表，支持按日期范围筛选",
+        "tags": [
+          "3. 收入单管理 (Income)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "incomePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "收入单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "customerId": {
+                                    "type": "string",
+                                    "title": "客户ID"
+                                  },
+                                  "customerName": {
+                                    "type": "string",
+                                    "title": "客户名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "collectAmount": {
+                                    "type": "number",
+                                    "title": "收款金额"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名",
+                                    "description": "（关联查询）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "incomePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "incomePage": {
+                      "records": [
+                        {
+                          "id": "收入单ID",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "customerId": "客户ID",
+                          "customerName": "客户名称",
+                          "amount": 5000,
+                          "collectAmount": 5000,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 30,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 3
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/detail": {
+      "post": {
+        "summary": "3.2 获取收入单详情",
+        "deprecated": false,
+        "description": "根据收入单ID获取收入单详细信息，包含账户记录和流水记录列表",
+        "tags": [
+          "3. 收入单管理 (Income)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "incomeId": {
+                    "type": "string",
+                    "title": "收入单ID"
+                  }
+                },
+                "required": [
+                  "incomeId"
+                ]
+              },
+              "example": {
+                "incomeId": "收入单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "income": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "collectAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "recordList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "流水记录ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "categoryId": {
+                                    "type": "string",
+                                    "title": "收入分类ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "customerId",
+                            "amount",
+                            "collectAmount",
+                            "listerId",
+                            "remark",
+                            "accountList",
+                            "recordList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "income"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "income": {
+                      "id": "收入单ID",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "customerId": "客户ID",
+                      "amount": 5000,
+                      "collectAmount": 5000,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "accountList": [
+                        {
+                          "id": "账户记录ID",
+                          "accountId": "结算账户ID",
+                          "amount": 5000,
+                          "type": "in",
+                          "issueDate": "单据日期",
+                          "businessType": "income",
+                          "businessId": "收入单ID",
+                          "remark": "备注"
+                        }
+                      ],
+                      "recordList": [
+                        {
+                          "id": "流水记录ID",
+                          "issueDate": "单据日期",
+                          "businessType": "income",
+                          "businessId": "收入单ID",
+                          "categoryId": "收入分类ID",
+                          "amount": 5000,
+                          "remark": "备注"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/createCode": {
+      "post": {
+        "summary": "3.3 生成收入单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的收入单编号，格式：SR + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "3. 收入单管理 (Income)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "description": "格式：SR + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+                          "title": "收入单编号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "SR20240101120000000123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/save": {
+      "post": {
+        "summary": "3.4 保存收入单",
+        "deprecated": false,
+        "description": "新增或更新收入单，包含收入单基本信息、流水记录列表和账户记录列表\n\n业务逻辑说明:\n1. 新增收入单时，系统会校验单据编号是否已存在\n2. 更新收入单时，会先删除原有的账户记录和流水记录，再保存新的数据\n3. 系统会自动创建账户记录，类型为 in（收入），金额为收款金额\n4. 流水记录用于记录收入的详细分类信息\n5. 需要校验客户ID是否存在",
+        "tags": [
+          "3. 收入单管理 (Income)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "income": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "收入单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "amount": {
+                        "type": "number",
+                        "title": "金额"
+                      },
+                      "collectAmount": {
+                        "type": "number",
+                        "title": "收款金额"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "customerId",
+                      "amount",
+                      "collectAmount",
+                      "listerId"
+                    ]
+                  },
+                  "recordList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "categoryId": {
+                          "type": "string",
+                          "title": "收入分类ID"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "categoryId",
+                        "amount"
+                      ]
+                    },
+                    "title": "收入分类ID"
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "accountId"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "income",
+                  "recordList",
+                  "accountList"
+                ]
+              },
+              "example": {
+                "income": {
+                  "id": "收入单ID（更新时必填，新增时不传）",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "customerId": "客户ID",
+                  "amount": 5000,
+                  "collectAmount": 5000,
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "recordList": [
+                  {
+                    "categoryId": "收入分类ID",
+                    "amount": 5000,
+                    "remark": "流水备注"
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "income": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "collectAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "customerId",
+                            "amount",
+                            "collectAmount",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "income"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "income": {
+                      "id": "收入单ID",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "customerId": "客户ID",
+                      "amount": 5000,
+                      "collectAmount": 5000,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/delete": {
+      "post": {
+        "summary": "3.5 删除收入单",
+        "deprecated": false,
+        "description": "根据收入单ID删除收入单及其关联的流水记录和账户记录\n\n业务逻辑说明:\n1. 删除收入单主表记录\n2. 同时删除该收入单关联的所有流水记录\n3. 同时删除该收入单关联的所有账户记录\n4. 使用事务保证数据一致性",
+        "tags": [
+          "3. 收入单管理 (Income)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "incomeId": {
+                    "type": "string",
+                    "title": "{   \"incomeId\": \"收入单ID\" }"
+                  }
+                },
+                "required": [
+                  "incomeId"
+                ]
+              },
+              "example": {
+                "incomeId": "收入单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/page": {
+      "post": {
+        "summary": "4.1 分页查询支出单列表",
+        "deprecated": false,
+        "description": "分页查询支出单列表，支持按日期范围筛选",
+        "tags": [
+          "4. 支出单管理 (Expense)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "expensePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "支出单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "supplierId": {
+                                    "type": "string",
+                                    "title": "供应商ID"
+                                  },
+                                  "supplierName": {
+                                    "type": "string",
+                                    "title": "供应商名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "paidAmount": {
+                                    "type": "number",
+                                    "title": "付款金额"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名",
+                                    "description": "（关联查询）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "expensePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "expensePage": {
+                      "records": [
+                        {
+                          "id": "支出单ID",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "supplierId": "供应商ID",
+                          "supplierName": "供应商名称",
+                          "amount": 5000,
+                          "paidAmount": 5000,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 25,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/detail": {
+      "post": {
+        "summary": "4.2 获取支出单详情",
+        "deprecated": false,
+        "description": "根据支出单ID获取支出单详细信息，包含账户记录和流水记录列表",
+        "tags": [
+          "4. 支出单管理 (Expense)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expenseId": {
+                    "type": "string",
+                    "title": "支出单ID"
+                  }
+                },
+                "required": [
+                  "expenseId"
+                ]
+              },
+              "example": {
+                "expenseId": "支出单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "expense": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "paidAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "recordList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "流水记录ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "categoryId": {
+                                    "type": "string",
+                                    "title": "支出分类ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "supplierId",
+                            "amount",
+                            "paidAmount",
+                            "listerId",
+                            "remark",
+                            "accountList",
+                            "recordList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "expense"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "expense": {
+                      "id": "支出单ID",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "supplierId": "供应商ID",
+                      "amount": 5000,
+                      "paidAmount": 5000,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "accountList": [
+                        {
+                          "id": "账户记录ID",
+                          "accountId": "结算账户ID",
+                          "amount": 5000,
+                          "type": "out",
+                          "issueDate": "单据日期",
+                          "businessType": "expense",
+                          "businessId": "支出单ID",
+                          "remark": "备注"
+                        }
+                      ],
+                      "recordList": [
+                        {
+                          "id": "流水记录ID",
+                          "issueDate": "单据日期",
+                          "businessType": "expense",
+                          "businessId": "支出单ID",
+                          "categoryId": "支出分类ID",
+                          "amount": 5000,
+                          "remark": "备注"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/createCode": {
+      "post": {
+        "summary": "4.3 生成支出单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的支出单编号，格式：ZC + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "4. 支出单管理 (Expense)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "description": "格式：ZC + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+                          "title": "支出单编号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "ZC20240101120000000123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/save": {
+      "post": {
+        "summary": "4.4 保存支出单",
+        "deprecated": false,
+        "description": "新增或更新支出单，包含支出单基本信息、流水记录列表和账户记录列表\n\n业务逻辑说明:\n1. 新增支出单时，系统会校验单据编号是否已存在\n2. 更新支出单时，会先删除原有的账户记录和流水记录，再保存新的数据\n3. 系统会自动创建账户记录，类型为 out（支出），金额为付款金额\n4. 流水记录用于记录支出的详细分类信息\n5. 需要校验供应商ID是否存在",
+        "tags": [
+          "4. 支出单管理 (Expense)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expense": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "支出单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "supplierId": {
+                        "type": "string",
+                        "title": "供应商ID"
+                      },
+                      "amount": {
+                        "type": "number",
+                        "title": "金额"
+                      },
+                      "paidAmount": {
+                        "type": "number",
+                        "title": "付款金额"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "supplierId",
+                      "amount",
+                      "paidAmount",
+                      "listerId"
+                    ]
+                  },
+                  "recordList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "categoryId": {
+                          "type": "string",
+                          "title": "支出分类ID"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "categoryId",
+                        "amount"
+                      ]
+                    }
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "accountId"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "expense",
+                  "recordList",
+                  "accountList"
+                ]
+              },
+              "example": {
+                "expense": {
+                  "id": "支出单ID（更新时必填，新增时不传）",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "supplierId": "供应商ID",
+                  "amount": 5000,
+                  "paidAmount": 5000,
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "recordList": [
+                  {
+                    "categoryId": "支出分类ID",
+                    "amount": 5000,
+                    "remark": "流水备注"
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "expense": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "paidAmount": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "supplierId",
+                            "amount",
+                            "paidAmount",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "expense"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "expense": {
+                      "id": "支出单ID",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "supplierId": "供应商ID",
+                      "amount": 5000,
+                      "paidAmount": 5000,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/delete": {
+      "post": {
+        "summary": "4.5 删除支出单",
+        "deprecated": false,
+        "description": "根据支出单ID删除支出单及其关联的流水记录和账户记录\n\n业务逻辑说明:\n1. 删除支出单主表记录\n2. 同时删除该支出单关联的所有流水记录\n3. 同时删除该支出单关联的所有账户记录\n4. 使用事务保证数据一致性",
+        "tags": [
+          "4. 支出单管理 (Expense)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "{{token}}",
+            "schema": {
+              "type": "string",
+              "default": "{{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "expenseId": {
+                    "type": "string",
+                    "title": "支出单ID"
+                  }
+                },
+                "required": [
+                  "expenseId"
+                ]
+              },
+              "example": {
+                "expenseId": "支出单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
