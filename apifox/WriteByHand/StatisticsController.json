@@ -1,0 +1,3030 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet_WriteByHand",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 采购分析报表"
+    },
+    {
+      "name": "2. 销售分析报表"
+    },
+    {
+      "name": "3. 库存分析报表"
+    },
+    {
+      "name": "4. 资金分析报表"
+    },
+    {
+      "name": "5. 应收应付报表"
+    },
+    {
+      "name": "6. 其他收支报表"
+    }
+  ],
+  "paths": {
+    "/analysis/purchase/detailList": {
+      "post": {
+        "summary": "1.1 采购明细表",
+        "deprecated": false,
+        "description": "查询采购业务的详细记录，包含每条采购商品的详细信息\n\n业务逻辑说明:\n1. 支持多条件组合筛选\n2. 返回的是每一笔采购的商品明细记录\n3. 自动关联查询商品、供应商、仓库等信息\n4. 包含采购和采购退货两种业务类型",
+        "tags": [
+          "1. 采购分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期",
+                    "description": "格式：yyyy-MM-dd"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "格式：yyyy-MM-dd",
+                    "title": "结束日期"
+                  },
+                  "supplierIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "供应商ID列表",
+                    "description": "不传则查询所有供应商"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表",
+                    "description": "不传则查询所有商品"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表",
+                    "description": "不传则查询所有仓库"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "supplierIdList": [
+                  "供应商ID1",
+                  "供应商ID2"
+                ],
+                "productIdList": [
+                  "商品ID1",
+                  "商品ID2"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1",
+                  "仓库ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "出入库产品记录ID"
+                              },
+                              "businessId": {
+                                "type": "string",
+                                "title": "关联的购货单ID"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位名称"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "title": "数量"
+                              },
+                              "price": {
+                                "type": "number",
+                                "title": "单价"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "金额"
+                              },
+                              "issueDate": {
+                                "type": "string",
+                                "title": "单据日期"
+                              },
+                              "purchaseCode": {
+                                "type": "string",
+                                "title": "购货单编号"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "buy-采购，refund-退货"
+                              },
+                              "supplierName": {
+                                "type": "string",
+                                "title": "供应商名称"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "productList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "productList": [
+                      {
+                        "id": "出入库产品ID",
+                        "businessId": "购货单ID",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "quantity": 100,
+                        "price": 50,
+                        "amount": 5000,
+                        "issueDate": "2024-01-15",
+                        "purchaseCode": "PL20240115001",
+                        "type": "buy",
+                        "supplierName": "供应商名称"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/purchase/productSummaryList": {
+      "post": {
+        "summary": "1.2 采购汇总表（按商品）",
+        "deprecated": false,
+        "description": "按商品维度汇总采购数据，统计每个商品的采购总量和总金额\n\n业务逻辑说明:\n1. 按商品和仓库进行分组汇总\n2. 统计指定时间段内的采购总量和总金额\n3. 自动计算平均单价\n4. 支持多维度筛选条件",
+        "tags": [
+          "1. 采购分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "supplierIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "供应商ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "supplierIdList": [
+                  "供应商ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "采购总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "采购总金额"
+                              },
+                              "averagePrice": {
+                                "type": "number",
+                                "title": "平均单价"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 500,
+                        "totalAmount": 25000,
+                        "averagePrice": 50
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/purchase/supplierSummaryList": {
+      "post": {
+        "summary": "1.3 采购汇总表（按供应商）",
+        "deprecated": false,
+        "description": "按供应商维度汇总采购数据，统计每个供应商的采购情况",
+        "tags": [
+          "1. 采购分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "supplierIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "供应商ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "supplierIdList": [
+                  "供应商ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "supplierId": {
+                                "type": "string",
+                                "title": "供应商ID"
+                              },
+                              "supplierName": {
+                                "type": "string",
+                                "title": "供应商名称"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "采购总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "采购总金额"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "supplierId": "供应商ID",
+                        "supplierName": "供应商名称",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 300,
+                        "totalAmount": 15000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/detailList": {
+      "post": {
+        "summary": "2.1 销售明细表",
+        "deprecated": false,
+        "description": "查询销售业务的详细记录，包含每条销售商品的详细信息\n\n业务逻辑说明:\n1. 支持按客户、商品、仓库、销售人员多维度筛选\n2. 返回每一笔销售的商品明细记录\n3. 包含销售和销退两种业务类型\n4. 自动关联查询客户、销售人员等信息",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  },
+                  "sellerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "销售人员ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1",
+                  "客户ID2"
+                ],
+                "productIdList": [
+                  "商品ID1",
+                  "商品ID2"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1",
+                  "仓库ID2"
+                ],
+                "sellerIdList": [
+                  "销售人员ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "出入库产品记录ID"
+                              },
+                              "businessId": {
+                                "type": "string",
+                                "title": "关联的销货单ID"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "title": "数量"
+                              },
+                              "price": {
+                                "type": "number",
+                                "title": "单价"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "金额"
+                              },
+                              "issueDate": {
+                                "type": "string",
+                                "title": "单据日期"
+                              },
+                              "saleCode": {
+                                "type": "string",
+                                "title": "销货单编号"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "sell-销售，returned-退货"
+                              },
+                              "customerName": {
+                                "type": "string",
+                                "title": "客户名称"
+                              },
+                              "sellerName": {
+                                "type": "string",
+                                "title": "销售人员姓名"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "productList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "productList": [
+                      {
+                        "id": "出入库产品ID",
+                        "businessId": "销货单ID",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "quantity": 50,
+                        "price": 80,
+                        "amount": 4000,
+                        "issueDate": "2024-01-20",
+                        "saleCode": "SE20240120001",
+                        "type": "sell",
+                        "customerName": "客户名称",
+                        "sellerName": "销售人员姓名"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/productSummaryList": {
+      "post": {
+        "summary": "2.2 销售汇总表（按商品）",
+        "deprecated": false,
+        "description": "按商品维度汇总销售数据，统计每个商品的销售情况\n\n业务逻辑说明:\n1. 按商品和仓库进行分组汇总\n2. 统计指定时间段内的销售总量和总金额\n3. 便于分析商品销售表现",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "销售总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "销售总金额"
+                              },
+                              "averagePrice": {
+                                "type": "number",
+                                "title": "平均单价"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 200,
+                        "totalAmount": 16000,
+                        "averagePrice": 80
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/customerSummaryList": {
+      "post": {
+        "summary": "2.3 销售汇总表（按客户）",
+        "deprecated": false,
+        "description": "按客户维度汇总销售数据，统计每个客户的购买情况\n\n业务逻辑说明:\n1. 按客户、商品和仓库进行分组汇总\n2. 便于分析客户购买行为和贡献度\n3. 支持客户价值分析",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "customerId": {
+                                "type": "string",
+                                "title": "客户ID"
+                              },
+                              "customerName": {
+                                "type": "string",
+                                "title": "客户名称"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "销售总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "销售总金额"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "customerId": "客户ID",
+                        "customerName": "客户名称",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 100,
+                        "totalAmount": 8000
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/detailList": {
+      "post": {
+        "summary": "3.1 收发明细表",
+        "deprecated": false,
+        "description": "查询商品出入库的详细流水记录，包含所有类型的出入库业务\n\n业务逻辑说明:\n1. 包含所有类型的出入库业务\n2. 每条记录显示入库数量和出库数量（其中一个为0）\n3. 显示当前库存数量和变动后的结存\n4. 自动关联单据信息和往来单位",
+        "tags": [
+          "3. 库存分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "productIdList": [
+                  "商品ID1",
+                  "商品ID2"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1",
+                  "仓库ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recordList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "库存记录ID"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "stockType": {
+                                "type": "number",
+                                "title": "库存类型",
+                                "description": "1-入库，2-出库"
+                              },
+                              "stockInQuantity": {
+                                "type": "number",
+                                "title": "入库数量"
+                              },
+                              "stockOutQuantity": {
+                                "type": "number",
+                                "title": "出库数量"
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "title": "本次变动数量"
+                              },
+                              "price": {
+                                "type": "number",
+                                "title": "单价"
+                              },
+                              "currentQuantity": {
+                                "type": "number",
+                                "title": "当前库存数量"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "buy：购货入库\nrefund：购货退货出库\nsell：销货出库\nreturned：销退入库\ntransfer_in：调拨入库\ntransfer_out：调拨出库\nstore_profit：盘盈入库\nstore_other：其他入库\ncheckout_loss：盘亏出库\ncheckout_other：其他出库"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "relatedUnit": {
+                                "type": "string",
+                                "title": "往来单位",
+                                "description": "（客户或供应商）"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "recordList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "recordList": [
+                      {
+                        "id": "库存记录ID",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "stockType": 1,
+                        "stockInQuantity": 100,
+                        "stockOutQuantity": 0,
+                        "quantity": 100,
+                        "price": 50,
+                        "currentQuantity": 500,
+                        "businessType": "buy",
+                        "businessTypeName": "购货",
+                        "issueCode": "PL20240115001",
+                        "relatedUnit": "供应商名称",
+                        "createdTime": "2024-01-15T10:30:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/amountList": {
+      "post": {
+        "summary": "3.2 库存余额表",
+        "deprecated": false,
+        "description": "查询截止到指定日期的商品库存余额，支持多仓库展示\n\n业务逻辑说明:\n1. 查询截止到指定日期的库存余额\n2. 按商品分组，展示每个商品在各仓库的分布\n3. 自动计算每个商品的总库存数量和金额\n4. 同时返回仓库列表，便于前端表格列展示",
+        "tags": [
+          "3. 库存分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "endDate": {
+                    "type": "string",
+                    "title": "截止日期",
+                    "description": "不传则为当前日期"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "endDate": "2024-12-31",
+                "productIdList": [
+                  "商品ID1",
+                  "商品ID2"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1",
+                  "仓库ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseAmountMapping": {
+                                "type": "object",
+                                "properties": {
+                                  "仓库ID1": {
+                                    "type": "object",
+                                    "properties": {
+                                      "warehouseId": {
+                                        "type": "string",
+                                        "title": "仓库ID"
+                                      },
+                                      "warehouseName": {
+                                        "type": "string",
+                                        "title": "仓库名称"
+                                      },
+                                      "currentQuantity": {
+                                        "type": "number",
+                                        "title": "当前库存数量"
+                                      },
+                                      "currentAmount": {
+                                        "type": "number",
+                                        "title": "当前库存金额"
+                                      }
+                                    },
+                                    "required": [
+                                      "warehouseId",
+                                      "warehouseName",
+                                      "currentQuantity",
+                                      "currentAmount"
+                                    ],
+                                    "title": "单个仓库库存信息"
+                                  },
+                                  "仓库ID2": {
+                                    "type": "object",
+                                    "properties": {
+                                      "warehouseId": {
+                                        "type": "string",
+                                        "title": "仓库ID"
+                                      },
+                                      "warehouseName": {
+                                        "type": "string",
+                                        "title": "仓库名称"
+                                      },
+                                      "currentQuantity": {
+                                        "type": "number",
+                                        "title": "当前库存数量"
+                                      },
+                                      "currentAmount": {
+                                        "type": "number",
+                                        "title": "当前库存金额"
+                                      }
+                                    },
+                                    "required": [
+                                      "warehouseId",
+                                      "warehouseName",
+                                      "currentQuantity",
+                                      "currentAmount"
+                                    ],
+                                    "title": "单个仓库库存信息"
+                                  },
+                                  "total": {
+                                    "type": "object",
+                                    "properties": {
+                                      "totalQuantity": {
+                                        "type": "number",
+                                        "title": "总库存数量"
+                                      },
+                                      "totalAmount": {
+                                        "type": "number",
+                                        "title": "总库存金额"
+                                      }
+                                    },
+                                    "required": [
+                                      "totalQuantity",
+                                      "totalAmount"
+                                    ],
+                                    "title": "合计信息"
+                                  }
+                                },
+                                "required": [
+                                  "仓库ID1",
+                                  "仓库ID2",
+                                  "total"
+                                ],
+                                "title": "各仓库库存映射"
+                              }
+                            }
+                          }
+                        },
+                        "warehouseList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name"
+                            ]
+                          },
+                          "title": "仓库列表"
+                        }
+                      },
+                      "required": [
+                        "productList",
+                        "warehouseList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "productList": [
+                      {
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseAmountMapping": {
+                          "仓库ID1": {
+                            "warehouseId": "仓库ID1",
+                            "warehouseName": "仓库名称1",
+                            "currentQuantity": 100,
+                            "currentAmount": 5000
+                          },
+                          "仓库ID2": {
+                            "warehouseId": "仓库ID2",
+                            "warehouseName": "仓库名称2",
+                            "currentQuantity": 200,
+                            "currentAmount": 10000
+                          },
+                          "total": {
+                            "totalQuantity": 300,
+                            "totalAmount": 15000
+                          }
+                        }
+                      }
+                    ],
+                    "warehouseList": [
+                      {
+                        "id": "仓库ID1",
+                        "name": "仓库名称1"
+                      },
+                      {
+                        "id": "仓库ID2",
+                        "name": "仓库名称2"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/summaryList": {
+      "post": {
+        "summary": "3.3 收发汇总表",
+        "deprecated": false,
+        "description": "按商品和仓库汇总统计期初、入库、出库、期末的数量和金额\n\n计算公式:\n• 入库合计 = 采购入库 + 销退入库 + 调拨入库 + 盘盈 + 其他入库\n• 出库合计 = 销售出库 + 购退出库 + 调拨出库 + 盘亏 + 其他出库\n• 期末数量 = 期初数量 + 入库合计 - 出库合计\n\n业务逻辑说明:\n1. 按商品和仓库分组统计\n2. 分别统计各种业务类型的出入库数量\n3. 自动计算期初、入库合计、出库合计、期末\n4. 提供完整的库存流转分析",
+        "tags": [
+          "3. 库存分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "stockList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "startQuantity": {
+                                "type": "number",
+                                "title": "期初数量"
+                              },
+                              "startAmount": {
+                                "type": "number",
+                                "title": "期初金额"
+                              },
+                              "buyQuantity": {
+                                "type": "number",
+                                "title": "采购入库数量"
+                              },
+                              "returnedQuantity": {
+                                "type": "number",
+                                "title": "销退入库数量"
+                              },
+                              "transferInQuantity": {
+                                "type": "number",
+                                "title": "调拨入库数量"
+                              },
+                              "storeProfitQuantity": {
+                                "type": "number",
+                                "title": "盘盈数量"
+                              },
+                              "storeOtherQuantity": {
+                                "type": "number",
+                                "title": "其他入库数量"
+                              },
+                              "storeTotalQuantity": {
+                                "type": "number",
+                                "title": "入库合计数量"
+                              },
+                              "sellQuantity": {
+                                "type": "number",
+                                "title": "销售出库数量"
+                              },
+                              "refundQuantity": {
+                                "type": "number",
+                                "title": "购退出库数量"
+                              },
+                              "transferOutQuantity": {
+                                "type": "number",
+                                "title": "调拨出库数量"
+                              },
+                              "checkoutLossQuantity": {
+                                "type": "number",
+                                "title": "盘亏数量"
+                              },
+                              "checkoutOtherQuantity": {
+                                "type": "number",
+                                "title": "其他出库数量"
+                              },
+                              "checkoutTotalQuantity": {
+                                "type": "number",
+                                "title": "出库合计数量"
+                              },
+                              "endQuantity": {
+                                "type": "number",
+                                "title": "期末数量"
+                              },
+                              "endAmount": {
+                                "type": "number",
+                                "title": "期末金额"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "stockList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "stockList": [
+                      {
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "startQuantity": 100,
+                        "startAmount": 5000,
+                        "buyQuantity": 500,
+                        "returnedQuantity": 50,
+                        "transferInQuantity": 30,
+                        "storeProfitQuantity": 10,
+                        "storeOtherQuantity": 20,
+                        "storeTotalQuantity": 610,
+                        "sellQuantity": 300,
+                        "refundQuantity": 20,
+                        "transferOutQuantity": 40,
+                        "checkoutLossQuantity": 5,
+                        "checkoutOtherQuantity": 15,
+                        "checkoutTotalQuantity": 380,
+                        "endQuantity": 330,
+                        "endAmount": 16500
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/account/detailList": {
+      "post": {
+        "summary": "4.1 现金银行报表",
+        "deprecated": false,
+        "description": "查询结算账户的资金流水明细，包含所有收支业务\n\n业务逻辑说明:\n1. 展示所有结算账户的资金流水\n2. 收入和支出分别显示，便于对账\n3. 显示每笔交易后的账户余额\n4. 关联原始单据和往来单位信息",
+        "tags": [
+          "4. 资金分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "accountIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "结算账户ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "accountIdList": [
+                  "账户ID1",
+                  "账户ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recordList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "账户记录ID"
+                              },
+                              "accountId": {
+                                "type": "string",
+                                "title": "结算账户ID"
+                              },
+                              "accountCode": {
+                                "type": "string",
+                                "title": "账户编码"
+                              },
+                              "accountName": {
+                                "type": "string",
+                                "title": "账户名称"
+                              },
+                              "type": {
+                                "type": "integer",
+                                "title": "类型",
+                                "description": "1-收入，2-支出"
+                              },
+                              "incomeAmount": {
+                                "type": "number",
+                                "title": "收入金额"
+                              },
+                              "expenseAmount": {
+                                "type": "number",
+                                "title": "支出金额"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "变动金额"
+                              },
+                              "balance": {
+                                "type": "number",
+                                "title": "账户余额"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "buy：普通采购付款\nrefund：采购退回收款\nsell：普通销售收款\nreturned：销售退回付款\ncollection：收款\npayment：付款\nincome：其他收入\nexpense：其他支出"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "relatedUnit": {
+                                "type": "string",
+                                "title": "往来单位"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "recordList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "recordList": [
+                      {
+                        "id": "账户记录ID",
+                        "accountId": "账户ID",
+                        "accountCode": "账户编码",
+                        "accountName": "账户名称",
+                        "type": 1,
+                        "incomeAmount": 10000,
+                        "expenseAmount": 0,
+                        "amount": 10000,
+                        "balance": 50000,
+                        "businessType": "collection",
+                        "businessTypeName": "收款",
+                        "issueCode": "CL20240120001",
+                        "relatedUnit": "客户名称",
+                        "createdTime": "2024-01-20T14:30:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/receivable/detailList": {
+      "post": {
+        "summary": "5.1 应收账款明细表",
+        "deprecated": false,
+        "description": "查询应收账款的明细记录，包含销货和收款业务\n\n业务逻辑说明:\n1. 包含销货（增加应收）和收款（减少应收）两类业务\n2. 销退业务会减少应收账款\n3. 便于跟踪每个客户的应收情况\n4. 可以计算客户的欠款余额",
+        "tags": [
+          "5. 应收应付报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1",
+                  "客户ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "receivableList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "应收记录ID"
+                              },
+                              "customerId": {
+                                "type": "string",
+                                "title": "客户ID"
+                              },
+                              "customerName": {
+                                "type": "string",
+                                "title": "客户名称"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "sell-销货，returned-销退，collection-收款"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "单据金额"
+                              },
+                              "receivableAmount": {
+                                "type": "number",
+                                "title": "应收金额",
+                                "description": "（正数为增加应收，负数为减少应收）"
+                              },
+                              "receivedAmount": {
+                                "type": "number",
+                                "title": "已收金额"
+                              },
+                              "unreceivedAmount": {
+                                "type": "number",
+                                "title": "未收金额"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "customerId",
+                              "customerName",
+                              "businessType",
+                              "businessTypeName",
+                              "issueCode",
+                              "amount",
+                              "receivableAmount",
+                              "receivedAmount",
+                              "unreceivedAmount",
+                              "createdTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "receivableList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "receivableList": [
+                      {
+                        "id": "应收记录ID",
+                        "customerId": "客户ID",
+                        "customerName": "客户名称",
+                        "businessType": "sell",
+                        "businessTypeName": "销货",
+                        "issueCode": "SE20240120001",
+                        "amount": 10000,
+                        "receivableAmount": 10000,
+                        "receivedAmount": 0,
+                        "unreceivedAmount": 10000,
+                        "createdTime": "2024-01-20T10:00:00"
+                      },
+                      {
+                        "id": "应收记录ID",
+                        "customerId": "客户ID",
+                        "customerName": "客户名称",
+                        "businessType": "collection",
+                        "businessTypeName": "收款",
+                        "issueCode": "CL20240125001",
+                        "amount": 5000,
+                        "receivableAmount": -5000,
+                        "receivedAmount": 5000,
+                        "unreceivedAmount": 5000,
+                        "createdTime": "2024-01-25T15:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/payable/detailList": {
+      "post": {
+        "summary": "5.2 应付账款明细表",
+        "deprecated": false,
+        "description": "查询应付账款的明细记录，包含购货和付款业务\n\n业务逻辑说明:\n1. 包含购货（增加应付）和付款（减少应付）两类业务\n2. 购退业务会减少应付账款\n3. 便于跟踪每个供应商的应付情况\n4. 可以计算欠供应商的款项",
+        "tags": [
+          "5. 应收应付报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "supplierIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "供应商ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "supplierIdList": [
+                  "供应商ID1",
+                  "供应商ID2"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payableList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "应付记录ID"
+                              },
+                              "supplierId": {
+                                "type": "string",
+                                "title": "供应商ID"
+                              },
+                              "supplierName": {
+                                "type": "string",
+                                "title": "供应商名称"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "buy-购货，refund-购退，payment-付款"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "单据金额"
+                              },
+                              "payableAmount": {
+                                "type": "number",
+                                "title": "应付金额",
+                                "description": "（正数为增加应付，负数为减少应付）"
+                              },
+                              "paidAmount": {
+                                "type": "number",
+                                "title": "已付金额"
+                              },
+                              "unpaidAmount": {
+                                "type": "number",
+                                "title": "未付金额"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "supplierId",
+                              "supplierName",
+                              "businessType",
+                              "businessTypeName",
+                              "issueCode",
+                              "amount",
+                              "payableAmount",
+                              "paidAmount",
+                              "unpaidAmount",
+                              "createdTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "payableList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "payableList": [
+                      {
+                        "id": "应付记录ID",
+                        "supplierId": "供应商ID",
+                        "supplierName": "供应商名称",
+                        "businessType": "buy",
+                        "businessTypeName": "购货",
+                        "issueCode": "PL20240115001",
+                        "amount": 8000,
+                        "payableAmount": 8000,
+                        "paidAmount": 0,
+                        "unpaidAmount": 8000,
+                        "createdTime": "2024-01-15T10:00:00"
+                      },
+                      {
+                        "id": "应付记录ID",
+                        "supplierId": "供应商ID",
+                        "supplierName": "供应商名称",
+                        "businessType": "payment",
+                        "businessTypeName": "付款",
+                        "issueCode": "FK20240120001",
+                        "amount": 4000,
+                        "payableAmount": -4000,
+                        "paidAmount": 4000,
+                        "unpaidAmount": 4000,
+                        "createdTime": "2024-01-20T15:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/receivable/customerList": {
+      "post": {
+        "summary": "5.3 客户对账单",
+        "deprecated": false,
+        "description": "生成指定客户的对账单，包含该客户的所有应收业务明细\n\n业务逻辑说明:\n1. 必须传入客户ID\n2. 展示该客户在指定时间段内的所有应收业务\n3. 包含销货、销退、收款三类业务\n4. 销货业务显示详细的金额构成（原价、优惠、折让、实收）\n5. 可用于与客户对账",
+        "tags": [
+          "5. 应收应付报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "receivableList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "应收记录ID"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "单据金额",
+                                "description": "（仅销货/销退）"
+                              },
+                              "discountAmount": {
+                                "type": "number",
+                                "title": "优惠金额",
+                                "description": "（仅销货/销退）"
+                              },
+                              "preferredAmount": {
+                                "type": "number",
+                                "title": "折让金额",
+                                "description": "（仅销货/销退）"
+                              },
+                              "actualAmount": {
+                                "type": "number",
+                                "title": "实际金额"
+                              },
+                              "receivableAmount": {
+                                "type": "number",
+                                "title": "应收金额"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "businessType",
+                              "businessTypeName",
+                              "issueCode",
+                              "actualAmount",
+                              "receivableAmount",
+                              "createdTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "receivableList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "receivableList": [
+                      {
+                        "id": "应收记录ID",
+                        "businessType": "sell",
+                        "businessTypeName": "销货",
+                        "issueCode": "SE20240120001",
+                        "amount": 10000,
+                        "discountAmount": 500,
+                        "preferredAmount": 200,
+                        "actualAmount": 9300,
+                        "receivableAmount": 9300,
+                        "createdTime": "2024-01-20T10:00:00"
+                      },
+                      {
+                        "id": "应收记录ID",
+                        "businessType": "collection",
+                        "businessTypeName": "收款",
+                        "issueCode": "CL20240125001",
+                        "actualAmount": 5000,
+                        "receivableAmount": -5000,
+                        "createdTime": "2024-01-25T15:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/payable/supplierList": {
+      "post": {
+        "summary": "5.4 供应商对账单",
+        "deprecated": false,
+        "description": "生成指定供应商的对账单，包含该供应商的所有应付业务明细\n\n业务逻辑说明:\n1. 必须传入供应商ID\n2. 展示该供应商在指定时间段内的所有应付业务\n3. 包含购货、购退、付款三类业务\n4. 购货业务显示详细的金额构成\n5. 可用于与供应商对账",
+        "tags": [
+          "5. 应收应付报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "supplierId": {
+                    "type": "string",
+                    "title": "供应商ID"
+                  }
+                },
+                "required": [
+                  "supplierId"
+                ]
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "supplierId": "供应商ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "payableList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "应付记录ID"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "单据金额",
+                                "description": "（仅购货/购退）"
+                              },
+                              "discountAmount": {
+                                "type": "number",
+                                "title": "优惠金额",
+                                "description": "（仅购货/购退）"
+                              },
+                              "preferredAmount": {
+                                "type": "number",
+                                "title": "折让金额",
+                                "description": "（仅购货/购退）"
+                              },
+                              "actualAmount": {
+                                "type": "number",
+                                "title": "实际金额"
+                              },
+                              "payableAmount": {
+                                "type": "number",
+                                "title": "应付金额"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "businessType",
+                              "businessTypeName",
+                              "issueCode",
+                              "actualAmount",
+                              "payableAmount",
+                              "createdTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "payableList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "payableList": [
+                      {
+                        "id": "应付记录ID",
+                        "businessType": "buy",
+                        "businessTypeName": "购货",
+                        "issueCode": "PL20240115001",
+                        "amount": 8000,
+                        "discountAmount": 400,
+                        "preferredAmount": 100,
+                        "actualAmount": 7500,
+                        "payableAmount": 7500,
+                        "createdTime": "2024-01-15T10:00:00"
+                      },
+                      {
+                        "id": "应付记录ID",
+                        "businessType": "payment",
+                        "businessTypeName": "付款",
+                        "issueCode": "FK20240120001",
+                        "actualAmount": 4000,
+                        "payableAmount": -4000,
+                        "createdTime": "2024-01-20T15:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/flow/detailList": {
+      "post": {
+        "summary": "6.1 其他收支明细表",
+        "deprecated": false,
+        "description": "查询其他收入和其他支出的明细记录",
+        "tags": [
+          "6. 其他收支报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "title": "收支类别ID"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "categoryId": "类别ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recordList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "流水记录ID"
+                              },
+                              "businessType": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "income-收入，expense-支出"
+                              },
+                              "businessTypeName": {
+                                "type": "string",
+                                "title": "业务类型名称"
+                              },
+                              "issueCode": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "categoryId": {
+                                "type": "string",
+                                "title": "收支类别ID"
+                              },
+                              "categoryName": {
+                                "type": "string",
+                                "title": "收支类别名称"
+                              },
+                              "incomeAmount": {
+                                "type": "number",
+                                "title": "收入金额"
+                              },
+                              "expenseAmount": {
+                                "type": "number",
+                                "title": "支出金额"
+                              },
+                              "relatedUnit": {
+                                "type": "string",
+                                "title": "往来单位"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "businessType",
+                              "businessTypeName",
+                              "issueCode",
+                              "categoryId",
+                              "categoryName",
+                              "incomeAmount",
+                              "expenseAmount",
+                              "relatedUnit",
+                              "createdTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "recordList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "recordList": [
+                      {
+                        "id": "流水记录ID",
+                        "businessType": "income",
+                        "businessTypeName": "其他收入",
+                        "issueCode": "SR20240120001",
+                        "categoryId": "类别ID",
+                        "categoryName": "类别名称",
+                        "incomeAmount": 2000,
+                        "expenseAmount": 0,
+                        "relatedUnit": "客户名称",
+                        "createdTime": "2024-01-20T10:00:00"
+                      },
+                      {
+                        "id": "流水记录ID",
+                        "businessType": "expense",
+                        "businessTypeName": "其他支出",
+                        "issueCode": "ZC20240125001",
+                        "categoryId": "类别ID",
+                        "categoryName": "类别名称",
+                        "incomeAmount": 0,
+                        "expenseAmount": 1500,
+                        "relatedUnit": "供应商名称",
+                        "createdTime": "2024-01-25T15:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
