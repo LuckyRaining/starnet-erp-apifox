@@ -1,0 +1,3192 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet_AutoGenerate",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "入库控制器"
+    },
+    {
+      "name": "出库控制器"
+    },
+    {
+      "name": "调拨控制器"
+    },
+    {
+      "name": "用户控制器"
+    },
+    {
+      "name": "商品控制器"
+    },
+    {
+      "name": "客户控制器"
+    },
+    {
+      "name": "职员控制器"
+    },
+    {
+      "name": "供应商控制器"
+    },
+    {
+      "name": "仓库控制器"
+    },
+    {
+      "name": "结算账户控制器"
+    },
+    {
+      "name": "分析控制器"
+    },
+    {
+      "name": "日志控制器"
+    },
+    {
+      "name": "字典控制器"
+    },
+    {
+      "name": "菜单控制器"
+    },
+    {
+      "name": "首页控制器"
+    },
+    {
+      "name": "类别控制器"
+    },
+    {
+      "name": "收入控制器"
+    },
+    {
+      "name": "支出控制器"
+    },
+    {
+      "name": "付款控制器"
+    },
+    {
+      "name": "收款控制器"
+    },
+    {
+      "name": "销售单控制器"
+    },
+    {
+      "name": "客户订单控制器"
+    },
+    {
+      "name": "购货单控制器"
+    }
+  ],
+  "paths": {
+    "/store/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "入库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/detail": {
+      "post": {
+        "summary": "入库单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "入库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "入库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/save": {
+      "post": {
+        "summary": "入库单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "入库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/delete": {
+      "post": {
+        "summary": "入库单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "入库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "出库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/detail": {
+      "post": {
+        "summary": "出库单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "出库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "出库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/save": {
+      "post": {
+        "summary": "出库单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "出库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/delete": {
+      "post": {
+        "summary": "出库单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "出库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/detail": {
+      "post": {
+        "summary": "调拨单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/save": {
+      "post": {
+        "summary": "调拨单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/delete": {
+      "post": {
+        "summary": "调拨单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/switchCheck": {
+      "post": {
+        "summary": "调拨单切换审查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "调拨控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/add": {
+      "post": {
+        "summary": "新增用户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/switchActive": {
+      "post": {
+        "summary": "是否启用切换",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/page": {
+      "post": {
+        "summary": "用户分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/resetPassword": {
+      "post": {
+        "summary": "resetPassword",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/page": {
+      "post": {
+        "summary": "分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "商品控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/save": {
+      "post": {
+        "summary": "商品保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "商品控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/detail": {
+      "post": {
+        "summary": "商品详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "商品控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/delete": {
+      "post": {
+        "summary": "商品删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "商品控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/switchActive": {
+      "post": {
+        "summary": "商品启停",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "商品控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/page": {
+      "post": {
+        "summary": "分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/contactList": {
+      "post": {
+        "summary": "联系人列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/save": {
+      "post": {
+        "summary": "保存客户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/detail": {
+      "post": {
+        "summary": "客户详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/delete": {
+      "post": {
+        "summary": "客户删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/switchActive": {
+      "post": {
+        "summary": "客户启停",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/importExcel": {
+      "post": {
+        "summary": "导入Excel",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/exportExcel": {
+      "post": {
+        "summary": "导出Excel",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/page": {
+      "post": {
+        "summary": "职员列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "职员控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/save": {
+      "post": {
+        "summary": "职员保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "职员控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/detail": {
+      "post": {
+        "summary": "职员详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "职员控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/delete": {
+      "post": {
+        "summary": "职员删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "职员控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/switchActive": {
+      "post": {
+        "summary": "switchActive",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "职员控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/page": {
+      "post": {
+        "summary": "分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/save": {
+      "post": {
+        "summary": "保存供应商",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/detail": {
+      "post": {
+        "summary": "供应商详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/delete": {
+      "post": {
+        "summary": "供应商删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/switchActive": {
+      "post": {
+        "summary": "供应商启停",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/importExcel": {
+      "post": {
+        "summary": "导入Excel",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/exportExcel": {
+      "post": {
+        "summary": "导出Excel",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "供应商控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/page": {
+      "post": {
+        "summary": "仓库列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "仓库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/save": {
+      "post": {
+        "summary": "仓库保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "仓库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/detail": {
+      "post": {
+        "summary": "仓库详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "仓库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/delete": {
+      "post": {
+        "summary": "仓库删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "仓库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/switchActive": {
+      "post": {
+        "summary": "仓库启停",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "仓库控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/list": {
+      "post": {
+        "summary": "结算账户列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "结算账户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/save": {
+      "post": {
+        "summary": "保存账户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "结算账户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/detail": {
+      "post": {
+        "summary": "账户详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "结算账户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/delete": {
+      "post": {
+        "summary": "账户删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "结算账户控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/purchase/detailList": {
+      "post": {
+        "summary": "采购明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/purchase/productSummaryList": {
+      "post": {
+        "summary": "采购汇总表（按商品）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/purchase/supplierSummaryList": {
+      "post": {
+        "summary": "采购汇总表（按供应商）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/detailList": {
+      "post": {
+        "summary": "销售明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/productSummaryList": {
+      "post": {
+        "summary": "销售汇总表（按商品）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/customerSummaryList": {
+      "post": {
+        "summary": "销售汇总表（按客户）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/detailList": {
+      "post": {
+        "summary": "收发明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/amountList": {
+      "post": {
+        "summary": "库存余额表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/stock/summaryList": {
+      "post": {
+        "summary": "收发汇总表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/account/detailList": {
+      "post": {
+        "summary": "现金银行报表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/receivable/detailList": {
+      "post": {
+        "summary": "应收账款明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/payable/detailList": {
+      "post": {
+        "summary": "应付账款明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/receivable/customerList": {
+      "post": {
+        "summary": "客户对账单",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/payable/supplierList": {
+      "post": {
+        "summary": "供应商对账单",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/flow/detailList": {
+      "post": {
+        "summary": "其他收支明细表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "分析控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/log/page": {
+      "post": {
+        "summary": "分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "日志控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemList": {
+      "post": {
+        "summary": "获取字典项列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "字典控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemDetail": {
+      "post": {
+        "summary": "字典项详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "字典控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemSave": {
+      "post": {
+        "summary": "保存字典项",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "字典控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/dict/itemDelete": {
+      "post": {
+        "summary": "删除字典项",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "字典控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/menu/add": {
+      "post": {
+        "summary": "add",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "菜单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/menu/list": {
+      "post": {
+        "summary": "list",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "菜单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/getSystemConfiguration": {
+      "post": {
+        "summary": "获取系统设置",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "首页控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/setSystemConfiguration": {
+      "post": {
+        "summary": "设置系统设置",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "首页控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/list": {
+      "post": {
+        "summary": "列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "类别控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/save": {
+      "post": {
+        "summary": "新增或修改",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "类别控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/delete": {
+      "post": {
+        "summary": "删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "类别控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": ""
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/category/detail": {
+      "post": {
+        "summary": "根据Id获取",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "类别控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收入控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/detail": {
+      "post": {
+        "summary": "收入单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收入控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收入控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/save": {
+      "post": {
+        "summary": "收入单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收入控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/income/delete": {
+      "post": {
+        "summary": "收入单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收入控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "支出控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/detail": {
+      "post": {
+        "summary": "支出单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "支出控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "支出控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/save": {
+      "post": {
+        "summary": "支出单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "支出控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/expense/delete": {
+      "post": {
+        "summary": "支出单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "支出控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "付款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/detail": {
+      "post": {
+        "summary": "入库单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "付款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "付款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/save": {
+      "post": {
+        "summary": "入库单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "付款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/delete": {
+      "post": {
+        "summary": "入库单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "付款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/detail": {
+      "post": {
+        "summary": "入库单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/save": {
+      "post": {
+        "summary": "入库单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/collection/delete": {
+      "post": {
+        "summary": "入库单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "收款控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/detail": {
+      "post": {
+        "summary": "销货单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/save": {
+      "post": {
+        "summary": "销货单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/delete": {
+      "post": {
+        "summary": "销货单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/switchCheck": {
+      "post": {
+        "summary": "销货单切换审查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/findCheckedListByCustomer": {
+      "post": {
+        "summary": "findCheckedListByCustomer",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "销售单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/page": {
+      "post": {
+        "summary": "分页列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/detail": {
+      "post": {
+        "summary": "客户订单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/save": {
+      "post": {
+        "summary": "客户订单保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/delete": {
+      "post": {
+        "summary": "客户订单删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/switchCheck": {
+      "post": {
+        "summary": "客户订单切换审查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "客户订单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/page": {
+      "post": {
+        "summary": "分页",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/detail": {
+      "post": {
+        "summary": "购货单详情",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/createCode": {
+      "post": {
+        "summary": "创建一个新的单据编号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/save": {
+      "post": {
+        "summary": "保存",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/delete": {
+      "post": {
+        "summary": "删除",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/switchCheck": {
+      "post": {
+        "summary": "切换审查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/findCheckedListBySupplier": {
+      "post": {
+        "summary": "findCheckedListBySupplier",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "购货单控制器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result",
+                  "description": "net.kingborn.core.entry.Result"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {
+      "Result": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": ""
+          }
+        }
+      }
+    },
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://dev-cn.your-api-server.com",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
