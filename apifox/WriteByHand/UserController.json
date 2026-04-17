@@ -1,0 +1,5488 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet_WriteByHand",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 客户管理 (Customer)"
+    },
+    {
+      "name": "2. 供应商管理 (Supplier)"
+    },
+    {
+      "name": "3. 商品管理 (Product)"
+    },
+    {
+      "name": "4. 仓库管理 (Warehouse)"
+    },
+    {
+      "name": "5. 职员管理 (Employee)"
+    },
+    {
+      "name": "6. 结算账户管理 (Settlement Account)"
+    },
+    {
+      "name": "7. 用户管理 (User)"
+    }
+  ],
+  "paths": {
+    "/customer/page": {
+      "post": {
+        "summary": "1.1 分页查询客户列表",
+        "deprecated": false,
+        "description": "分页查询客户列表，支持多条件筛选，自动关联客户类别和联系人信息\n\n业务逻辑说明:\n1. 自动关联查询客户分类名称\n2. 自动查询每个客户的联系人列表\n3. 自动计算期初余额 = 期初预付款 - 期初应收款\n4. 支持按关键字、分类、等级等多条件筛选",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索",
+                        "description": "（客户编码、名称）"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "客户分类ID"
+                      },
+                      "level": {
+                        "type": "string",
+                        "title": "客户等级"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字",
+                  "categoryId": "分类ID",
+                  "level": "客户等级"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customerPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "客户ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "客户编码"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "客户名称"
+                                  },
+                                  "categoryId": {
+                                    "type": "string",
+                                    "title": "客户分类ID"
+                                  },
+                                  "categoryName": {
+                                    "type": "string",
+                                    "title": "客户分类名称"
+                                  },
+                                  "level": {
+                                    "type": "string",
+                                    "title": "客户等级"
+                                  },
+                                  "balanceTime": {
+                                    "type": "string",
+                                    "title": "余额日期"
+                                  },
+                                  "beginReceivableAmount": {
+                                    "type": "number",
+                                    "title": "期初应收款"
+                                  },
+                                  "beginPrepaidAmount": {
+                                    "type": "number",
+                                    "title": "期初预付款"
+                                  },
+                                  "beginBalance": {
+                                    "type": "number",
+                                    "title": "期初余额",
+                                    "description": "（预付款-应收款）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "contactList": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "customerId": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "mobile": {
+                                          "type": "string"
+                                        },
+                                        "phone": {
+                                          "type": "string"
+                                        },
+                                        "email": {
+                                          "type": "string"
+                                        },
+                                        "primary": {
+                                          "type": "boolean"
+                                        }
+                                      }
+                                    },
+                                    "title": "联系人列表"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "customerPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "customerPage": {
+                      "records": [
+                        {
+                          "id": "客户ID",
+                          "code": "KH001",
+                          "name": "客户名称",
+                          "categoryId": "分类ID",
+                          "categoryName": "分类名称",
+                          "level": "A",
+                          "balanceTime": "2024-01-01",
+                          "beginReceivableAmount": 10000,
+                          "beginPrepaidAmount": 5000,
+                          "beginBalance": -5000,
+                          "remark": "备注",
+                          "active": true,
+                          "contactList": [
+                            {
+                              "id": "联系人ID",
+                              "customerId": "客户ID",
+                              "name": "联系人姓名",
+                              "mobile": "手机号",
+                              "phone": "电话",
+                              "email": "邮箱",
+                              "primary": true
+                            }
+                          ],
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 100,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 10
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/contactList": {
+      "post": {
+        "summary": "1.2 获取联系人列表",
+        "deprecated": false,
+        "description": "根据客户ID获取该客户的所有联系人列表",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "contactList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "联系人ID"
+                              },
+                              "customerId": {
+                                "type": "string",
+                                "title": "客户ID"
+                              },
+                              "name": {
+                                "type": "string",
+                                "title": "联系人姓名"
+                              },
+                              "mobile": {
+                                "type": "string",
+                                "title": "手机号"
+                              },
+                              "phone": {
+                                "type": "string",
+                                "title": "电话"
+                              },
+                              "email": {
+                                "type": "string",
+                                "title": "邮箱"
+                              },
+                              "position": {
+                                "type": "string",
+                                "title": "职位"
+                              },
+                              "primary": {
+                                "type": "boolean",
+                                "title": "是否首要联系人"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              },
+                              "updatedTime": {
+                                "type": "string",
+                                "title": "更新时间"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "contactList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "contactList": [
+                      {
+                        "id": "联系人ID",
+                        "customerId": "客户ID",
+                        "name": "联系人姓名",
+                        "mobile": "手机号",
+                        "phone": "电话",
+                        "email": "邮箱",
+                        "position": "职位",
+                        "primary": true,
+                        "createdTime": "2024-01-01T00:00:00",
+                        "updatedTime": "2024-01-01T00:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/save": {
+      "post": {
+        "summary": "1.3 保存客户",
+        "deprecated": false,
+        "description": "新增或更新客户信息，同时保存联系人列表\n\n业务逻辑说明:\n1. 事务处理：客户和联系人的保存在一个事务中\n2. 编码校验：客户编码不能为空且不能重复\n3. 分类校验：必须选择有效的客户分类\n4. 等级校验：客户等级必须是系统定义的等级\n5. 联系人处理：\n  •. 更新客户时会先删除原有联系人，再保存新联系人列表\n  •. 如果没有设置首要联系人，自动将第一个联系人设为首要联系人\n  •. 如果设置了多个首要联系人，只保留第一个\n6. 启用状态：新增客户默认启用（active=true）",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "客户ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "不能重复",
+                        "title": "客户编码"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "客户名称"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "客户分类ID"
+                      },
+                      "level": {
+                        "type": "string",
+                        "title": "客户等级"
+                      },
+                      "balanceTime": {
+                        "type": "string",
+                        "title": "余额日期"
+                      },
+                      "beginReceivableAmount": {
+                        "type": "number",
+                        "title": "期初应收款",
+                        "description": "默认0"
+                      },
+                      "beginPrepaidAmount": {
+                        "type": "number",
+                        "title": "期初预付款",
+                        "description": "默认0"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name",
+                      "categoryId",
+                      "level"
+                    ]
+                  },
+                  "contactList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "联系人ID",
+                          "description": "新增时不传"
+                        },
+                        "name": {
+                          "type": "string",
+                          "title": "联系人姓名"
+                        },
+                        "mobile": {
+                          "type": "string",
+                          "title": "手机号"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "title": "电话"
+                        },
+                        "email": {
+                          "type": "string",
+                          "title": "邮箱"
+                        },
+                        "position": {
+                          "type": "string",
+                          "title": "职位"
+                        },
+                        "primary": {
+                          "type": "boolean",
+                          "title": "是否首要联系人",
+                          "description": "只能有一个"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "customer",
+                  "contactList"
+                ]
+              },
+              "example": {
+                "customer": {
+                  "id": "客户ID（更新时必填，新增时不传）",
+                  "code": "KH001",
+                  "name": "客户名称",
+                  "categoryId": "分类ID",
+                  "level": "A",
+                  "balanceTime": "2024-01-01",
+                  "beginReceivableAmount": 10000,
+                  "beginPrepaidAmount": 5000,
+                  "remark": "备注"
+                },
+                "contactList": [
+                  {
+                    "id": "联系人ID（更新时传，新增时不传）",
+                    "name": "联系人姓名",
+                    "mobile": "13800138000",
+                    "phone": "010-12345678",
+                    "email": "contact@example.com",
+                    "position": "采购经理",
+                    "primary": true
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "level": {
+                              "type": "string"
+                            },
+                            "balanceTime": {
+                              "type": "string"
+                            },
+                            "beginReceivableAmount": {
+                              "type": "number"
+                            },
+                            "beginPrepaidAmount": {
+                              "type": "number"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "categoryId",
+                            "level",
+                            "balanceTime",
+                            "beginReceivableAmount",
+                            "beginPrepaidAmount",
+                            "remark",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "customer"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "customer": {
+                      "id": "客户ID",
+                      "code": "KH001",
+                      "name": "客户名称",
+                      "categoryId": "分类ID",
+                      "level": "A",
+                      "balanceTime": "2024-01-01",
+                      "beginReceivableAmount": 10000,
+                      "beginPrepaidAmount": 5000,
+                      "remark": "备注",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/detail": {
+      "post": {
+        "summary": "1.4 获取客户详情",
+        "deprecated": false,
+        "description": "根据客户ID获取客户详细信息",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "customer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "categoryName": {
+                              "type": "string"
+                            },
+                            "level": {
+                              "type": "string"
+                            },
+                            "balanceTime": {
+                              "type": "string"
+                            },
+                            "beginReceivableAmount": {
+                              "type": "number"
+                            },
+                            "beginPrepaidAmount": {
+                              "type": "number"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "categoryId",
+                            "categoryName",
+                            "level",
+                            "balanceTime",
+                            "beginReceivableAmount",
+                            "beginPrepaidAmount",
+                            "remark",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "customer"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "customer": {
+                      "id": "客户ID",
+                      "code": "KH001",
+                      "name": "客户名称",
+                      "categoryId": "分类ID",
+                      "categoryName": "分类名称",
+                      "level": "A",
+                      "balanceTime": "2024-01-01",
+                      "beginReceivableAmount": 10000,
+                      "beginPrepaidAmount": 5000,
+                      "remark": "备注",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/delete": {
+      "post": {
+        "summary": "1.5 删除客户",
+        "deprecated": false,
+        "description": "根据客户ID删除客户\n\n业务逻辑说明:\n1. 删除前会检查是否有业务单据引用该客户\n2. 如果有未完成的业务，不允许删除",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/switchActive": {
+      "post": {
+        "summary": "1.6 启停客户",
+        "deprecated": false,
+        "description": "切换客户的启用/停用状态\n\n业务逻辑说明:\n1. 如果客户当前是启用状态，则停用\n2. 如果客户当前是停用状态，则启用\n3. 停用的客户不能在业务单据中使用",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/importExcel": {
+      "post": {
+        "summary": "1.7 导入Excel",
+        "deprecated": false,
+        "description": "从Excel文件批量导入客户数据\n\n业务逻辑说明:\n1. 支持批量导入客户数据\n2. 返回成功和失败的数量\n3. 失败的行会说明原因",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "successCount": {
+                          "type": "integer"
+                        },
+                        "failCount": {
+                          "type": "integer"
+                        },
+                        "failList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "row": {
+                                "type": "integer"
+                              },
+                              "reason": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "successCount",
+                        "failCount",
+                        "failList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "successCount": 50,
+                    "failCount": 2,
+                    "failList": [
+                      {
+                        "row": 3,
+                        "reason": "客户编码重复"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/customer/exportExcel": {
+      "post": {
+        "summary": "1.8 导出Excel",
+        "deprecated": false,
+        "description": "导出客户数据到Excel文件",
+        "tags": [
+          "1. 客户管理 (Customer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string"
+                      },
+                      "categoryId": {
+                        "type": "string"
+                      }
+                    },
+                    "title": "筛选条件，不传则导出全部"
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字",
+                  "categoryId": "分类ID"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/page": {
+      "post": {
+        "summary": "2.1 分页查询供应商列表",
+        "deprecated": false,
+        "description": "分页查询供应商列表，支持多条件筛选",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "供应商分类ID"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数"
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字",
+                  "categoryId": "分类ID"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "supplierPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "供应商ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "供应商编码"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "供应商名称"
+                                  },
+                                  "categoryId": {
+                                    "type": "string",
+                                    "title": "供应商分类ID"
+                                  },
+                                  "categoryName": {
+                                    "type": "string",
+                                    "title": "供应商分类名称"
+                                  },
+                                  "balanceTime": {
+                                    "type": "string",
+                                    "title": "余额日期"
+                                  },
+                                  "beginReceivableAmount": {
+                                    "type": "number",
+                                    "title": "期初应收款"
+                                  },
+                                  "beginPrepaidAmount": {
+                                    "type": "number",
+                                    "title": "期初预付款"
+                                  },
+                                  "vatRate": {
+                                    "type": "integer",
+                                    "title": "增值税税率（%）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "supplierPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "supplierPage": {
+                      "records": [
+                        {
+                          "id": "供应商ID",
+                          "code": "GYS001",
+                          "name": "供应商名称",
+                          "categoryId": "分类ID",
+                          "categoryName": "分类名称",
+                          "balanceTime": "2024-01-01",
+                          "beginReceivableAmount": 8000,
+                          "beginPrepaidAmount": 3000,
+                          "vatRate": 13,
+                          "remark": "备注",
+                          "active": true,
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 50,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/save": {
+      "post": {
+        "summary": "2.2 保存供应商",
+        "deprecated": false,
+        "description": "新增或更新供应商信息\n\n业务逻辑说明:\n1. 供应商编码不能为空且不能重复\n2. 必须选择有效的供应商分类\n3. 新增供应商默认启用",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplier": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "供应商ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "供应商编码",
+                        "description": "不能重复"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "供应商名称"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "供应商分类ID"
+                      },
+                      "balanceTime": {
+                        "type": "string",
+                        "title": "余额日期"
+                      },
+                      "beginReceivableAmount": {
+                        "type": "number",
+                        "title": "期初应收款"
+                      },
+                      "beginPrepaidAmount": {
+                        "type": "number",
+                        "title": "期初预付款"
+                      },
+                      "vatRate": {
+                        "type": "integer",
+                        "title": "增值税税率",
+                        "description": "默认0"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name",
+                      "categoryId"
+                    ]
+                  }
+                },
+                "required": [
+                  "supplier"
+                ]
+              },
+              "example": {
+                "supplier": {
+                  "id": "供应商ID（更新时必填，新增时不传）",
+                  "code": "GYS001",
+                  "name": "供应商名称",
+                  "categoryId": "分类ID",
+                  "balanceTime": "2024-01-01",
+                  "beginReceivableAmount": 8000,
+                  "beginPrepaidAmount": 3000,
+                  "vatRate": 13,
+                  "remark": "备注"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "supplier": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "balanceTime": {
+                              "type": "string"
+                            },
+                            "beginReceivableAmount": {
+                              "type": "integer"
+                            },
+                            "beginPrepaidAmount": {
+                              "type": "integer"
+                            },
+                            "vatRate": {
+                              "type": "integer"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "categoryId",
+                            "balanceTime",
+                            "beginReceivableAmount",
+                            "beginPrepaidAmount",
+                            "vatRate",
+                            "remark",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "supplier": {
+                      "id": "供应商ID",
+                      "code": "GYS001",
+                      "name": "供应商名称",
+                      "categoryId": "分类ID",
+                      "balanceTime": "2024-01-01",
+                      "beginReceivableAmount": 8000,
+                      "beginPrepaidAmount": 3000,
+                      "vatRate": 13,
+                      "remark": "备注",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/detail": {
+      "post": {
+        "summary": "2.3 获取供应商详情",
+        "deprecated": false,
+        "description": "根据供应商ID获取供应商详细信息",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierId": {
+                    "type": "string",
+                    "title": "供应商ID"
+                  }
+                },
+                "required": [
+                  "supplierId"
+                ]
+              },
+              "example": {
+                "supplierId": "供应商ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "supplier": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "categoryName": {
+                              "type": "string"
+                            },
+                            "balanceTime": {
+                              "type": "string"
+                            },
+                            "beginReceivableAmount": {
+                              "type": "number"
+                            },
+                            "beginPrepaidAmount": {
+                              "type": "number"
+                            },
+                            "vatRate": {
+                              "type": "integer"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "categoryId",
+                            "categoryName",
+                            "balanceTime",
+                            "beginReceivableAmount",
+                            "beginPrepaidAmount",
+                            "vatRate",
+                            "remark",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "supplier"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "supplier": {
+                      "id": "供应商ID",
+                      "code": "GYS001",
+                      "name": "供应商名称",
+                      "categoryId": "分类ID",
+                      "categoryName": "分类名称",
+                      "balanceTime": "2024-01-01",
+                      "beginReceivableAmount": 8000,
+                      "beginPrepaidAmount": 3000,
+                      "vatRate": 13,
+                      "remark": "备注",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/delete": {
+      "post": {
+        "summary": "2.4 删除供应商",
+        "deprecated": false,
+        "description": "根据供应商ID删除供应商",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierId": {
+                    "type": "string",
+                    "title": "供应商ID"
+                  }
+                },
+                "required": [
+                  "supplierId"
+                ]
+              },
+              "example": {
+                "supplierId": "供应商ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/switchActive": {
+      "post": {
+        "summary": "2.5 启停供应商",
+        "deprecated": false,
+        "description": "切换供应商的启用/停用状态",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierId": {
+                    "type": "string",
+                    "title": "供应商ID"
+                  }
+                },
+                "required": [
+                  "supplierId"
+                ]
+              },
+              "example": {
+                "supplierId": "供应商ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/importExcel": {
+      "post": {
+        "summary": "2.6 导入Excel",
+        "deprecated": false,
+        "description": "从Excel文件批量导入供应商数据",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "successCount": {
+                          "type": "integer"
+                        },
+                        "failCount": {
+                          "type": "integer"
+                        },
+                        "failList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "row": {
+                                "type": "integer"
+                              },
+                              "reason": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "successCount",
+                        "failCount",
+                        "failList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "successCount": 30,
+                    "failCount": 1,
+                    "failList": [
+                      {
+                        "row": 5,
+                        "reason": "供应商编码重复"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/supplier/exportExcel": {
+      "post": {
+        "summary": "2.7 导出Excel",
+        "deprecated": false,
+        "description": "导出供应商数据到Excel文件",
+        "tags": [
+          "2. 供应商管理 (Supplier)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string"
+                      },
+                      "categoryId": {
+                        "type": "string"
+                      }
+                    },
+                    "title": "筛选条件"
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字",
+                  "categoryId": "分类ID"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/page": {
+      "post": {
+        "summary": "3.1 分页查询商品列表",
+        "deprecated": false,
+        "description": "分页查询商品列表，支持多条件筛选，自动关联商品分类和单位",
+        "tags": [
+          "3. 商品管理 (Product)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索",
+                        "description": "（商品编码、名称、条形码）"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "商品分类ID"
+                      },
+                      "unitId": {
+                        "type": "string",
+                        "title": "计量单位ID"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "690123456789",
+                  "categoryId": "",
+                  "unitId": ""
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "商品ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "商品编码"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "商品名称"
+                                  },
+                                  "barcode": {
+                                    "type": "string",
+                                    "title": "条形码"
+                                  },
+                                  "spec": {
+                                    "type": "string",
+                                    "title": "规格型号"
+                                  },
+                                  "categoryId": {
+                                    "type": "string",
+                                    "title": "商品分类ID"
+                                  },
+                                  "categoryName": {
+                                    "type": "string",
+                                    "title": "商品分类名称"
+                                  },
+                                  "primaryWarehouseId": {
+                                    "type": "string",
+                                    "title": "首选仓库ID"
+                                  },
+                                  "unitId": {
+                                    "type": "string",
+                                    "title": "计量单位ID"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "计量单位名称"
+                                  },
+                                  "retailPrice": {
+                                    "type": "number",
+                                    "title": "零售价格"
+                                  },
+                                  "wholesalePrice": {
+                                    "type": "number",
+                                    "title": "批发价格"
+                                  },
+                                  "vipPrice": {
+                                    "type": "number",
+                                    "title": "VIP价格"
+                                  },
+                                  "discountRate1": {
+                                    "type": "number",
+                                    "title": "折扣率1"
+                                  },
+                                  "discountRate2": {
+                                    "type": "number",
+                                    "title": "折扣率2"
+                                  },
+                                  "estimatedPurchasePrice": {
+                                    "type": "number",
+                                    "title": "预计采购价"
+                                  },
+                                  "remark": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "备注"
+                                  },
+                                  "minimumStock": {
+                                    "type": "number",
+                                    "title": "最低库存"
+                                  },
+                                  "maximumStock": {
+                                    "type": "number",
+                                    "title": "最高库存"
+                                  },
+                                  "stock": {
+                                    "type": "number",
+                                    "title": "当前库存",
+                                    "description": "（TODO：待实现）"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "productPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "productPage": {
+                      "records": [
+                        {
+                          "id": "商品ID",
+                          "code": "SP001",
+                          "name": "商品名称",
+                          "barcode": "6901234567890",
+                          "spec": "规格型号",
+                          "categoryId": "分类ID",
+                          "categoryName": "分类名称",
+                          "primaryWarehouseId": "仓库ID",
+                          "unitId": "单位ID",
+                          "unitName": "个",
+                          "retailPrice": 100,
+                          "wholesalePrice": 80,
+                          "vipPrice": 90,
+                          "discountRate1": 0.95,
+                          "discountRate2": 0.9,
+                          "estimatedPurchasePrice": 60,
+                          "remark": "备注",
+                          "minimumStock": 10,
+                          "maximumStock": 1000,
+                          "stock": 2345.67,
+                          "active": true,
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 200,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 20
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/save": {
+      "post": {
+        "summary": "3.2 保存商品",
+        "deprecated": false,
+        "description": "新增或更新商品信息\n\n业务逻辑说明:\n1. 商品编码不能为空且不能重复\n2. 如果指定了分类，必须是有效的商品分类\n3. 如果指定了首选仓库，必须是有效的仓库\n4. 如果指定了计量单位，必须是有效的单位字典项\n5. 新增商品默认启用",
+        "tags": [
+          "3. 商品管理 (Product)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "商品ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "商品编码",
+                        "description": "不能重复"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "商品名称"
+                      },
+                      "barcode": {
+                        "type": "string",
+                        "title": "条形码"
+                      },
+                      "spec": {
+                        "type": "string",
+                        "title": "规格型号"
+                      },
+                      "categoryId": {
+                        "type": "string",
+                        "title": "商品分类ID"
+                      },
+                      "primaryWarehouseId": {
+                        "type": "string",
+                        "title": "首选仓库ID"
+                      },
+                      "unitId": {
+                        "type": "string",
+                        "title": "计量单位ID"
+                      },
+                      "retailPrice": {
+                        "type": "number",
+                        "title": "零售价格",
+                        "description": "默认0"
+                      },
+                      "wholesalePrice": {
+                        "type": "number",
+                        "title": "批发价格",
+                        "description": "默认0"
+                      },
+                      "vipPrice": {
+                        "type": "number",
+                        "title": "VIP价格",
+                        "description": "默认0"
+                      },
+                      "discountRate1": {
+                        "type": "number",
+                        "title": "折扣率1",
+                        "description": "默认1.0"
+                      },
+                      "discountRate2": {
+                        "type": "number",
+                        "title": "折扣率2",
+                        "description": "默认1.0"
+                      },
+                      "estimatedPurchasePrice": {
+                        "type": "number",
+                        "title": "预计采购价",
+                        "description": "默认0"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      },
+                      "minimumStock": {
+                        "type": "number",
+                        "title": "最低库存",
+                        "description": "默认0"
+                      },
+                      "maximumStock": {
+                        "type": "number",
+                        "title": "最高库存",
+                        "description": "默认0"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "product"
+                ]
+              },
+              "example": {
+                "product": {
+                  "id": "商品ID（更新时必填，新增时不传）",
+                  "code": "SP001",
+                  "name": "商品名称",
+                  "barcode": "6901234567890",
+                  "spec": "规格型号",
+                  "categoryId": "分类ID",
+                  "primaryWarehouseId": "仓库ID",
+                  "unitId": "单位ID",
+                  "retailPrice": 100,
+                  "wholesalePrice": 80,
+                  "vipPrice": 90,
+                  "discountRate1": 0.95,
+                  "discountRate2": 0.9,
+                  "estimatedPurchasePrice": 60,
+                  "remark": "备注",
+                  "minimumStock": 10,
+                  "maximumStock": 1000
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "product": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "barcode": {
+                              "type": "string"
+                            },
+                            "spec": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "primaryWarehouseId": {
+                              "type": "string"
+                            },
+                            "unitId": {
+                              "type": "string"
+                            },
+                            "retailPrice": {
+                              "type": "number"
+                            },
+                            "wholesalePrice": {
+                              "type": "number"
+                            },
+                            "vipPrice": {
+                              "type": "number"
+                            },
+                            "discountRate1": {
+                              "type": "number"
+                            },
+                            "discountRate2": {
+                              "type": "number"
+                            },
+                            "estimatedPurchasePrice": {
+                              "type": "number"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "minimumStock": {
+                              "type": "number"
+                            },
+                            "maximumStock": {
+                              "type": "number"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "barcode",
+                            "spec",
+                            "categoryId",
+                            "primaryWarehouseId",
+                            "unitId",
+                            "retailPrice",
+                            "wholesalePrice",
+                            "vipPrice",
+                            "discountRate1",
+                            "discountRate2",
+                            "estimatedPurchasePrice",
+                            "remark",
+                            "minimumStock",
+                            "maximumStock",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "product"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "product": {
+                      "id": "商品ID",
+                      "code": "SP001",
+                      "name": "商品名称",
+                      "barcode": "6901234567890",
+                      "spec": "规格型号",
+                      "categoryId": "分类ID",
+                      "primaryWarehouseId": "仓库ID",
+                      "unitId": "单位ID",
+                      "retailPrice": 100,
+                      "wholesalePrice": 80,
+                      "vipPrice": 90,
+                      "discountRate1": 0.95,
+                      "discountRate2": 0.9,
+                      "estimatedPurchasePrice": 60,
+                      "remark": "备注",
+                      "minimumStock": 10,
+                      "maximumStock": 1000,
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/detail": {
+      "post": {
+        "summary": "3.3 获取商品详情",
+        "deprecated": false,
+        "description": "根据商品ID获取商品详细信息",
+        "tags": [
+          "3. 商品管理 (Product)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "title": "商品ID"
+                  }
+                },
+                "required": [
+                  "productId"
+                ]
+              },
+              "example": {
+                "productId": "商品ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "product": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "barcode": {
+                              "type": "string"
+                            },
+                            "spec": {
+                              "type": "string"
+                            },
+                            "categoryId": {
+                              "type": "string"
+                            },
+                            "categoryName": {
+                              "type": "string"
+                            },
+                            "primaryWarehouseId": {
+                              "type": "string"
+                            },
+                            "unitId": {
+                              "type": "string"
+                            },
+                            "unitName": {
+                              "type": "string"
+                            },
+                            "retailPrice": {
+                              "type": "number"
+                            },
+                            "wholesalePrice": {
+                              "type": "number"
+                            },
+                            "vipPrice": {
+                              "type": "number"
+                            },
+                            "discountRate1": {
+                              "type": "number"
+                            },
+                            "discountRate2": {
+                              "type": "number"
+                            },
+                            "estimatedPurchasePrice": {
+                              "type": "number"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "minimumStock": {
+                              "type": "number"
+                            },
+                            "maximumStock": {
+                              "type": "number"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "barcode",
+                            "spec",
+                            "categoryId",
+                            "categoryName",
+                            "primaryWarehouseId",
+                            "unitId",
+                            "unitName",
+                            "retailPrice",
+                            "wholesalePrice",
+                            "vipPrice",
+                            "discountRate1",
+                            "discountRate2",
+                            "estimatedPurchasePrice",
+                            "remark",
+                            "minimumStock",
+                            "maximumStock",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "product"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "product": {
+                      "id": "商品ID",
+                      "code": "SP001",
+                      "name": "商品名称",
+                      "barcode": "6901234567890",
+                      "spec": "规格型号",
+                      "categoryId": "分类ID",
+                      "categoryName": "分类名称",
+                      "primaryWarehouseId": "仓库ID",
+                      "unitId": "单位ID",
+                      "unitName": "个",
+                      "retailPrice": 100,
+                      "wholesalePrice": 80,
+                      "vipPrice": 90,
+                      "discountRate1": 0.95,
+                      "discountRate2": 0.9,
+                      "estimatedPurchasePrice": 60,
+                      "remark": "备注",
+                      "minimumStock": 10,
+                      "maximumStock": 1000,
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/delete": {
+      "post": {
+        "summary": "3.4 删除商品",
+        "deprecated": false,
+        "description": "根据商品ID删除商品\n\n业务逻辑说明:\n1. 删除前会检查是否有业务单据引用该商品\n2. 如果有库存或未完成业务，不允许删除",
+        "tags": [
+          "3. 商品管理 (Product)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "title": "商品ID"
+                  }
+                },
+                "required": [
+                  "productId"
+                ]
+              },
+              "example": {
+                "productId": "商品ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/product/switchActive": {
+      "post": {
+        "summary": "3.5 启停商品",
+        "deprecated": false,
+        "description": "切换商品的启用/停用状态",
+        "tags": [
+          "3. 商品管理 (Product)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "title": "商品ID"
+                  }
+                },
+                "required": [
+                  "productId"
+                ]
+              },
+              "example": {
+                "productId": "商品ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/page": {
+      "post": {
+        "summary": "4.1 分页查询仓库列表",
+        "deprecated": false,
+        "description": "分页查询仓库列表",
+        "tags": [
+          "4. 仓库管理 (Warehouse)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索",
+                        "description": "（仓库编码、名称）"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "warehousePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "仓库ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "仓库编码"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "仓库名称"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "warehousePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "warehousePage": {
+                      "records": [
+                        {
+                          "id": "仓库ID",
+                          "code": "CK001",
+                          "name": "仓库名称",
+                          "active": true,
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 5,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/save": {
+      "post": {
+        "summary": "4.2 保存仓库",
+        "deprecated": false,
+        "description": "新增或更新仓库信息",
+        "tags": [
+          "4. 仓库管理 (Warehouse)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "warehouse": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "仓库ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "仓库编码"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "仓库名称"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "warehouse"
+                ]
+              },
+              "example": {
+                "warehouse": {
+                  "id": "仓库ID（更新时必填，新增时不传）",
+                  "code": "CK001",
+                  "name": "仓库名称"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "warehouse": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "warehouse"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "warehouse": {
+                      "id": "仓库ID",
+                      "code": "CK001",
+                      "name": "仓库名称",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/detail": {
+      "post": {
+        "summary": "4.3 获取仓库详情",
+        "deprecated": false,
+        "description": "根据仓库ID获取仓库详细信息",
+        "tags": [
+          "4. 仓库管理 (Warehouse)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "warehouseId": {
+                    "type": "string",
+                    "title": "仓库ID"
+                  }
+                },
+                "required": [
+                  "warehouseId"
+                ]
+              },
+              "example": {
+                "warehouseId": "仓库ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "warehouse": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "warehouse"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "warehouse": {
+                      "id": "仓库ID",
+                      "code": "CK001",
+                      "name": "仓库名称",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/delete": {
+      "post": {
+        "summary": "4.4 删除仓库",
+        "deprecated": false,
+        "description": "根据仓库ID删除仓库\n\n业务逻辑说明:\n1. 删除前会检查仓库是否有库存\n2. 如果有库存，不允许删除",
+        "tags": [
+          "4. 仓库管理 (Warehouse)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "warehouseId": {
+                    "type": "string",
+                    "title": "仓库ID"
+                  }
+                },
+                "required": [
+                  "warehouseId"
+                ]
+              },
+              "example": {
+                "warehouseId": "仓库ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/warehouse/switchActive": {
+      "post": {
+        "summary": "4.5 启停仓库",
+        "deprecated": false,
+        "description": "切换仓库的启用/停用状态",
+        "tags": [
+          "4. 仓库管理 (Warehouse)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "warehouseId": {
+                    "type": "string",
+                    "title": "仓库ID"
+                  }
+                },
+                "required": [
+                  "warehouseId"
+                ]
+              },
+              "example": {
+                "warehouseId": "仓库ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/page": {
+      "post": {
+        "summary": "5.1 分页查询职员列表",
+        "deprecated": false,
+        "description": "分页查询职员列表",
+        "tags": [
+          "5. 职员管理 (Employee)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "employeePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "职员ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "职员编码"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "职员姓名"
+                                  },
+                                  "department": {
+                                    "type": "string",
+                                    "title": "部门"
+                                  },
+                                  "position": {
+                                    "type": "string",
+                                    "title": "职位"
+                                  },
+                                  "mobile": {
+                                    "type": "string",
+                                    "title": "手机号"
+                                  },
+                                  "email": {
+                                    "type": "string",
+                                    "title": "邮箱"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "employeePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "employeePage": {
+                      "records": [
+                        {
+                          "id": "职员ID",
+                          "code": "ZY001",
+                          "name": "职员姓名",
+                          "department": "部门",
+                          "position": "职位",
+                          "mobile": "手机号",
+                          "email": "邮箱",
+                          "active": true,
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 20,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/save": {
+      "post": {
+        "summary": "5.2 保存职员",
+        "deprecated": false,
+        "description": "新增或更新职员信息",
+        "tags": [
+          "5. 职员管理 (Employee)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "employee": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "职员ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "职员编码"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "职员姓名"
+                      },
+                      "department": {
+                        "type": "string",
+                        "title": "部门"
+                      },
+                      "position": {
+                        "type": "string",
+                        "title": "职位"
+                      },
+                      "mobile": {
+                        "type": "string",
+                        "title": "手机号"
+                      },
+                      "email": {
+                        "type": "string",
+                        "title": "邮箱"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "employee"
+                ]
+              },
+              "example": {
+                "employee": {
+                  "id": "职员ID（更新时必填，新增时不传）",
+                  "code": "ZY001",
+                  "name": "职员姓名",
+                  "department": "销售部",
+                  "position": "销售经理",
+                  "mobile": "13800138000",
+                  "email": "employee@example.com"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "employee": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "department": {
+                              "type": "string"
+                            },
+                            "position": {
+                              "type": "string"
+                            },
+                            "mobile": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "department",
+                            "position",
+                            "mobile",
+                            "email",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "employee"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "employee": {
+                      "id": "职员ID",
+                      "code": "ZY001",
+                      "name": "职员姓名",
+                      "department": "销售部",
+                      "position": "销售经理",
+                      "mobile": "13800138000",
+                      "email": "employee@example.com",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/detail": {
+      "post": {
+        "summary": "5.3 获取职员详情",
+        "deprecated": false,
+        "description": "根据职员ID获取职员详细信息",
+        "tags": [
+          "5. 职员管理 (Employee)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "employeeId": {
+                    "type": "string",
+                    "title": "职员ID"
+                  }
+                },
+                "required": [
+                  "employeeId"
+                ]
+              },
+              "example": {
+                "employeeId": "职员ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "employee": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "department": {
+                              "type": "string"
+                            },
+                            "position": {
+                              "type": "string"
+                            },
+                            "mobile": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "department",
+                            "position",
+                            "mobile",
+                            "email",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "employee"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "employee": {
+                      "id": "职员ID",
+                      "code": "ZY001",
+                      "name": "职员姓名",
+                      "department": "销售部",
+                      "position": "销售经理",
+                      "mobile": "13800138000",
+                      "email": "employee@example.com",
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/delete": {
+      "post": {
+        "summary": "5.4 删除职员",
+        "deprecated": false,
+        "description": "根据职员ID删除职员",
+        "tags": [
+          "5. 职员管理 (Employee)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "employeeId": {
+                    "type": "string",
+                    "title": "职员ID"
+                  }
+                },
+                "required": [
+                  "employeeId"
+                ]
+              },
+              "example": {
+                "employeeId": "职员ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/employee/switchActive": {
+      "post": {
+        "summary": "5.5 启停职员",
+        "deprecated": false,
+        "description": "切换职员的启用/停用状态",
+        "tags": [
+          "5. 职员管理 (Employee)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "employeeId": {
+                    "type": "string",
+                    "title": "职员ID"
+                  }
+                },
+                "required": [
+                  "employeeId"
+                ]
+              },
+              "example": {
+                "employeeId": "职员ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/list": {
+      "post": {
+        "summary": "6.1 获取结算账户列表",
+        "deprecated": false,
+        "description": "获取所有结算账户列表（不分页）",
+        "tags": [
+          "6. 结算账户管理 (Settlement Account)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "账户ID"
+                              },
+                              "code": {
+                                "type": "string",
+                                "title": "账户编码"
+                              },
+                              "name": {
+                                "type": "string",
+                                "title": "账户名称"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "账户类型",
+                                "description": "cash-现金，bank-银行"
+                              },
+                              "bankName": {
+                                "type": "string",
+                                "title": "银行名称"
+                              },
+                              "accountNumber": {
+                                "type": "string",
+                                "title": "账号"
+                              },
+                              "balance": {
+                                "type": "number",
+                                "title": "账户余额"
+                              },
+                              "active": {
+                                "type": "boolean",
+                                "title": "是否启用"
+                              },
+                              "createdTime": {
+                                "type": "string",
+                                "title": "创建时间"
+                              },
+                              "updatedTime": {
+                                "type": "string",
+                                "title": "更新时间"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "accountList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "accountList": [
+                      {
+                        "id": "账户ID",
+                        "code": "ZH001",
+                        "name": "账户名称",
+                        "type": "bank",
+                        "bankName": "银行名称",
+                        "accountNumber": "账号",
+                        "balance": 100000,
+                        "active": true,
+                        "createdTime": "2024-01-01T00:00:00",
+                        "updatedTime": "2024-01-01T00:00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/save": {
+      "post": {
+        "summary": "6.2 保存结算账户",
+        "deprecated": false,
+        "description": "新增或更新结算账户信息",
+        "tags": [
+          "6. 结算账户管理 (Settlement Account)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "account": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "账户ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "账户编码"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "账户名称"
+                      },
+                      "type": {
+                        "type": "string",
+                        "title": "账户类型",
+                        "description": "cash-现金，bank-银行"
+                      },
+                      "bankName": {
+                        "type": "string",
+                        "title": "银行名称",
+                        "description": "（银行账户必填）"
+                      },
+                      "accountNumber": {
+                        "type": "string",
+                        "title": "账号",
+                        "description": "（银行账户必填）"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "name"
+                    ]
+                  }
+                },
+                "required": [
+                  "account"
+                ]
+              },
+              "example": {
+                "account": {
+                  "id": "账户ID（更新时必填，新增时不传）",
+                  "code": "ZH001",
+                  "name": "账户名称",
+                  "type": "bank",
+                  "bankName": "中国工商银行",
+                  "accountNumber": "6222021234567890"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "account": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "bankName": {
+                              "type": "string"
+                            },
+                            "accountNumber": {
+                              "type": "string"
+                            },
+                            "balance": {
+                              "type": "number"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "type",
+                            "bankName",
+                            "accountNumber",
+                            "balance",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "account"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "account": {
+                      "id": "账户ID",
+                      "code": "ZH001",
+                      "name": "账户名称",
+                      "type": "bank",
+                      "bankName": "中国工商银行",
+                      "accountNumber": "6222021234567890",
+                      "balance": 0,
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/detail": {
+      "post": {
+        "summary": "6.3 获取账户详情",
+        "deprecated": false,
+        "description": "根据账户ID获取账户详细信息",
+        "tags": [
+          "6. 结算账户管理 (Settlement Account)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "accountId": {
+                    "type": "string",
+                    "title": "账户ID"
+                  }
+                },
+                "required": [
+                  "accountId"
+                ]
+              },
+              "example": {
+                "accountId": "账户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "account": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "bankName": {
+                              "type": "string"
+                            },
+                            "accountNumber": {
+                              "type": "string"
+                            },
+                            "balance": {
+                              "type": "number"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "name",
+                            "type",
+                            "bankName",
+                            "accountNumber",
+                            "balance",
+                            "active",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "account"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "account": {
+                      "id": "账户ID",
+                      "code": "ZH001",
+                      "name": "账户名称",
+                      "type": "bank",
+                      "bankName": "中国工商银行",
+                      "accountNumber": "6222021234567890",
+                      "balance": 100000,
+                      "active": true,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/settlementAccount/delete": {
+      "post": {
+        "summary": "6.4 删除账户",
+        "deprecated": false,
+        "description": "根据账户ID删除账户\n\n业务逻辑说明:\n1. 删除前会检查账户是否有余额\n2. 如果有余额或有业务记录，不允许删除",
+        "tags": [
+          "6. 结算账户管理 (Settlement Account)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "accountId": {
+                    "type": "string",
+                    "title": "账户ID"
+                  }
+                },
+                "required": [
+                  "accountId"
+                ]
+              },
+              "example": {
+                "accountId": "账户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "7.1 用户登录",
+        "deprecated": false,
+        "description": "用户登录，验证用户名和密码，返回JWT令牌\n\n业务逻辑说明:\n1. 验证登录名是否存在\n2. 验证密码是否正确（BCrypt加密比对）\n3. 生成JWT令牌，包含用户ID、用户名、角色信息\n4. 记录登录日志\n5. 后续请求需要在Header中携带：Authorization: Bearer {token}",
+        "tags": [
+          "7. 用户管理 (User)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "loginName": {
+                    "type": "string",
+                    "title": "登录名",
+                    "description": "（用户名）"
+                  },
+                  "password": {
+                    "type": "string",
+                    "title": "密码",
+                    "description": "（明文，后端会加密比对）"
+                  }
+                },
+                "required": [
+                  "loginName",
+                  "password"
+                ]
+              },
+              "example": {
+                "loginName": "admin",
+                "password": "123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "description": "JWT令牌，后续请求需要在Header中携带"
+                        }
+                      },
+                      "required": [
+                        "token"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/add": {
+      "post": {
+        "summary": "7.2 新增用户",
+        "deprecated": false,
+        "description": "新增系统用户\n\n业务逻辑说明:\n1. 用户名不能重复\n2. 密码会使用BCrypt加密后存储\n3. 新增用户默认启用",
+        "tags": [
+          "7. 用户管理 (User)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "title": "用户名（登录名）",
+                        "description": "不能重复"
+                      },
+                      "name": {
+                        "type": "string",
+                        "title": "真实姓名"
+                      },
+                      "mobile": {
+                        "type": "string",
+                        "title": "\t手机号"
+                      },
+                      "password": {
+                        "type": "string",
+                        "title": "密码",
+                        "description": "（后端会加密存储）"
+                      }
+                    },
+                    "required": [
+                      "username",
+                      "name",
+                      "password"
+                    ]
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              },
+              "example": {
+                "user": {
+                  "username": "zhangsan",
+                  "name": "张三",
+                  "mobile": "13800138000",
+                  "password": "123456"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "mobile": {
+                              "type": "string"
+                            },
+                            "active": {
+                              "type": "boolean"
+                            },
+                            "deleted": {
+                              "type": "boolean"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "username",
+                            "name",
+                            "mobile",
+                            "active",
+                            "deleted",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "user"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "user": {
+                      "id": "用户ID",
+                      "username": "zhangsan",
+                      "name": "张三",
+                      "mobile": "13800138000",
+                      "active": true,
+                      "deleted": false,
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/page": {
+      "post": {
+        "summary": "7.3 分页查询用户列表",
+        "deprecated": false,
+        "description": "分页查询用户列表",
+        "tags": [
+          "7. 用户管理 (User)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索",
+                        "description": "（用户名、姓名）"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "keyword": "关键字"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "用户ID"
+                                  },
+                                  "username": {
+                                    "type": "string",
+                                    "title": "用户名"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "title": "真实姓名"
+                                  },
+                                  "mobile": {
+                                    "type": "string",
+                                    "title": "手机号"
+                                  },
+                                  "active": {
+                                    "type": "boolean",
+                                    "title": "是否启用"
+                                  },
+                                  "deleted": {
+                                    "type": "boolean",
+                                    "title": "是否已删除"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "userPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "userPage": {
+                      "records": [
+                        {
+                          "id": "用户ID",
+                          "username": "admin",
+                          "name": "管理员",
+                          "mobile": "13800138000",
+                          "active": true,
+                          "deleted": false,
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 10,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/switchActive": {
+      "post": {
+        "summary": "7.4 启停用户",
+        "deprecated": false,
+        "description": "切换用户的启用/停用状态\n\n业务逻辑说明:\n1. 停用的用户无法登录系统\n2. 不能停用当前登录的用户",
+        "tags": [
+          "7. 用户管理 (User)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "title": "用户ID"
+                  }
+                },
+                "required": [
+                  "userId"
+                ]
+              },
+              "example": {
+                "userId": "用户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "active": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "active"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "active": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/resetPassword": {
+      "post": {
+        "summary": "7.5 重置密码",
+        "deprecated": false,
+        "description": "重置用户密码\n\n业务逻辑说明:\n1. 新密码会使用BCrypt加密后存储\n2. 需要管理员权限才能重置其他用户密码",
+        "tags": [
+          "7. 用户管理 (User)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "title": "用户ID"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "title": "新密码"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "newPassword"
+                ]
+              },
+              "example": {
+                "userId": "用户ID",
+                "newPassword": "新密码"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
