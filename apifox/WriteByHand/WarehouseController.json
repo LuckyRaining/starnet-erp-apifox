@@ -1,0 +1,2753 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet_WriteByHand",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 入库管理 (Store)"
+    },
+    {
+      "name": "2. 出库管理 (Checkout)"
+    },
+    {
+      "name": "3. 调拨管理 (Transfer)"
+    }
+  ],
+  "paths": {
+    "/store/page": {
+      "post": {
+        "summary": "1.1 分页查询入库单列表",
+        "deprecated": false,
+        "description": "分页查询入库单列表，支持按日期范围筛选，自动关联供应商和制单人信息\n\n业务逻辑说明:\n1. 支持按日期范围筛选\n2. 自动关联查询供应商名称\n3. 自动关联查询制单人姓名\n4. 支持按单据编号关键字搜索",
+        "tags": [
+          "1. 入库管理 (Store)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索",
+                        "description": "（单据编号）"
+                      },
+                      "supplierId": {
+                        "type": "string",
+                        "title": "供应商ID"
+                      },
+                      "type": {
+                        "type": "integer",
+                        "title": "入库类型",
+                        "description": "10-其他入库，20-盘盈"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31",
+                  "keyword": "关键字",
+                  "supplierId": "供应商ID",
+                  "type": 10
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "storePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "入库单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "type": {
+                                    "type": "integer",
+                                    "title": "入库类型",
+                                    "description": "10-其他入库，20-盘盈"
+                                  },
+                                  "supplierId": {
+                                    "type": "string",
+                                    "title": "供应商ID"
+                                  },
+                                  "supplierName": {
+                                    "type": "string",
+                                    "title": "供应商名称"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "入库金额"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "入库数量"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "storePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "storePage": {
+                      "records": [
+                        {
+                          "id": "入库单ID",
+                          "issueDate": "2024-01-15",
+                          "code": "RK20240115001",
+                          "type": 10,
+                          "supplierId": "供应商ID",
+                          "supplierName": "供应商名称",
+                          "amount": 5000,
+                          "quantity": 100,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-15T10:30:00",
+                          "updatedTime": "2024-01-15T10:30:00"
+                        }
+                      ],
+                      "total": 50,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 5
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/detail": {
+      "post": {
+        "summary": "1.2 获取入库单详情",
+        "deprecated": false,
+        "description": "根据入库单ID获取入库单详细信息，包含商品明细列表",
+        "tags": [
+          "1. 入库管理 (Store)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeId": {
+                    "type": "string",
+                    "title": "入库单ID"
+                  }
+                },
+                "required": [
+                  "storeId"
+                ]
+              },
+              "example": {
+                "storeId": "入库单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "store": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "入库单ID"
+                            },
+                            "issueDate": {
+                              "type": "string",
+                              "title": "单据日期"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号"
+                            },
+                            "type": {
+                              "type": "integer",
+                              "title": "入库类型"
+                            },
+                            "supplierId": {
+                              "type": "string",
+                              "title": "供应商ID"
+                            },
+                            "supplierName": {
+                              "type": "string",
+                              "title": "供应商名称"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "title": "入库总金额"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "入库总数量"
+                            },
+                            "listerId": {
+                              "type": "string",
+                              "title": "制单人ID"
+                            },
+                            "listerName": {
+                              "type": "string",
+                              "title": "制单人姓名"
+                            },
+                            "remark": {
+                              "type": "string",
+                              "title": "备注"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "出入库商品记录ID"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "关联的入库单ID"
+                                  },
+                                  "productId": {
+                                    "type": "string",
+                                    "title": "商品ID"
+                                  },
+                                  "productName": {
+                                    "type": "string",
+                                    "title": "商品名称"
+                                  },
+                                  "spec": {
+                                    "type": "string",
+                                    "title": "规格型号"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "计量单位"
+                                  },
+                                  "warehouseId": {
+                                    "type": "string",
+                                    "title": "仓库ID"
+                                  },
+                                  "warehouseName": {
+                                    "type": "string",
+                                    "title": "仓库名称"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "price": {
+                                    "type": "number",
+                                    "title": "单价"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              },
+                              "title": "商品明细列表"
+                            },
+                            "createdTime": {
+                              "type": "string",
+                              "title": "创建时间"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "type",
+                            "supplierId",
+                            "supplierName",
+                            "amount",
+                            "quantity",
+                            "listerId",
+                            "listerName",
+                            "remark",
+                            "productList",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "store"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "store": {
+                      "id": "入库单ID",
+                      "issueDate": "2024-01-15",
+                      "code": "RK20240115001",
+                      "type": 10,
+                      "supplierId": "供应商ID",
+                      "supplierName": "供应商名称",
+                      "amount": 5000,
+                      "quantity": 100,
+                      "listerId": "制单人ID",
+                      "listerName": "制单人姓名",
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "出入库商品ID",
+                          "businessId": "入库单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "spec": "规格型号",
+                          "unitName": "单位",
+                          "warehouseId": "仓库ID",
+                          "warehouseName": "仓库名称",
+                          "quantity": 50,
+                          "price": 50,
+                          "amount": 2500,
+                          "remark": "备注"
+                        }
+                      ],
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/createCode": {
+      "post": {
+        "summary": "1.3 生成入库单编号",
+        "deprecated": false,
+        "description": "自动生成一个新的入库单编号，格式：RK + 日期 + 流水号\n\n业务逻辑说明:\n1. 编号格式：RK + yyyyMMdd + 3位流水号\n2. 每天从001开始递增\n3. 保证编号唯一性",
+        "tags": [
+          "1. 入库管理 (Store)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "入库单编号",
+                          "description": "RK + 日期 + 流水号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "RK20240115001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/save": {
+      "post": {
+        "summary": "1.4 保存入库单",
+        "deprecated": false,
+        "description": "新增或更新入库单，同时保存商品明细列表，自动处理库存\n\n业务逻辑说明:\n1. 事务处理：入库单和商品明细的保存在一个事务中\n2. 编号校验：单据编号不能为空且不能重复\n3. 自动计算：系统会自动计算入库总金额和总数量\n4. 库存处理：\n  • 保存成功后会自动增加对应仓库的库存\n  • 根据入库类型设置业务类型（盘盈/其他入库）\n5. 更新逻辑：\n  • 更新时会先删除原有商品明细，再保存新的商品列表\n  • 会重新计算总金额和总数量\n6. 数据校验：\n  • 商品ID和仓库ID不能为空\n  • 商品和仓库必须存在",
+        "tags": [
+          "1. 入库管理 (Store)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "store": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "入库单ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号",
+                        "description": "不能重复"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "type": {
+                        "type": "integer",
+                        "title": "入库类型",
+                        "description": "10-其他入库，20-盘盈"
+                      },
+                      "supplierId": {
+                        "type": "string",
+                        "title": "供应商ID"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "type",
+                      "listerId"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "出入库商品ID",
+                          "description": "新增时不传"
+                        },
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "warehouseId": {
+                          "type": "string",
+                          "title": "仓库ID"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "title": "数量"
+                        },
+                        "price": {
+                          "type": "number",
+                          "title": "单价"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额",
+                          "description": "（= quantity × price）"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "productId",
+                        "warehouseId",
+                        "quantity",
+                        "price",
+                        "amount"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "store",
+                  "productList"
+                ]
+              },
+              "example": {
+                "store": {
+                  "id": "入库单ID（更新时必填，新增时不传）",
+                  "code": "RK20240115001",
+                  "issueDate": "2024-01-15",
+                  "type": 10,
+                  "supplierId": "供应商ID",
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "id": "出入库商品ID（更新时传，新增时不传）",
+                    "productId": "商品ID",
+                    "warehouseId": "仓库ID",
+                    "quantity": 50,
+                    "price": 50,
+                    "amount": 2500,
+                    "remark": "备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "store": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "integer"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "type",
+                            "supplierId",
+                            "amount",
+                            "quantity",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "store"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "store": {
+                      "id": "入库单ID",
+                      "code": "RK20240115001",
+                      "issueDate": "2024-01-15",
+                      "type": 10,
+                      "supplierId": "供应商ID",
+                      "amount": 5000,
+                      "quantity": 100,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/store/delete": {
+      "post": {
+        "summary": "1.5 删除入库单",
+        "deprecated": false,
+        "description": "根据入库单ID删除入库单及其商品明细\n\n业务逻辑说明:\n1. 删除入库单的同时会删除所有商品明细\n2. 会自动回滚库存（减少对应仓库的库存）\n3. 删除前会检查入库单是否存在",
+        "tags": [
+          "1. 入库管理 (Store)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "storeId": {
+                    "type": "string",
+                    "title": "入库单ID"
+                  }
+                },
+                "required": [
+                  "storeId"
+                ]
+              },
+              "example": {
+                "storeId": "入库单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/page": {
+      "post": {
+        "summary": "2.1 分页查询出库单列表",
+        "deprecated": false,
+        "description": "分页查询出库单列表，支持按日期范围筛选，自动关联客户和制单人信息",
+        "tags": [
+          "2. 出库管理 (Checkout)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期"
+                      },
+                      "keyword": {
+                        "type": "string",
+                        "title": "结束日期"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "type": {
+                        "type": "integer",
+                        "title": "出库类型",
+                        "description": "10-其他出库，20-盘亏"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31",
+                  "keyword": "关键字",
+                  "customerId": "客户ID",
+                  "type": 10
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "checkoutPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "出库单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "type": {
+                                    "type": "integer",
+                                    "title": "出库类型",
+                                    "description": "10-其他出库，20-盘亏"
+                                  },
+                                  "customerId": {
+                                    "type": "string",
+                                    "title": "客户ID"
+                                  },
+                                  "customerName": {
+                                    "type": "string",
+                                    "title": "客户名称"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "出库成本"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "出库数量"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "checkoutPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "checkoutPage": {
+                      "records": [
+                        {
+                          "id": "出库单ID",
+                          "issueDate": "2024-01-15",
+                          "code": "CK20240115001",
+                          "type": 10,
+                          "customerId": "客户ID",
+                          "customerName": "客户名称",
+                          "amount": 3000,
+                          "quantity": 60,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "remark": "备注",
+                          "createdTime": "2024-01-15T10:30:00",
+                          "updatedTime": "2024-01-15T10:30:00"
+                        }
+                      ],
+                      "total": 30,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/detail": {
+      "post": {
+        "summary": "2.2 获取出库单详情",
+        "deprecated": false,
+        "description": "根据出库单ID获取出库单详细信息，包含商品明细列表",
+        "tags": [
+          "2. 出库管理 (Checkout)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "checkoutId": {
+                    "type": "string",
+                    "title": "出库单ID"
+                  }
+                },
+                "required": [
+                  "checkoutId"
+                ]
+              },
+              "example": {
+                "checkoutId": "出库单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "checkout": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "出库单ID"
+                            },
+                            "issueDate": {
+                              "type": "string",
+                              "title": "单据日期"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号"
+                            },
+                            "type": {
+                              "type": "integer",
+                              "title": "出库类型"
+                            },
+                            "customerId": {
+                              "type": "string",
+                              "title": "供应商ID"
+                            },
+                            "customerName": {
+                              "type": "string",
+                              "title": "出库总金额"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "title": "出库总数量"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "制单人ID"
+                            },
+                            "listerId": {
+                              "type": "string",
+                              "title": "制单人姓名"
+                            },
+                            "listerName": {
+                              "type": "string",
+                              "title": "备注"
+                            },
+                            "remark": {
+                              "type": "string",
+                              "title": "商品明细列表"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "出入库商品记录ID"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "关联的出库单ID"
+                                  },
+                                  "productId": {
+                                    "type": "string",
+                                    "title": "商品ID"
+                                  },
+                                  "productName": {
+                                    "type": "string",
+                                    "title": "商品名称"
+                                  },
+                                  "spec": {
+                                    "type": "string",
+                                    "title": "规格型号"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "计量单位"
+                                  },
+                                  "warehouseId": {
+                                    "type": "string",
+                                    "title": "仓库ID"
+                                  },
+                                  "warehouseName": {
+                                    "type": "string",
+                                    "title": "仓库名称"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "price": {
+                                    "type": "number",
+                                    "title": "单价"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "createdTime": {
+                              "type": "string",
+                              "title": "创建时间"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "type",
+                            "customerId",
+                            "customerName",
+                            "amount",
+                            "quantity",
+                            "listerId",
+                            "listerName",
+                            "remark",
+                            "productList",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "checkout"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "checkout": {
+                      "id": "出库单ID",
+                      "issueDate": "2024-01-15",
+                      "code": "CK20240115001",
+                      "type": 10,
+                      "customerId": "客户ID",
+                      "customerName": "客户名称",
+                      "amount": 3000,
+                      "quantity": 60,
+                      "listerId": "制单人ID",
+                      "listerName": "制单人姓名",
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "出入库商品ID",
+                          "businessId": "出库单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "spec": "规格型号",
+                          "unitName": "单位",
+                          "warehouseId": "仓库ID",
+                          "warehouseName": "仓库名称",
+                          "quantity": 30,
+                          "price": 50,
+                          "amount": 1500,
+                          "remark": "备注"
+                        }
+                      ],
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/createCode": {
+      "post": {
+        "summary": "2.3 生成出库单编号",
+        "deprecated": false,
+        "description": "自动生成一个新的出库单编号，格式：CK + 日期 + 流水号\n\n业务逻辑说明:\n1. 编号格式：CK + yyyyMMdd + 3位流水号\n2. 每天从001开始递增",
+        "tags": [
+          "2. 出库管理 (Checkout)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "出库单编号",
+                          "description": "格式：CK + 日期 + 流水号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "CK20240115001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/save": {
+      "post": {
+        "summary": "2.4 保存出库单",
+        "deprecated": false,
+        "description": "新增或更新出库单，同时保存商品明细列表，自动处理库存\n\n业务逻辑说明:\n1. 事务处理：出库单和商品明细的保存在一个事务中\n2. 编号校验：单据编号不能为空且不能重复\n3. 自动计算：系统会自动计算出库总成本和总数量\n4. 库存处理：\n  • 保存成功后会自动减少对应仓库的库存\n  • 根据出库类型设置业务类型（盘亏/其他出库）\n5. 更新逻辑：与入库单相同\n6. 数据校验：与入库单相同",
+        "tags": [
+          "2. 出库管理 (Checkout)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "checkout": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "出库单ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号",
+                        "description": "不能重复"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "type": {
+                        "type": "integer",
+                        "title": "出库类型",
+                        "description": "10-其他出库，20-盘亏"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "type",
+                      "listerId"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "出入库商品ID",
+                          "description": "新增时不传"
+                        },
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "warehouseId": {
+                          "type": "string",
+                          "title": "仓库ID"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "title": "数量"
+                        },
+                        "price": {
+                          "type": "number",
+                          "title": "单价"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额",
+                          "description": "（= quantity × price）"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "productId",
+                        "warehouseId",
+                        "quantity",
+                        "price",
+                        "amount"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "checkout",
+                  "productList"
+                ]
+              },
+              "example": {
+                "checkout": {
+                  "id": "出库单ID（更新时必填，新增时不传）",
+                  "code": "CK20240115001",
+                  "issueDate": "2024-01-15",
+                  "type": 10,
+                  "customerId": "客户ID",
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "id": "出入库商品ID（更新时传，新增时不传）",
+                    "productId": "商品ID",
+                    "warehouseId": "仓库ID",
+                    "quantity": 30,
+                    "price": 50,
+                    "amount": 1500,
+                    "remark": "备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "checkout": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "integer"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "type",
+                            "customerId",
+                            "amount",
+                            "quantity",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "checkout"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "checkout": {
+                      "id": "出库单ID",
+                      "code": "CK20240115001",
+                      "issueDate": "2024-01-15",
+                      "type": 10,
+                      "customerId": "客户ID",
+                      "amount": 3000,
+                      "quantity": 60,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/checkout/delete": {
+      "post": {
+        "summary": "2.5 删除出库单",
+        "deprecated": false,
+        "description": "根据出库单ID删除出库单及其商品明细\n\n业务逻辑说明:\n1. 删除出库单的同时会删除所有商品明细\n2. 会自动回滚库存（增加对应仓库的库存）\n3. 删除前会检查出库单是否存在",
+        "tags": [
+          "2. 出库管理 (Checkout)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "checkoutId": {
+                    "type": "string",
+                    "title": "出库单ID"
+                  }
+                },
+                "required": [
+                  "checkoutId"
+                ]
+              },
+              "example": {
+                "checkoutId": "出库单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/page": {
+      "post": {
+        "summary": "3.1 分页查询调拨单列表",
+        "deprecated": false,
+        "description": "分页查询调拨单列表，支持按日期范围筛选，自动关联制单人、审核人和商品明细\n\n业务逻辑说明:\n1. 自动关联查询制单人和审核人姓名\n2. 自动加载每个调拨单的商品明细列表\n3. 商品明细中包含调出仓库和调入仓库信息\n4. 支持按审核状态筛选",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期"
+                      },
+                      "keyword": {
+                        "type": "string",
+                        "title": "关键字搜索"
+                      },
+                      "checked": {
+                        "type": "boolean",
+                        "title": "审核状态",
+                        "description": "true-已审核，false-未审核"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2024-01-01",
+                  "endDate": "2024-12-31",
+                  "keyword": "关键字",
+                  "checked": true
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transferPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "调拨单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "调拨总数量"
+                                  },
+                                  "checked": {
+                                    "type": "boolean",
+                                    "title": "审核状态"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名"
+                                  },
+                                  "auditorId": {
+                                    "type": "string",
+                                    "title": "审核人ID"
+                                  },
+                                  "auditorName": {
+                                    "type": "string",
+                                    "title": "审核人姓名"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "productList": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string",
+                                          "title": "调拨商品记录ID"
+                                        },
+                                        "transferId": {
+                                          "type": "string",
+                                          "title": "关联的调拨单ID"
+                                        },
+                                        "productId": {
+                                          "type": "string",
+                                          "title": "商品ID"
+                                        },
+                                        "productName": {
+                                          "type": "string",
+                                          "title": "商品名称"
+                                        },
+                                        "unitName": {
+                                          "type": "string",
+                                          "title": "计量单位"
+                                        },
+                                        "fromWarehouseId": {
+                                          "type": "string",
+                                          "title": "调出仓库ID"
+                                        },
+                                        "fromWarehouseName": {
+                                          "type": "string",
+                                          "title": "调出仓库名称"
+                                        },
+                                        "toWarehouseId": {
+                                          "type": "string",
+                                          "title": "调入仓库ID"
+                                        },
+                                        "toWarehouseName": {
+                                          "type": "string",
+                                          "title": "调入仓库名称"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "title": "调拨数量"
+                                        },
+                                        "remark": {
+                                          "type": "string",
+                                          "title": "备注"
+                                        }
+                                      }
+                                    },
+                                    "title": "商品明细列表"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "transferPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "transferPage": {
+                      "records": [
+                        {
+                          "id": "调拨单ID",
+                          "issueDate": "2024-01-15",
+                          "code": "DB20240115001",
+                          "quantity": 100,
+                          "checked": false,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "auditorId": "审核人ID",
+                          "auditorName": "审核人姓名",
+                          "remark": "备注",
+                          "productList": [
+                            {
+                              "id": "调拨商品ID",
+                              "transferId": "调拨单ID",
+                              "productId": "商品ID",
+                              "productName": "商品名称",
+                              "unitName": "单位",
+                              "fromWarehouseId": "调出仓库ID",
+                              "fromWarehouseName": "调出仓库名称",
+                              "toWarehouseId": "调入仓库ID",
+                              "toWarehouseName": "调入仓库名称",
+                              "quantity": 50,
+                              "remark": "备注"
+                            }
+                          ],
+                          "createdTime": "2024-01-15T10:30:00",
+                          "updatedTime": "2024-01-15T10:30:00"
+                        }
+                      ],
+                      "total": 20,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/detail": {
+      "post": {
+        "summary": "3.2 获取调拨单详情",
+        "deprecated": false,
+        "description": "根据调拨单ID获取调拨单详细信息，包含商品明细列表",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transferId": {
+                    "type": "string",
+                    "title": "调拨单ID"
+                  }
+                },
+                "required": [
+                  "transferId"
+                ]
+              },
+              "example": {
+                "transferId": "调拨单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transfer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "listerName": {
+                              "type": "string"
+                            },
+                            "auditorId": {
+                              "type": "string"
+                            },
+                            "auditorName": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "transferId": {
+                                    "type": "string"
+                                  },
+                                  "productId": {
+                                    "type": "string"
+                                  },
+                                  "productName": {
+                                    "type": "string"
+                                  },
+                                  "unitName": {
+                                    "type": "string"
+                                  },
+                                  "fromWarehouseId": {
+                                    "type": "string"
+                                  },
+                                  "fromWarehouseName": {
+                                    "type": "string"
+                                  },
+                                  "toWarehouseId": {
+                                    "type": "string"
+                                  },
+                                  "toWarehouseName": {
+                                    "type": "string"
+                                  },
+                                  "quantity": {
+                                    "type": "number"
+                                  },
+                                  "remark": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "code",
+                            "quantity",
+                            "checked",
+                            "listerId",
+                            "listerName",
+                            "auditorId",
+                            "auditorName",
+                            "remark",
+                            "productList",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "transfer"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "transfer": {
+                      "id": "调拨单ID",
+                      "issueDate": "2024-01-15",
+                      "code": "DB20240115001",
+                      "quantity": 100,
+                      "checked": false,
+                      "listerId": "制单人ID",
+                      "listerName": "制单人姓名",
+                      "auditorId": "审核人ID",
+                      "auditorName": "审核人姓名",
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "调拨商品ID",
+                          "transferId": "调拨单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "unitName": "单位",
+                          "fromWarehouseId": "调出仓库ID",
+                          "fromWarehouseName": "调出仓库名称",
+                          "toWarehouseId": "调入仓库ID",
+                          "toWarehouseName": "调入仓库名称",
+                          "quantity": 50,
+                          "remark": "备注"
+                        }
+                      ],
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/createCode": {
+      "post": {
+        "summary": "3.3 生成调拨单编号",
+        "deprecated": false,
+        "description": "自动生成一个新的调拨单编号，格式：DB + 日期 + 流水号\n\n业务逻辑说明:\n1. 编号格式：DB + yyyyMMdd + 3位流水号\n2. 每天从001开始递增",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "调拨单编号",
+                          "description": "格式：DB + 日期 + 流水号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "DB20240115001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/save": {
+      "post": {
+        "summary": "3.4 保存调拨单",
+        "deprecated": false,
+        "description": "新增或更新调拨单，同时保存商品明细列表，自动处理库存调拨\n\n业务逻辑说明:\n1. 事务处理：调拨单和商品明细的保存在一个事务中\n2. 编号校验：单据编号不能为空且不能重复\n3. 自动计算：系统会自动计算调拨总数量\n4. 库存处理：\n  • 保存成功后会从调出仓库减少库存\n  • 同时向调入仓库增加库存\n  • 实现库存的转移\n5. 审核状态：新增调拨单默认未审核（checked=false）\n6. 更新逻辑：与入库单相同\n7. 数据校验：\n  • 商品ID、调出仓库ID、调入仓库ID不能为空\n  • 商品和仓库必须存在\n  • 调出仓库和调入仓库不能相同",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transfer": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "调拨单ID",
+                        "description": "新增时不传"
+                      },
+                      "code": {
+                        "type": "string",
+                        "description": "不能重复",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "listerId"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "调拨商品ID",
+                          "description": "新增时不传"
+                        },
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "fromWarehouseId": {
+                          "type": "string",
+                          "title": "调出仓库ID"
+                        },
+                        "toWarehouseId": {
+                          "type": "string",
+                          "title": "调入仓库ID"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "title": "调拨数量"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "productId",
+                        "fromWarehouseId",
+                        "toWarehouseId",
+                        "quantity"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "transfer",
+                  "productList"
+                ]
+              },
+              "example": {
+                "transfer": {
+                  "id": "调拨单ID（更新时必填，新增时不传）",
+                  "code": "DB20240115001",
+                  "issueDate": "2024-01-15",
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "id": "调拨商品ID（更新时传，新增时不传）",
+                    "productId": "商品ID",
+                    "fromWarehouseId": "调出仓库ID",
+                    "toWarehouseId": "调入仓库ID",
+                    "quantity": 50,
+                    "remark": "备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transfer": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "quantity",
+                            "checked",
+                            "listerId",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "transfer"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "transfer": {
+                      "id": "调拨单ID",
+                      "code": "DB20240115001",
+                      "issueDate": "2024-01-15",
+                      "quantity": 100,
+                      "checked": false,
+                      "listerId": "制单人ID",
+                      "remark": "备注",
+                      "createdTime": "2024-01-15T10:30:00",
+                      "updatedTime": "2024-01-15T10:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/delete": {
+      "post": {
+        "summary": "3.5 删除调拨单",
+        "deprecated": false,
+        "description": "根据调拨单ID删除调拨单及其商品明细\n\n业务逻辑说明:\n1. 删除调拨单的同时会删除所有商品明细\n2. 会自动回滚库存（调出仓库增加，调入仓库减少）\n3. 只能删除未审核的调拨单\n4. 删除前会检查调拨单是否存在",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transferId": {
+                    "type": "string",
+                    "title": "调拨单ID"
+                  }
+                },
+                "required": [
+                  "transferId"
+                ]
+              },
+              "example": {
+                "transferId": "调拨单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/transfer/switchCheck": {
+      "post": {
+        "summary": "3.6 审核/反审核调拨单",
+        "deprecated": false,
+        "description": "切换调拨单的审核状态（审核/反审核）\n\n业务逻辑说明:\n1. 如果调拨单当前是未审核状态，则进行审核\n2. 如果调拨单当前是已审核状态，则进行反审核\n3. 审核时会记录审核人（当前登录用户）\n4. 审核后的调拨单才能生效，库存才会真正转移\n5. 只有未审核的调拨单才能删除",
+        "tags": [
+          "3. 调拨管理 (Transfer)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transferId": {
+                    "type": "string",
+                    "title": "调拨单ID"
+                  }
+                },
+                "required": [
+                  "transferId"
+                ]
+              },
+              "example": {
+                "transferId": "调拨单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "checked": {
+                          "type": "boolean",
+                          "title": "审核状态"
+                        },
+                        "auditorId": {
+                          "type": "string",
+                          "title": "审核人ID",
+                          "description": "（当前登录用户）"
+                        },
+                        "auditorName": {
+                          "type": "string",
+                          "title": "审核人姓名"
+                        }
+                      },
+                      "required": [
+                        "checked",
+                        "auditorId",
+                        "auditorName"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "checked": true,
+                    "auditorId": "审核人ID",
+                    "auditorName": "审核人姓名"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
