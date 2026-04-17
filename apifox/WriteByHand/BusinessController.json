@@ -1,0 +1,4150 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "StarNet_WriteByHand",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "1. 客户订单管理 (Order)"
+    },
+    {
+      "name": "2. 购货单管理 (Purchase)"
+    },
+    {
+      "name": "3. 销售单管理 (Sale)"
+    }
+  ],
+  "paths": {
+    "/order/page": {
+      "post": {
+        "summary": "1.1 分页查询客户订单列表",
+        "deprecated": false,
+        "description": "分页查询客户订单列表，支持按日期范围筛选",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "title": "当前页码",
+                    "default": 1
+                  },
+                  "size": {
+                    "type": "integer",
+                    "title": "每页记录数",
+                    "default": 10
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "startDate": "2021-01-01",
+                  "endDate": "2026-12-31"
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "orderPage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "订单ID"
+                                  },
+                                  "issueDate": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "单据日期"
+                                  },
+                                  "deliveryDate": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "交货日期"
+                                  },
+                                  "code": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "单据编号"
+                                  },
+                                  "businessType": {
+                                    "type": [
+                                      "integer",
+                                      "null"
+                                    ],
+                                    "title": "业务类型"
+                                  },
+                                  "customerId": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "客户ID"
+                                  },
+                                  "customerName": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "客户名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "totalAmount": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ],
+                                    "title": "总金额"
+                                  },
+                                  "discountedAmount": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ],
+                                    "title": "优惠后金额"
+                                  },
+                                  "quantity": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ],
+                                    "title": "数量"
+                                  },
+                                  "discountRate": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ],
+                                    "title": "优惠率"
+                                  },
+                                  "listerId": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "制单人姓名",
+                                    "description": "（关联查询）"
+                                  },
+                                  "auditorId": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "审核人ID"
+                                  },
+                                  "auditorName": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "审核人姓名",
+                                    "description": "（关联查询）"
+                                  },
+                                  "checked": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "title": "审核状态"
+                                  },
+                                  "remark": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "title": "更新时间"
+                                  }
+                                }
+                              },
+                              "title": "数据列表"
+                            },
+                            "total": {
+                              "type": "integer",
+                              "title": "总记录数"
+                            },
+                            "size": {
+                              "type": "integer",
+                              "title": "每页记录数"
+                            },
+                            "current": {
+                              "type": "integer",
+                              "title": "当前页码"
+                            },
+                            "pages": {
+                              "type": "integer",
+                              "title": "总页数"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "orderPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "orderPage": {
+                      "records": [
+                        {
+                          "id": "订单ID",
+                          "issueDate": "单据日期",
+                          "deliveryDate": "交货日期",
+                          "code": "单据编号",
+                          "businessType": 1,
+                          "customerId": "客户ID",
+                          "customerName": "客户名称",
+                          "totalAmount": 1000,
+                          "discountedAmount": 950,
+                          "quantity": 10,
+                          "discountRate": 0.05,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "auditorId": "审核人ID",
+                          "auditorName": "审核人姓名",
+                          "checked": false,
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 100,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 10
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/detail": {
+      "post": {
+        "summary": "1.2 获取客户订单详情",
+        "deprecated": false,
+        "description": "根据订单ID获取客户订单详细信息，包含商品明细列表",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "title": "客户订单ID"
+                  }
+                },
+                "required": [
+                  "orderId"
+                ]
+              },
+              "example": {
+                "orderId": "1470892097228423170"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "订单ID"
+                            },
+                            "issueDate": {
+                              "type": "string",
+                              "title": "单据日期"
+                            },
+                            "deliveryDate": {
+                              "type": "string",
+                              "title": "交货日期"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号",
+                              "description": "（如：CO2021121506202128603）"
+                            },
+                            "businessType": {
+                              "type": "integer",
+                              "description": "10=订货，20=退货",
+                              "title": "业务类型"
+                            },
+                            "customerId": {
+                              "type": "string",
+                              "title": "客户ID"
+                            },
+                            "totalAmount": {
+                              "type": "number",
+                              "title": "总金额"
+                            },
+                            "discountedAmount": {
+                              "type": "number",
+                              "title": "优惠后金额"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "数量"
+                            },
+                            "discountRate": {
+                              "type": "number",
+                              "title": "优惠率"
+                            },
+                            "listerId": {
+                              "type": "string",
+                              "title": "制单人ID",
+                              "description": "（关联uc_user.id）"
+                            },
+                            "auditorId": {
+                              "type": "string",
+                              "title": "审核人ID",
+                              "description": "（关联uc_user.id）"
+                            },
+                            "checked": {
+                              "type": "boolean",
+                              "title": "是否已审核",
+                              "description": "0=未审核，1=已审核"
+                            },
+                            "remark": {
+                              "type": "string",
+                              "title": "备注"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "商品明细ID"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型",
+                                    "description": "order: 客户订单、returned: 销货退货、buy: 采购、refund: 采购退货、sell: 销货、store: 入库、checkout: 出库、checkout_loss: 盘亏出库、transfer_out: 调拨出、transfer_in: 调拨入库"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID",
+                                    "description": "（订单ID）（关联对应业务表的主键）"
+                                  },
+                                  "productId": {
+                                    "type": "string",
+                                    "title": "商品ID",
+                                    "description": "（关联uc_product.id）"
+                                  },
+                                  "productName": {
+                                    "type": "string",
+                                    "title": "商品名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "warehouseId": {
+                                    "type": "string",
+                                    "title": "仓库ID",
+                                    "description": "（关联uc_warehouse.id）"
+                                  },
+                                  "warehouseName": {
+                                    "type": "string",
+                                    "title": "仓库名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "price": {
+                                    "type": "number",
+                                    "title": "单价"
+                                  },
+                                  "discountRate": {
+                                    "type": "number",
+                                    "title": "优惠率"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "优惠金额"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "单位名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "issueDate",
+                            "deliveryDate",
+                            "code",
+                            "businessType",
+                            "customerId",
+                            "totalAmount",
+                            "discountedAmount",
+                            "quantity",
+                            "discountRate",
+                            "listerId",
+                            "auditorId",
+                            "checked",
+                            "remark",
+                            "productList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "order"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "order": {
+                      "id": "订单ID",
+                      "issueDate": "单据日期",
+                      "deliveryDate": "交货日期",
+                      "code": "单据编号",
+                      "businessType": 10,
+                      "customerId": "客户ID",
+                      "totalAmount": 1000,
+                      "discountedAmount": 950,
+                      "quantity": 10,
+                      "discountRate": 0.05,
+                      "listerId": "制单人ID",
+                      "auditorId": "审核人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "商品明细ID",
+                          "businessType": "order",
+                          "businessId": "订单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "warehouseId": "仓库ID",
+                          "warehouseName": "仓库名称",
+                          "quantity": 5,
+                          "price": 100,
+                          "discountRate": 0.05,
+                          "discountAmount": 25,
+                          "amount": 475,
+                          "unitName": "单位",
+                          "remark": "备注"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/createCode": {
+      "post": {
+        "summary": "1.3 生成客户订单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的客户订单编号，格式：CO + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "客户订单编号",
+                          "description": "格式：CO + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "CO20240101120000000123"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/save": {
+      "post": {
+        "summary": "1.4 保存客户订单",
+        "deprecated": false,
+        "description": "新增或更新客户订单，包含订单基本信息和商品明细列表。\n\n业务逻辑说明：\n1. 新增订单时，系统会自动设置 checked=false（未审核状态）\n2. 更新订单时，会先删除原有的商品明细，再保存新的商品明细\n3. 系统会自动计算订单总数量（productList中所有商品数量之和）\n4. 需要校验客户ID是否存在\n5. 需要校验商品ID和仓库ID是否存在",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "order": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "title": "订单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "deliveryDate": {
+                        "type": "string",
+                        "title": "交货日期"
+                      },
+                      "businessType": {
+                        "type": "integer",
+                        "description": "10、订货 20、退货",
+                        "title": "业务类型"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "totalAmount": {
+                        "type": "number",
+                        "title": "总金额"
+                      },
+                      "discountedAmount": {
+                        "type": "number",
+                        "title": "优惠后金额"
+                      },
+                      "discountRate": {
+                        "type": "number",
+                        "title": "优惠率"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "issueDate",
+                      "deliveryDate",
+                      "businessType",
+                      "customerId",
+                      "totalAmount",
+                      "discountedAmount",
+                      "listerId"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "warehouseId": {
+                          "type": "string",
+                          "title": "仓库ID"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "title": "数量"
+                        },
+                        "price": {
+                          "type": "number",
+                          "title": "单价"
+                        },
+                        "discountRate": {
+                          "type": "number",
+                          "title": "优惠率"
+                        },
+                        "discountAmount": {
+                          "type": "number",
+                          "title": "优惠金额"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "productId",
+                        "amount",
+                        "price",
+                        "warehouseId",
+                        "quantity"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "order"
+                ]
+              },
+              "example": {
+                "order": {
+                  "id": "订单ID（更新时必填，新增时不传）",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "deliveryDate": "2024-01-15",
+                  "businessType": 1,
+                  "customerId": "客户ID",
+                  "totalAmount": 1000,
+                  "discountedAmount": 950,
+                  "discountRate": 0.05,
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "productId": "商品ID",
+                    "warehouseId": "仓库ID",
+                    "quantity": 5,
+                    "price": 100,
+                    "discountRate": 0.05,
+                    "discountAmount": 25,
+                    "amount": 475,
+                    "remark": "商品备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "主键ID"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号",
+                              "description": "（如：CO2021121506202128603）"
+                            },
+                            "issueDate": {
+                              "type": "string",
+                              "title": "单据日期"
+                            },
+                            "deliveryDate": {
+                              "type": "string",
+                              "title": "交货日期"
+                            },
+                            "businessType": {
+                              "type": "integer",
+                              "title": "业务类型",
+                              "description": "10=订货，20=退货"
+                            },
+                            "customerId": {
+                              "type": "string",
+                              "title": "客户ID",
+                              "description": "（关联uc_customer.id）"
+                            },
+                            "totalAmount": {
+                              "type": "number",
+                              "title": "总金额"
+                            },
+                            "discountedAmount": {
+                              "type": "number",
+                              "title": "优惠后金额"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "数量"
+                            },
+                            "discountRate": {
+                              "type": "number",
+                              "title": "优惠率"
+                            },
+                            "listerId": {
+                              "type": "string",
+                              "title": "制单人ID",
+                              "description": "（关联uc_user.id）"
+                            },
+                            "checked": {
+                              "type": "boolean",
+                              "description": "0=未审核，1=已审核",
+                              "title": "是否已审核"
+                            },
+                            "remark": {
+                              "type": "string",
+                              "title": "备注"
+                            },
+                            "createdTime": {
+                              "type": "string",
+                              "title": "创建时间"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间",
+                              "description": "（自动更新）"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "issueDate",
+                            "deliveryDate",
+                            "businessType",
+                            "customerId",
+                            "totalAmount",
+                            "discountedAmount",
+                            "quantity",
+                            "discountRate",
+                            "listerId",
+                            "checked",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "order"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "order": {
+                      "id": "订单ID",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "deliveryDate": "2024-01-15",
+                      "businessType": 1,
+                      "customerId": "客户ID",
+                      "totalAmount": 1000,
+                      "discountedAmount": 950,
+                      "quantity": 5,
+                      "discountRate": 0.05,
+                      "listerId": "制单人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/delete": {
+      "post": {
+        "summary": "1.5 删除客户订单",
+        "deprecated": false,
+        "description": "根据订单ID删除客户订单及其关联的商品明细\n\n业务逻辑说明:\n1. 删除订单主表记录\n2. 同时删除该订单关联的所有商品明细记录\n3. 使用事务保证数据一致性",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "title": "客户订单ID"
+                  }
+                },
+                "required": [
+                  "orderId"
+                ]
+              },
+              "example": {
+                "orderId": "订单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/order/switchCheck": {
+      "post": {
+        "summary": "1.6 切换客户订单审核状态",
+        "deprecated": false,
+        "description": "切换客户订单的审核状态（已审核 ↔ 未审核）\n\n业务逻辑说明:\n1. 如果当前状态为未审核，则切换为已审核\n2. 如果当前状态为已审核，则切换为未审核\n3. 返回更新后的订单信息",
+        "tags": [
+          "1. 客户订单管理 (Order)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": {
+                    "type": "string",
+                    "title": "客户订单ID"
+                  }
+                },
+                "required": [
+                  "orderId"
+                ]
+              },
+              "example": {
+                "orderId": "订单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "order": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "title": "ID主键"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号",
+                              "description": "（如：CO2021121506202128603）"
+                            },
+                            "checked": {
+                              "type": "boolean",
+                              "title": "是否已审核",
+                              "description": "0=未审核，1=已审核"
+                            },
+                            "auditorId": {
+                              "type": "string",
+                              "title": "审核人ID",
+                              "description": "（关联uc_user.id）"
+                            },
+                            "updatedTime": {
+                              "type": "string",
+                              "title": "更新时间",
+                              "description": "（自动更新）"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "checked",
+                            "auditorId",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "order"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "order": {
+                      "id": "订单ID",
+                      "code": "单据编号",
+                      "checked": true,
+                      "auditorId": "审核人ID",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/page": {
+      "post": {
+        "summary": "2.1 分页查询购货单列表",
+        "deprecated": false,
+        "description": "分页查询购货单列表，支持按类型和日期范围筛选",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "title": "购货类型",
+                        "description": "buy-采购，refund-采购退货"
+                      },
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象"
+                  },
+                  "current": {
+                    "type": "integer",
+                    "default": 1,
+                    "title": "当前页码"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "default": 10,
+                    "title": "每页记录数"
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "type": "buy",
+                  "startDate": "",
+                  "endDate": ""
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "purchasePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "购货单ID"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "buy-采购，refund-采购退货"
+                                  },
+                                  "supplierId": {
+                                    "type": "string",
+                                    "title": "供应商ID"
+                                  },
+                                  "supplierName": {
+                                    "type": "string",
+                                    "title": "供应商名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "折扣额"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "购货金额"
+                                  },
+                                  "preferentialRate": {
+                                    "type": "number",
+                                    "title": "优惠率"
+                                  },
+                                  "preferentialAmount": {
+                                    "type": "number",
+                                    "title": "优惠金额"
+                                  },
+                                  "preferredAmount": {
+                                    "type": "number",
+                                    "title": "优惠后金额"
+                                  },
+                                  "currentAmount": {
+                                    "type": "number",
+                                    "title": "本次付/退款金额"
+                                  },
+                                  "debtAmount": {
+                                    "type": "number",
+                                    "title": "欠款金额"
+                                  },
+                                  "contracts": {
+                                    "type": "string",
+                                    "title": "采购合同",
+                                    "description": "（JSON数组字符串）"
+                                  },
+                                  "status": {
+                                    "type": "integer",
+                                    "title": "付款状态",
+                                    "description": "10-未付/退款，20-部分付/退，30-全部付/退"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID",
+                                    "description": "（关联查询）"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "title": "制单人姓名"
+                                  },
+                                  "auditorId": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "审核人ID"
+                                  },
+                                  "auditorName": {
+                                    "type": "string",
+                                    "title": "审核人姓名"
+                                  },
+                                  "checked": {
+                                    "type": "boolean",
+                                    "title": "审核状态",
+                                    "description": "0=未审核，1=已审核"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer",
+                              "title": "每页记录数"
+                            },
+                            "current": {
+                              "type": "integer",
+                              "title": "当前页码"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "purchasePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "purchasePage": {
+                      "records": [
+                        {
+                          "id": "购货单ID",
+                          "type": "buy",
+                          "supplierId": "供应商ID",
+                          "supplierName": "供应商名称",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "quantity": 100,
+                          "discountAmount": 50,
+                          "amount": 10000,
+                          "preferentialRate": 0.05,
+                          "preferentialAmount": 500,
+                          "preferredAmount": 9450,
+                          "currentAmount": 5000,
+                          "debtAmount": 4450,
+                          "contracts": "[{\"name\":\"合同.pdf\",\"url\":\"...\"}]",
+                          "status": 10,
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "auditorId": "审核人ID",
+                          "auditorName": "审核人姓名",
+                          "checked": false,
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 50,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 5
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/detail": {
+      "post": {
+        "summary": "2.2 获取购货单详情",
+        "deprecated": false,
+        "description": "根据购货单ID获取购货单详细信息，包含商品明细和账户记录",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purchaseId": {
+                    "type": "string",
+                    "title": "购货单ID"
+                  }
+                },
+                "required": [
+                  "purchaseId"
+                ]
+              },
+              "example": {
+                "purchaseId": "购货单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "purchase": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "preferentialRate": {
+                              "type": "number"
+                            },
+                            "preferentialAmount": {
+                              "type": "number"
+                            },
+                            "preferredAmount": {
+                              "type": "number"
+                            },
+                            "currentAmount": {
+                              "type": "number"
+                            },
+                            "debtAmount": {
+                              "type": "number"
+                            },
+                            "contracts": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "integer"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "auditorId": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "商品明细ID"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "商品编码"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID",
+                                    "description": "（购货单ID）"
+                                  },
+                                  "productId": {
+                                    "type": "string",
+                                    "title": "商品ID"
+                                  },
+                                  "productName": {
+                                    "type": "string",
+                                    "title": "商品名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "warehouseId": {
+                                    "type": "string",
+                                    "title": "仓库ID"
+                                  },
+                                  "warehouseName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "仓库名称"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "price": {
+                                    "type": "number",
+                                    "title": "单价"
+                                  },
+                                  "discountRate": {
+                                    "type": "number",
+                                    "title": "优惠率"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "优惠金额"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "单位名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "supplierId",
+                            "issueDate",
+                            "code",
+                            "quantity",
+                            "discountAmount",
+                            "amount",
+                            "preferentialRate",
+                            "preferentialAmount",
+                            "preferredAmount",
+                            "currentAmount",
+                            "debtAmount",
+                            "contracts",
+                            "status",
+                            "listerId",
+                            "auditorId",
+                            "checked",
+                            "remark",
+                            "productList",
+                            "accountList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "purchase"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "purchase": {
+                      "id": "购货单ID",
+                      "type": "buy",
+                      "supplierId": "供应商ID",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "quantity": 100,
+                      "discountAmount": 50,
+                      "amount": 10000,
+                      "preferentialRate": 0.05,
+                      "preferentialAmount": 500,
+                      "preferredAmount": 9450,
+                      "currentAmount": 5000,
+                      "debtAmount": 4450,
+                      "contracts": "[{\"name\":\"合同.pdf\",\"url\":\"...\"}]",
+                      "status": 10,
+                      "listerId": "制单人ID",
+                      "auditorId": "审核人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "商品明细ID",
+                          "code": "商品编码",
+                          "issueDate": "单据日期",
+                          "businessType": "buy",
+                          "businessId": "购货单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "warehouseId": "仓库ID",
+                          "warehouseName": "仓库名称",
+                          "quantity": 50,
+                          "price": 100,
+                          "discountRate": 0.05,
+                          "discountAmount": 250,
+                          "amount": 4750,
+                          "unitName": "单位",
+                          "remark": "备注"
+                        }
+                      ],
+                      "accountList": [
+                        {
+                          "id": "账户记录ID",
+                          "accountId": "结算账户ID",
+                          "amount": 5000,
+                          "type": "out",
+                          "issueDate": "单据日期",
+                          "businessType": "buy",
+                          "businessId": "购货单ID",
+                          "remark": "备注"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/createCode": {
+      "post": {
+        "summary": "2.3 生成购货单编号",
+        "deprecated": false,
+        "description": "自动生成唯一的购货单编号，格式：PL + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "description": "格式：PL + 17位时间戳(yyyyMMddHHmmssSSS) + 2位随机数",
+                          "title": "购货单编号"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "PL20240101120000000123"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/save": {
+      "post": {
+        "summary": "2.4 保存购货单",
+        "deprecated": false,
+        "description": "新增或更新购货单，包含购货单基本信息、商品明细列表和账户记录列表\n\n业务逻辑说明:\n1. 新增购货单时，系统会自动设置 checked=false（未审核状态），status=10（未付款状态）\n2. 更新购货单时，会先删除原有的商品明细和账户记录，再保存新的数据\n3. 系统会自动处理库存：\n  • 采购类型（buy）：增加库存\n  • 采购退货类型（refund）：减少库存\n4. 系统会自动处理应付账款：\n  • 采购类型：增加应付账款\n  • 采购退货类型：减少应付账款\n5. 系统会自动创建账户记录，类型为：\n  • 采购类型：out（支出）\n  • 采购退货类型：in（收入）\n6. 需要校验供应商ID、商品ID和仓库ID是否存在\n7. 新增时会校验单据编号是否已存在",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purchase": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "购货单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "type": {
+                        "type": "string",
+                        "title": "类型",
+                        "description": "buy-采购，refund-采购退货"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "supplierId": {
+                        "type": "string",
+                        "title": "供应商ID"
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "title": "数量"
+                      },
+                      "discountAmount": {
+                        "type": "integer",
+                        "title": "折扣额"
+                      },
+                      "amount": {
+                        "type": "integer",
+                        "title": "购货金额"
+                      },
+                      "preferentialRate": {
+                        "type": "number",
+                        "title": "优惠率"
+                      },
+                      "preferentialAmount": {
+                        "type": "integer",
+                        "title": "优惠金额"
+                      },
+                      "preferredAmount": {
+                        "type": "integer",
+                        "title": "优惠后金额"
+                      },
+                      "currentAmount": {
+                        "type": "integer",
+                        "title": "本次付/退款金额"
+                      },
+                      "debtAmount": {
+                        "type": "integer",
+                        "title": "欠款金额"
+                      },
+                      "contracts": {
+                        "type": "string",
+                        "title": "采购合同",
+                        "description": "（JSON数组字符串）"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type",
+                      "code",
+                      "issueDate",
+                      "supplierId",
+                      "quantity",
+                      "discountAmount",
+                      "amount",
+                      "preferentialRate",
+                      "preferentialAmount",
+                      "preferredAmount",
+                      "currentAmount",
+                      "debtAmount",
+                      "contracts",
+                      "listerId",
+                      "remark"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "商品编码"
+                        },
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "warehouseId": {
+                          "type": "string",
+                          "title": "仓库ID"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "title": "数量"
+                        },
+                        "price": {
+                          "type": "integer",
+                          "title": "单价"
+                        },
+                        "discountRate": {
+                          "type": "number",
+                          "title": "优惠率"
+                        },
+                        "discountAmount": {
+                          "type": "integer",
+                          "title": "优惠金额"
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "title": "金额"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "amount",
+                        "productId",
+                        "warehouseId",
+                        "quantity",
+                        "price",
+                        "discountRate"
+                      ]
+                    }
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "purchase",
+                  "productList",
+                  "accountList"
+                ]
+              },
+              "example": {
+                "purchase": {
+                  "id": "购货单ID（更新时必填，新增时不传）",
+                  "type": "buy",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "supplierId": "供应商ID",
+                  "quantity": 100,
+                  "discountAmount": 50,
+                  "amount": 10000,
+                  "preferentialRate": 0.05,
+                  "preferentialAmount": 500,
+                  "preferredAmount": 9450,
+                  "currentAmount": 5000,
+                  "debtAmount": 4450,
+                  "contracts": "[{\"name\":\"合同.pdf\",\"url\":\"...\"}]",
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "code": "商品编码",
+                    "productId": "商品ID",
+                    "warehouseId": "仓库ID",
+                    "quantity": 50,
+                    "price": 100,
+                    "discountRate": 0.05,
+                    "discountAmount": 250,
+                    "amount": 4750,
+                    "remark": "商品备注"
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "purchase": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "supplierId": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "preferentialRate": {
+                              "type": "number"
+                            },
+                            "preferentialAmount": {
+                              "type": "number"
+                            },
+                            "preferredAmount": {
+                              "type": "number"
+                            },
+                            "currentAmount": {
+                              "type": "number"
+                            },
+                            "debtAmount": {
+                              "type": "number"
+                            },
+                            "contracts": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "integer"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "code",
+                            "issueDate",
+                            "supplierId",
+                            "quantity",
+                            "discountAmount",
+                            "amount",
+                            "preferentialRate",
+                            "preferentialAmount",
+                            "preferredAmount",
+                            "currentAmount",
+                            "debtAmount",
+                            "contracts",
+                            "status",
+                            "listerId",
+                            "checked",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "purchase"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "purchase": {
+                      "id": "购货单ID",
+                      "type": "buy",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "supplierId": "供应商ID",
+                      "quantity": 100,
+                      "discountAmount": 50,
+                      "amount": 10000,
+                      "preferentialRate": 0.05,
+                      "preferentialAmount": 500,
+                      "preferredAmount": 9450,
+                      "currentAmount": 5000,
+                      "debtAmount": 4450,
+                      "contracts": "[{\"name\":\"合同.pdf\",\"url\":\"...\"}]",
+                      "status": 10,
+                      "listerId": "制单人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/delete": {
+      "post": {
+        "summary": "2.5 删除购货单",
+        "deprecated": false,
+        "description": "根据购货单ID删除购货单及其关联的商品明细和账户记录\n\n业务逻辑说明:\n1. 删除购货单主表记录\n2. 同时删除该购货单关联的所有商品明细记录\n3. 同时删除该购货单关联的所有账户记录\n4. 使用事务保证数据一致性",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purchaseId": {
+                    "type": "string",
+                    "title": "购货单ID"
+                  }
+                },
+                "required": [
+                  "purchaseId"
+                ]
+              },
+              "example": {
+                "purchaseId": "购货单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/switchCheck": {
+      "post": {
+        "summary": "2.6 切换购货单审核状态",
+        "deprecated": false,
+        "description": "切换购货单的审核状态（已审核 ↔ 未审核）\n\n业务逻辑说明:\n1. 如果当前状态为未审核，则切换为已审核\n2. 如果当前状态为已审核，则切换为未审核\n3. 返回更新后的购货单信息",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purchaseId": {
+                    "type": "string",
+                    "title": "购货单ID"
+                  }
+                },
+                "required": [
+                  "purchaseId"
+                ]
+              },
+              "example": {
+                "purchaseId": "购货单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "purchase": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "auditorId": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "checked",
+                            "auditorId",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "purchase"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "purchase": {
+                      "id": "购货单ID",
+                      "code": "单据编号",
+                      "checked": true,
+                      "auditorId": "审核人ID",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/purchase/findCheckedListBySupplier": {
+      "post": {
+        "summary": "2.7 获取供应商已审核购货单列表",
+        "deprecated": false,
+        "description": "根据供应商ID获取该供应商所有已审核的购货单列表",
+        "tags": [
+          "2. 购货单管理 (Purchase)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "supplierId": {
+                    "type": "string",
+                    "title": "供应商ID"
+                  }
+                },
+                "required": [
+                  "supplierId"
+                ]
+              },
+              "example": {
+                "supplierId": "供应商ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "purchaseList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "购货单ID"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "类型",
+                                "description": "buy-采购，refund-采购退货"
+                              },
+                              "supplierId": {
+                                "type": "string",
+                                "title": "供应商ID"
+                              },
+                              "issueDate": {
+                                "type": "string",
+                                "title": "单据日期"
+                              },
+                              "code": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "购货金额"
+                              },
+                              "debtAmount": {
+                                "type": "number",
+                                "title": "欠款金额"
+                              },
+                              "checked": {
+                                "type": "boolean",
+                                "title": "审核状态",
+                                "description": "（固定为true）"
+                              },
+                              "verifiedAmount": {
+                                "type": "number",
+                                "title": "已核销金额",
+                                "description": "（预留字段，当前为0）"
+                              },
+                              "unverifiedAmount": {
+                                "type": "number",
+                                "title": "未核销金额",
+                                "description": "（预留字段，当前为0）"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "purchaseList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "purchaseList": [
+                      {
+                        "id": "购货单ID",
+                        "type": "buy",
+                        "supplierId": "供应商ID",
+                        "issueDate": "单据日期",
+                        "code": "单据编号",
+                        "amount": 10000,
+                        "debtAmount": 4450,
+                        "checked": true,
+                        "verifiedAmount": 0,
+                        "unverifiedAmount": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/page": {
+      "post": {
+        "summary": "3.1 分页查询销售单列表",
+        "deprecated": false,
+        "description": "分页查询销售单列表，支持按日期范围筛选",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "title": "销货类型",
+                        "description": "sell-销货，returned-销货退货"
+                      },
+                      "startDate": {
+                        "type": "string",
+                        "title": "开始日期",
+                        "description": "格式：yyyy-MM-dd"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "title": "结束日期",
+                        "description": "格式：yyyy-MM-dd"
+                      }
+                    },
+                    "title": "查询条件对象",
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  "current": {
+                    "type": "integer",
+                    "default": 1,
+                    "title": "当前页码"
+                  },
+                  "size": {
+                    "type": "integer",
+                    "default": 10,
+                    "title": "每页记录数"
+                  }
+                }
+              },
+              "example": {
+                "query": {
+                  "type": "returned",
+                  "startDate": "",
+                  "endDate": ""
+                },
+                "current": 1,
+                "size": 10
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "salePage": {
+                          "type": "object",
+                          "properties": {
+                            "records": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "销售单ID"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型",
+                                    "description": "sell-售货，returned-退货"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "单据编号"
+                                  },
+                                  "customerId": {
+                                    "type": "string",
+                                    "title": "客户ID"
+                                  },
+                                  "customerName": {
+                                    "type": "string",
+                                    "title": "客户名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "sellerId": {
+                                    "type": "string",
+                                    "description": "（职员ID）",
+                                    "title": "销售员ID"
+                                  },
+                                  "sellerName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "销售员姓名"
+                                  },
+                                  "contactName": {
+                                    "type": "string",
+                                    "title": "联系人姓名"
+                                  },
+                                  "address": {
+                                    "type": "string",
+                                    "title": "地址"
+                                  },
+                                  "phone": {
+                                    "type": "string",
+                                    "title": "电话号码"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "折扣金额"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "preferentialRate": {
+                                    "type": "number",
+                                    "title": "优惠率"
+                                  },
+                                  "preferentialAmount": {
+                                    "type": "number",
+                                    "title": "优惠金额"
+                                  },
+                                  "preferredAmount": {
+                                    "type": "number",
+                                    "title": "优惠后金额"
+                                  },
+                                  "customerFee": {
+                                    "type": "number",
+                                    "title": "客户费用"
+                                  },
+                                  "currentAmount": {
+                                    "type": "number",
+                                    "title": "本次收款金额"
+                                  },
+                                  "debtAmount": {
+                                    "type": "number",
+                                    "title": "本次欠款金额"
+                                  },
+                                  "status": {
+                                    "type": "integer",
+                                    "title": "收款状态",
+                                    "description": "10-未收/退款，20-部分收/退，30-全部收/退"
+                                  },
+                                  "attachments": {
+                                    "type": "string",
+                                    "title": "销售附件",
+                                    "description": "（JSON数组字符串）"
+                                  },
+                                  "listerId": {
+                                    "type": "string",
+                                    "title": "制单人ID"
+                                  },
+                                  "listerName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "制单人姓名"
+                                  },
+                                  "auditorId": {
+                                    "type": "string",
+                                    "title": "审核人ID"
+                                  },
+                                  "auditorName": {
+                                    "type": "string",
+                                    "description": "（关联查询）",
+                                    "title": "审核人姓名"
+                                  },
+                                  "checked": {
+                                    "type": "boolean",
+                                    "title": "审核状态"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "integer"
+                            },
+                            "size": {
+                              "type": "integer"
+                            },
+                            "current": {
+                              "type": "integer"
+                            },
+                            "pages": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "records",
+                            "total",
+                            "size",
+                            "current",
+                            "pages"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "salePage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "salePage": {
+                      "records": [
+                        {
+                          "id": "销售单ID",
+                          "type": "sell",
+                          "issueDate": "单据日期",
+                          "code": "单据编号",
+                          "customerId": "客户ID",
+                          "customerName": "客户名称",
+                          "sellerId": "销售员ID",
+                          "sellerName": "销售员姓名",
+                          "contactName": "联系人姓名",
+                          "address": "地址",
+                          "phone": "电话号码",
+                          "quantity": 50,
+                          "discountAmount": 100,
+                          "amount": 5000,
+                          "preferentialRate": 0.05,
+                          "preferentialAmount": 250,
+                          "preferredAmount": 4650,
+                          "customerFee": 50,
+                          "currentAmount": 3000,
+                          "debtAmount": 1650,
+                          "status": 20,
+                          "attachments": "[{\"name\":\"附件.pdf\",\"url\":\"...\"}]",
+                          "listerId": "制单人ID",
+                          "listerName": "制单人姓名",
+                          "auditorId": "审核人ID",
+                          "auditorName": "审核人姓名",
+                          "checked": false,
+                          "remark": "备注",
+                          "createdTime": "2024-01-01T00:00:00",
+                          "updatedTime": "2024-01-01T00:00:00"
+                        }
+                      ],
+                      "total": 80,
+                      "size": 10,
+                      "current": 1,
+                      "pages": 8
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/detail": {
+      "post": {
+        "summary": "3.2 获取销售单详情",
+        "deprecated": false,
+        "description": "根据销售单ID获取销售单详细信息，包含商品明细列表",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "saleId": {
+                    "type": "string",
+                    "title": "销售单ID"
+                  }
+                },
+                "required": [
+                  "saleId"
+                ]
+              },
+              "example": {
+                "saleId": "销售单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sale": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "sellerId": {
+                              "type": "string"
+                            },
+                            "contactName": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "preferentialRate": {
+                              "type": "number"
+                            },
+                            "preferentialAmount": {
+                              "type": "number"
+                            },
+                            "preferredAmount": {
+                              "type": "number"
+                            },
+                            "customerFee": {
+                              "type": "number"
+                            },
+                            "currentAmount": {
+                              "type": "number"
+                            },
+                            "debtAmount": {
+                              "type": "number"
+                            },
+                            "status": {
+                              "type": "integer"
+                            },
+                            "attachments": {
+                              "type": "string"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "auditorId": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "productList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "商品明细ID"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID",
+                                    "description": "（销售单ID）"
+                                  },
+                                  "productId": {
+                                    "type": "string",
+                                    "title": "商品ID"
+                                  },
+                                  "productName": {
+                                    "type": "string",
+                                    "title": "商品名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "warehouseId": {
+                                    "type": "string",
+                                    "title": "仓库ID"
+                                  },
+                                  "warehouseName": {
+                                    "type": "string",
+                                    "title": "仓库名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "quantity": {
+                                    "type": "number",
+                                    "title": "数量"
+                                  },
+                                  "price": {
+                                    "type": "number",
+                                    "title": "单价"
+                                  },
+                                  "discountRate": {
+                                    "type": "number",
+                                    "title": "优惠率"
+                                  },
+                                  "discountAmount": {
+                                    "type": "number",
+                                    "title": "优惠金额"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "金额"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "商品编码"
+                                  },
+                                  "unitName": {
+                                    "type": "string",
+                                    "title": "单位名称",
+                                    "description": "（关联查询）"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "issueDate",
+                            "code",
+                            "customerId",
+                            "sellerId",
+                            "contactName",
+                            "address",
+                            "phone",
+                            "quantity",
+                            "discountAmount",
+                            "amount",
+                            "preferentialRate",
+                            "preferentialAmount",
+                            "preferredAmount",
+                            "customerFee",
+                            "currentAmount",
+                            "debtAmount",
+                            "status",
+                            "attachments",
+                            "listerId",
+                            "auditorId",
+                            "checked",
+                            "remark",
+                            "productList"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "sale"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "sale": {
+                      "id": "销售单ID",
+                      "type": "sell",
+                      "issueDate": "单据日期",
+                      "code": "单据编号",
+                      "customerId": "客户ID",
+                      "sellerId": "销售员ID",
+                      "contactName": "联系人姓名",
+                      "address": "地址",
+                      "phone": "电话号码",
+                      "quantity": 50,
+                      "discountAmount": 100,
+                      "amount": 5000,
+                      "preferentialRate": 0.05,
+                      "preferentialAmount": 250,
+                      "preferredAmount": 4650,
+                      "customerFee": 50,
+                      "currentAmount": 3000,
+                      "debtAmount": 1650,
+                      "status": 20,
+                      "attachments": "[{\"name\":\"附件.pdf\",\"url\":\"...\"}]",
+                      "listerId": "制单人ID",
+                      "auditorId": "审核人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "productList": [
+                        {
+                          "id": "商品明细ID",
+                          "issueDate": "单据日期",
+                          "businessType": "sell",
+                          "businessId": "销售单ID",
+                          "productId": "商品ID",
+                          "productName": "商品名称",
+                          "warehouseId": "仓库ID",
+                          "warehouseName": "仓库名称",
+                          "quantity": 25,
+                          "price": 100,
+                          "discountRate": 0.05,
+                          "discountAmount": 125,
+                          "amount": 2375,
+                          "code": "商品编码",
+                          "unitName": "单位",
+                          "remark": "备注"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/createCode": {
+      "post": {
+        "summary": "3.3 生成销售单编号",
+        "deprecated": false,
+        "description": "根据销售类型自动生成唯一的销售单编号",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "title": "销售类型",
+                    "description": "sell-售货，returned-退货"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              },
+              "example": {
+                "type": "sell"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "title": "销售单编号",
+                          "description": "编号规则:\n售货类型：SE (Sale) + 17位时间戳 + 2位随机数字\n退货类型：RE (Return) + 17位时间戳 + 2位随机数字"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "code": "SE20240101120000000123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/save": {
+      "post": {
+        "summary": "3.4 保存销售单",
+        "deprecated": false,
+        "description": "新增或更新销售单，包含销售单基本信息、商品明细列表和账户记录列表\n\n业务逻辑说明:\n1. 新增销售单时，系统会自动设置 checked=false（未审核状态），status=20（部分收款状态）\n2. 更新销售单时，会先删除原有的商品明细，再保存新的数据\n3. 系统会自动处理库存：\n  • 售货类型（sell）：减少库存\n  • 退货类型（returned）：增加库存\n4. 系统会自动处理应收账款：\n  • 售货类型：增加应收账款\n  • 退货类型：减少应收账款\n5. 系统会自动创建账户记录，类型为：\n  • 售货类型：in（收入）\n  • 退货类型：out（支出）\n6. 需要校验客户ID、销售员ID、商品ID和仓库ID是否存在\n7. 新增时会校验单据编号是否已存在",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sale": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "title": "销售单ID",
+                        "description": "新增时不传，更新时必填"
+                      },
+                      "type": {
+                        "type": "string",
+                        "title": "类型",
+                        "description": "sell-售货，returned-退货"
+                      },
+                      "code": {
+                        "type": "string",
+                        "title": "单据编号"
+                      },
+                      "issueDate": {
+                        "type": "string",
+                        "title": "单据日期"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "title": "客户ID"
+                      },
+                      "sellerId": {
+                        "type": "string",
+                        "title": "销售员ID",
+                        "description": "（职员ID）"
+                      },
+                      "contactName": {
+                        "type": "string",
+                        "title": "联系"
+                      },
+                      "address": {
+                        "type": "string",
+                        "title": "地址"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "title": "电话"
+                      },
+                      "quantity": {
+                        "type": "number",
+                        "title": "数量"
+                      },
+                      "discountAmount": {
+                        "type": "number",
+                        "title": "折扣金额"
+                      },
+                      "amount": {
+                        "type": "number",
+                        "title": "金额"
+                      },
+                      "preferentialRate": {
+                        "type": "number",
+                        "title": "优惠率"
+                      },
+                      "preferentialAmount": {
+                        "type": "number",
+                        "title": "优惠金额"
+                      },
+                      "preferredAmount": {
+                        "type": "number",
+                        "title": "优惠后金额"
+                      },
+                      "customerFee": {
+                        "type": "number",
+                        "title": "客户费用"
+                      },
+                      "currentAmount": {
+                        "type": "number",
+                        "title": "本次收款金额"
+                      },
+                      "debtAmount": {
+                        "type": "number",
+                        "title": "本次欠款金额"
+                      },
+                      "attachments": {
+                        "type": "string",
+                        "title": "销售附件",
+                        "description": "（JSON数组字符串）"
+                      },
+                      "listerId": {
+                        "type": "string",
+                        "title": "制单人ID"
+                      },
+                      "remark": {
+                        "type": "string",
+                        "title": "备注"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "code",
+                      "issueDate",
+                      "customerId",
+                      "sellerId",
+                      "quantity",
+                      "discountAmount",
+                      "amount",
+                      "preferredAmount",
+                      "currentAmount",
+                      "debtAmount",
+                      "listerId"
+                    ]
+                  },
+                  "productList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "title": "商品ID"
+                        },
+                        "warehouseId": {
+                          "type": "string",
+                          "title": "仓库ID"
+                        },
+                        "quantity": {
+                          "type": "number",
+                          "title": "数量"
+                        },
+                        "price": {
+                          "type": "number",
+                          "title": "单价"
+                        },
+                        "discountRate": {
+                          "type": "number",
+                          "title": "优惠率"
+                        },
+                        "discountAmount": {
+                          "type": "number",
+                          "title": "优惠金额"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "title": "金额"
+                        },
+                        "code": {
+                          "type": "string",
+                          "title": "商品编码"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "amount",
+                        "productId",
+                        "warehouseId",
+                        "quantity",
+                        "price"
+                      ]
+                    }
+                  },
+                  "accountList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "title": "结算账户ID"
+                        },
+                        "remark": {
+                          "type": "string",
+                          "title": "备注"
+                        }
+                      },
+                      "required": [
+                        "accountId"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "sale",
+                  "productList",
+                  "accountList"
+                ]
+              },
+              "example": {
+                "sale": {
+                  "id": "销售单ID（更新时必填，新增时不传）",
+                  "type": "sell",
+                  "code": "单据编号",
+                  "issueDate": "2024-01-01",
+                  "customerId": "客户ID",
+                  "sellerId": "销售员ID",
+                  "contactName": "联系人姓名",
+                  "address": "送货地址",
+                  "phone": "联系电话",
+                  "quantity": 50,
+                  "discountAmount": 100,
+                  "amount": 5000,
+                  "preferentialRate": 0.05,
+                  "preferentialAmount": 250,
+                  "preferredAmount": 4650,
+                  "customerFee": 50,
+                  "currentAmount": 3000,
+                  "debtAmount": 1650,
+                  "attachments": "[{\"name\":\"附件.pdf\",\"url\":\"...\"}]",
+                  "listerId": "制单人ID",
+                  "remark": "备注"
+                },
+                "productList": [
+                  {
+                    "productId": "商品ID",
+                    "warehouseId": "仓库ID",
+                    "quantity": 25,
+                    "price": 100,
+                    "discountRate": 0.05,
+                    "discountAmount": 125,
+                    "amount": 2375,
+                    "code": "商品编码",
+                    "remark": "商品备注"
+                  }
+                ],
+                "accountList": [
+                  {
+                    "accountId": "结算账户ID",
+                    "remark": "账户备注"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sale": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "issueDate": {
+                              "type": "string"
+                            },
+                            "customerId": {
+                              "type": "string"
+                            },
+                            "sellerId": {
+                              "type": "string"
+                            },
+                            "contactName": {
+                              "type": "string"
+                            },
+                            "address": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "discountAmount": {
+                              "type": "number"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "preferentialRate": {
+                              "type": "number"
+                            },
+                            "preferentialAmount": {
+                              "type": "number"
+                            },
+                            "preferredAmount": {
+                              "type": "number"
+                            },
+                            "customerFee": {
+                              "type": "number"
+                            },
+                            "currentAmount": {
+                              "type": "number"
+                            },
+                            "debtAmount": {
+                              "type": "number"
+                            },
+                            "status": {
+                              "type": "integer"
+                            },
+                            "attachments": {
+                              "type": "string"
+                            },
+                            "listerId": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "remark": {
+                              "type": "string"
+                            },
+                            "createdTime": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "code",
+                            "issueDate",
+                            "customerId",
+                            "sellerId",
+                            "contactName",
+                            "address",
+                            "phone",
+                            "quantity",
+                            "discountAmount",
+                            "amount",
+                            "preferentialRate",
+                            "preferentialAmount",
+                            "preferredAmount",
+                            "customerFee",
+                            "currentAmount",
+                            "debtAmount",
+                            "status",
+                            "attachments",
+                            "listerId",
+                            "checked",
+                            "remark",
+                            "createdTime",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "sale"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "sale": {
+                      "id": "销售单ID",
+                      "type": "sell",
+                      "code": "单据编号",
+                      "issueDate": "2024-01-01",
+                      "customerId": "客户ID",
+                      "sellerId": "销售员ID",
+                      "contactName": "联系人姓名",
+                      "address": "送货地址",
+                      "phone": "联系电话",
+                      "quantity": 50,
+                      "discountAmount": 100,
+                      "amount": 5000,
+                      "preferentialRate": 0.05,
+                      "preferentialAmount": 250,
+                      "preferredAmount": 4650,
+                      "customerFee": 50,
+                      "currentAmount": 3000,
+                      "debtAmount": 1650,
+                      "status": 20,
+                      "attachments": "[{\"name\":\"附件.pdf\",\"url\":\"...\"}]",
+                      "listerId": "制单人ID",
+                      "checked": false,
+                      "remark": "备注",
+                      "createdTime": "2024-01-01T00:00:00",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/delete": {
+      "post": {
+        "summary": "3.5 删除销售单",
+        "deprecated": false,
+        "description": "根据销售单ID删除销售单及其关联的商品明细\n\n业务逻辑说明:\n1. 删除销售单主表记录\n2. 同时删除该销售单关联的所有商品明细记录\n3. 注意：不会删除账户记录（与购货单不同）",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "saleId": {
+                    "type": "string",
+                    "title": "销售单ID"
+                  }
+                },
+                "required": [
+                  "saleId"
+                ]
+              },
+              "example": {
+                "saleId": "销售单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/switchCheck": {
+      "post": {
+        "summary": "3.6 切换销售单审核状态",
+        "deprecated": false,
+        "description": "切换销售单的审核状态（已审核 ↔ 未审核）\n\n业务逻辑说明:\n1. 如果当前状态为未审核，则切换为已审核\n2. 如果当前状态为已审核，则切换为未审核\n3. 返回更新后的销售单信息",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "saleId": {
+                    "type": "string",
+                    "title": "销售单ID"
+                  }
+                },
+                "required": [
+                  "saleId"
+                ]
+              },
+              "example": {
+                "saleId": "销售单ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sale": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "checked": {
+                              "type": "boolean"
+                            },
+                            "auditorId": {
+                              "type": "string"
+                            },
+                            "updatedTime": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "code",
+                            "checked",
+                            "auditorId",
+                            "updatedTime"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "sale"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "sale": {
+                      "id": "销售单ID",
+                      "code": "单据编号",
+                      "checked": true,
+                      "auditorId": "审核人ID",
+                      "updatedTime": "2024-01-01T00:00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/sale/findCheckedListByCustomer": {
+      "post": {
+        "summary": "3.7 获取客户已审核销售单列表",
+        "deprecated": false,
+        "description": "根据客户ID获取该客户所有已审核的销售单列表",
+        "tags": [
+          "3. 销售单管理 (Sale)"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string",
+                    "title": "客户ID"
+                  }
+                },
+                "required": [
+                  "customerId"
+                ]
+              },
+              "example": {
+                "customerId": "客户ID"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "saleList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "销售单ID"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "类型",
+                                "description": "sell-售货，returned-退货"
+                              },
+                              "customerId": {
+                                "type": "string",
+                                "title": "客户ID"
+                              },
+                              "issueDate": {
+                                "type": "string",
+                                "title": "单据日期"
+                              },
+                              "code": {
+                                "type": "string",
+                                "title": "单据编号"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "金额"
+                              },
+                              "debtAmount": {
+                                "type": "number",
+                                "title": "欠款金额"
+                              },
+                              "checked": {
+                                "type": "boolean",
+                                "title": "审核状态",
+                                "description": "（固定为true）"
+                              },
+                              "verifiedAmount": {
+                                "type": "number",
+                                "title": "已核销金额",
+                                "description": "（预留字段，当前为0）"
+                              },
+                              "unverifiedAmount": {
+                                "type": "number",
+                                "title": "未核销金额",
+                                "description": "（预留字段，当前为0）"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "saleList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "saleList": [
+                      {
+                        "id": "销售单ID",
+                        "type": "sell",
+                        "customerId": "客户ID",
+                        "issueDate": "单据日期",
+                        "code": "单据编号",
+                        "amount": 5000,
+                        "debtAmount": 1650,
+                        "checked": true,
+                        "verifiedAmount": 0,
+                        "unverifiedAmount": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9090",
+      "description": "开发环境"
+    }
+  ],
+  "security": []
+}
