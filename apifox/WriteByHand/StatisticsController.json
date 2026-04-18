@@ -10,10 +10,10 @@
       "name": "1. 采购分析报表"
     },
     {
-      "name": "2. 销售分析报表"
+      "name": "3. 库存分析报表"
     },
     {
-      "name": "3. 库存分析报表"
+      "name": "2. 销售分析报表"
     },
     {
       "name": "4. 资金分析报表"
@@ -594,594 +594,6 @@
                         "warehouseName": "仓库名称",
                         "totalQuantity": 300,
                         "totalAmount": 15000
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
-    "/analysis/sale/detailList": {
-      "post": {
-        "summary": "2.1 销售明细表",
-        "deprecated": false,
-        "description": "查询销售业务的详细记录，包含每条销售商品的详细信息\n\n业务逻辑说明:\n1. 支持按客户、商品、仓库、销售人员多维度筛选\n2. 返回每一笔销售的商品明细记录\n3. 包含销售和销退两种业务类型\n4. 自动关联查询客户、销售人员等信息",
-        "tags": [
-          "2. 销售分析报表"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer {{token}}",
-            "schema": {
-              "type": "string",
-              "default": "Bearer {{token}}"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "startDate": {
-                    "type": "string",
-                    "title": "开始日期"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "title": "结束日期"
-                  },
-                  "customerIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "客户ID列表"
-                  },
-                  "productIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "商品ID列表"
-                  },
-                  "warehouseIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "仓库ID列表"
-                  },
-                  "sellerIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "销售人员ID列表"
-                  }
-                }
-              },
-              "example": {
-                "startDate": "2024-01-01",
-                "endDate": "2024-12-31",
-                "customerIdList": [
-                  "客户ID1",
-                  "客户ID2"
-                ],
-                "productIdList": [
-                  "商品ID1",
-                  "商品ID2"
-                ],
-                "warehouseIdList": [
-                  "仓库ID1",
-                  "仓库ID2"
-                ],
-                "sellerIdList": [
-                  "销售人员ID1"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "productList": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string",
-                                "title": "出入库产品记录ID"
-                              },
-                              "businessId": {
-                                "type": "string",
-                                "title": "关联的销货单ID"
-                              },
-                              "productId": {
-                                "type": "string",
-                                "title": "商品ID"
-                              },
-                              "productName": {
-                                "type": "string",
-                                "title": "商品名称"
-                              },
-                              "spec": {
-                                "type": "string",
-                                "title": "规格型号"
-                              },
-                              "productCode": {
-                                "type": "string",
-                                "title": "商品编码"
-                              },
-                              "unitName": {
-                                "type": "string",
-                                "title": "计量单位"
-                              },
-                              "warehouseId": {
-                                "type": "string",
-                                "title": "仓库ID"
-                              },
-                              "warehouseName": {
-                                "type": "string",
-                                "title": "仓库名称"
-                              },
-                              "quantity": {
-                                "type": "number",
-                                "title": "数量"
-                              },
-                              "price": {
-                                "type": "number",
-                                "title": "单价"
-                              },
-                              "amount": {
-                                "type": "number",
-                                "title": "金额"
-                              },
-                              "issueDate": {
-                                "type": "string",
-                                "title": "单据日期"
-                              },
-                              "saleCode": {
-                                "type": "string",
-                                "title": "销货单编号"
-                              },
-                              "type": {
-                                "type": "string",
-                                "title": "业务类型",
-                                "description": "sell-销售，returned-退货"
-                              },
-                              "customerName": {
-                                "type": "string",
-                                "title": "客户名称"
-                              },
-                              "sellerName": {
-                                "type": "string",
-                                "title": "销售人员姓名"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "productList"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "message",
-                    "data"
-                  ]
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {
-                    "productList": [
-                      {
-                        "id": "出入库产品ID",
-                        "businessId": "销货单ID",
-                        "productId": "商品ID",
-                        "productName": "商品名称",
-                        "spec": "规格型号",
-                        "productCode": "商品编码",
-                        "unitName": "单位",
-                        "warehouseId": "仓库ID",
-                        "warehouseName": "仓库名称",
-                        "quantity": 50,
-                        "price": 80,
-                        "amount": 4000,
-                        "issueDate": "2024-01-20",
-                        "saleCode": "SE20240120001",
-                        "type": "sell",
-                        "customerName": "客户名称",
-                        "sellerName": "销售人员姓名"
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
-    "/analysis/sale/productSummaryList": {
-      "post": {
-        "summary": "2.2 销售汇总表（按商品）",
-        "deprecated": false,
-        "description": "按商品维度汇总销售数据，统计每个商品的销售情况\n\n业务逻辑说明:\n1. 按商品和仓库进行分组汇总\n2. 统计指定时间段内的销售总量和总金额\n3. 便于分析商品销售表现",
-        "tags": [
-          "2. 销售分析报表"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer {{token}}",
-            "schema": {
-              "type": "string",
-              "default": "Bearer {{token}}"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "startDate": {
-                    "type": "string",
-                    "title": "开始日期"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "title": "结束日期"
-                  },
-                  "customerIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "客户ID列表"
-                  },
-                  "productIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "商品ID列表"
-                  },
-                  "warehouseIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "仓库ID列表"
-                  }
-                }
-              },
-              "example": {
-                "startDate": "2024-01-01",
-                "endDate": "2024-12-31",
-                "customerIdList": [
-                  "客户ID1"
-                ],
-                "productIdList": [
-                  "商品ID1"
-                ],
-                "warehouseIdList": [
-                  "仓库ID1"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "summaryList": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "productId": {
-                                "type": "string",
-                                "title": "商品ID"
-                              },
-                              "productName": {
-                                "type": "string",
-                                "title": "商品名称"
-                              },
-                              "spec": {
-                                "type": "string",
-                                "title": "规格型号"
-                              },
-                              "productCode": {
-                                "type": "string",
-                                "title": "商品编码"
-                              },
-                              "unitName": {
-                                "type": "string",
-                                "title": "计量单位"
-                              },
-                              "warehouseId": {
-                                "type": "string",
-                                "title": "仓库ID"
-                              },
-                              "warehouseName": {
-                                "type": "string",
-                                "title": "仓库名称"
-                              },
-                              "totalQuantity": {
-                                "type": "number",
-                                "title": "销售总数量"
-                              },
-                              "totalAmount": {
-                                "type": "number",
-                                "title": "销售总金额"
-                              },
-                              "averagePrice": {
-                                "type": "number",
-                                "title": "平均单价"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "summaryList"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "message",
-                    "data"
-                  ]
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {
-                    "summaryList": [
-                      {
-                        "productId": "商品ID",
-                        "productName": "商品名称",
-                        "spec": "规格型号",
-                        "productCode": "商品编码",
-                        "unitName": "单位",
-                        "warehouseId": "仓库ID",
-                        "warehouseName": "仓库名称",
-                        "totalQuantity": 200,
-                        "totalAmount": 16000,
-                        "averagePrice": 80
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
-    "/analysis/sale/customerSummaryList": {
-      "post": {
-        "summary": "2.3 销售汇总表（按客户）",
-        "deprecated": false,
-        "description": "按客户维度汇总销售数据，统计每个客户的购买情况\n\n业务逻辑说明:\n1. 按客户、商品和仓库进行分组汇总\n2. 便于分析客户购买行为和贡献度\n3. 支持客户价值分析",
-        "tags": [
-          "2. 销售分析报表"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer {{token}}",
-            "schema": {
-              "type": "string",
-              "default": "Bearer {{token}}"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "startDate": {
-                    "type": "string",
-                    "title": "开始日期"
-                  },
-                  "endDate": {
-                    "type": "string",
-                    "title": "结束日期"
-                  },
-                  "customerIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "客户ID列表"
-                  },
-                  "productIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "商品ID列表"
-                  },
-                  "warehouseIdList": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "title": "仓库ID列表"
-                  }
-                }
-              },
-              "example": {
-                "startDate": "2024-01-01",
-                "endDate": "2024-12-31",
-                "customerIdList": [
-                  "客户ID1"
-                ],
-                "productIdList": [
-                  "商品ID1"
-                ],
-                "warehouseIdList": [
-                  "仓库ID1"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "summaryList": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "customerId": {
-                                "type": "string",
-                                "title": "客户ID"
-                              },
-                              "customerName": {
-                                "type": "string",
-                                "title": "客户名称"
-                              },
-                              "productId": {
-                                "type": "string",
-                                "title": "商品ID"
-                              },
-                              "productName": {
-                                "type": "string",
-                                "title": "商品名称"
-                              },
-                              "spec": {
-                                "type": "string",
-                                "title": "规格型号"
-                              },
-                              "productCode": {
-                                "type": "string",
-                                "title": "商品编码"
-                              },
-                              "unitName": {
-                                "type": "string",
-                                "title": "计量单位"
-                              },
-                              "warehouseId": {
-                                "type": "string",
-                                "title": "仓库ID"
-                              },
-                              "warehouseName": {
-                                "type": "string",
-                                "title": "仓库名称"
-                              },
-                              "totalQuantity": {
-                                "type": "number",
-                                "title": "销售总数量"
-                              },
-                              "totalAmount": {
-                                "type": "number",
-                                "title": "销售总金额"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "summaryList"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "message",
-                    "data"
-                  ]
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": {
-                    "summaryList": [
-                      {
-                        "customerId": "客户ID",
-                        "customerName": "客户名称",
-                        "productId": "商品ID",
-                        "productName": "商品名称",
-                        "spec": "规格型号",
-                        "productCode": "商品编码",
-                        "unitName": "单位",
-                        "warehouseId": "仓库ID",
-                        "warehouseName": "仓库名称",
-                        "totalQuantity": 100,
-                        "totalAmount": 8000
                       }
                     ]
                   }
@@ -1904,6 +1316,594 @@
                         "checkoutTotalQuantity": 380,
                         "endQuantity": 330,
                         "endAmount": 16500
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/detailList": {
+      "post": {
+        "summary": "2.1 销售明细表",
+        "deprecated": false,
+        "description": "查询销售业务的详细记录，包含每条销售商品的详细信息\n\n业务逻辑说明:\n1. 支持按客户、商品、仓库、销售人员多维度筛选\n2. 返回每一笔销售的商品明细记录\n3. 包含销售和销退两种业务类型\n4. 自动关联查询客户、销售人员等信息",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  },
+                  "sellerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "销售人员ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1",
+                  "客户ID2"
+                ],
+                "productIdList": [
+                  "商品ID1",
+                  "商品ID2"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1",
+                  "仓库ID2"
+                ],
+                "sellerIdList": [
+                  "销售人员ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "productList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "title": "出入库产品记录ID"
+                              },
+                              "businessId": {
+                                "type": "string",
+                                "title": "关联的销货单ID"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "quantity": {
+                                "type": "number",
+                                "title": "数量"
+                              },
+                              "price": {
+                                "type": "number",
+                                "title": "单价"
+                              },
+                              "amount": {
+                                "type": "number",
+                                "title": "金额"
+                              },
+                              "issueDate": {
+                                "type": "string",
+                                "title": "单据日期"
+                              },
+                              "saleCode": {
+                                "type": "string",
+                                "title": "销货单编号"
+                              },
+                              "type": {
+                                "type": "string",
+                                "title": "业务类型",
+                                "description": "sell-销售，returned-退货"
+                              },
+                              "customerName": {
+                                "type": "string",
+                                "title": "客户名称"
+                              },
+                              "sellerName": {
+                                "type": "string",
+                                "title": "销售人员姓名"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "productList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "productList": [
+                      {
+                        "id": "出入库产品ID",
+                        "businessId": "销货单ID",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "quantity": 50,
+                        "price": 80,
+                        "amount": 4000,
+                        "issueDate": "2024-01-20",
+                        "saleCode": "SE20240120001",
+                        "type": "sell",
+                        "customerName": "客户名称",
+                        "sellerName": "销售人员姓名"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/productSummaryList": {
+      "post": {
+        "summary": "2.2 销售汇总表（按商品）",
+        "deprecated": false,
+        "description": "按商品维度汇总销售数据，统计每个商品的销售情况\n\n业务逻辑说明:\n1. 按商品和仓库进行分组汇总\n2. 统计指定时间段内的销售总量和总金额\n3. 便于分析商品销售表现",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "销售总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "销售总金额"
+                              },
+                              "averagePrice": {
+                                "type": "number",
+                                "title": "平均单价"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 200,
+                        "totalAmount": 16000,
+                        "averagePrice": 80
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analysis/sale/customerSummaryList": {
+      "post": {
+        "summary": "2.3 销售汇总表（按客户）",
+        "deprecated": false,
+        "description": "按客户维度汇总销售数据，统计每个客户的购买情况\n\n业务逻辑说明:\n1. 按客户、商品和仓库进行分组汇总\n2. 便于分析客户购买行为和贡献度\n3. 支持客户价值分析",
+        "tags": [
+          "2. 销售分析报表"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer {{token}}",
+            "schema": {
+              "type": "string",
+              "default": "Bearer {{token}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {
+                    "type": "string",
+                    "title": "开始日期"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "title": "结束日期"
+                  },
+                  "customerIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "客户ID列表"
+                  },
+                  "productIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "商品ID列表"
+                  },
+                  "warehouseIdList": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "title": "仓库ID列表"
+                  }
+                }
+              },
+              "example": {
+                "startDate": "2024-01-01",
+                "endDate": "2024-12-31",
+                "customerIdList": [
+                  "客户ID1"
+                ],
+                "productIdList": [
+                  "商品ID1"
+                ],
+                "warehouseIdList": [
+                  "仓库ID1"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summaryList": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "customerId": {
+                                "type": "string",
+                                "title": "客户ID"
+                              },
+                              "customerName": {
+                                "type": "string",
+                                "title": "客户名称"
+                              },
+                              "productId": {
+                                "type": "string",
+                                "title": "商品ID"
+                              },
+                              "productName": {
+                                "type": "string",
+                                "title": "商品名称"
+                              },
+                              "spec": {
+                                "type": "string",
+                                "title": "规格型号"
+                              },
+                              "productCode": {
+                                "type": "string",
+                                "title": "商品编码"
+                              },
+                              "unitName": {
+                                "type": "string",
+                                "title": "计量单位"
+                              },
+                              "warehouseId": {
+                                "type": "string",
+                                "title": "仓库ID"
+                              },
+                              "warehouseName": {
+                                "type": "string",
+                                "title": "仓库名称"
+                              },
+                              "totalQuantity": {
+                                "type": "number",
+                                "title": "销售总数量"
+                              },
+                              "totalAmount": {
+                                "type": "number",
+                                "title": "销售总金额"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "summaryList"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "summaryList": [
+                      {
+                        "customerId": "客户ID",
+                        "customerName": "客户名称",
+                        "productId": "商品ID",
+                        "productName": "商品名称",
+                        "spec": "规格型号",
+                        "productCode": "商品编码",
+                        "unitName": "单位",
+                        "warehouseId": "仓库ID",
+                        "warehouseName": "仓库名称",
+                        "totalQuantity": 100,
+                        "totalAmount": 8000
                       }
                     ]
                   }
