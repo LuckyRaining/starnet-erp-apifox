@@ -92,7 +92,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -117,7 +117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -142,7 +142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -167,7 +167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -192,7 +192,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -217,7 +217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -242,7 +242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -267,7 +267,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -292,7 +292,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -317,7 +317,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -342,7 +342,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -367,7 +367,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -392,7 +392,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -417,7 +417,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -442,7 +442,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -467,7 +467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -492,7 +492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -517,7 +517,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -542,7 +542,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -567,7 +567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -592,7 +592,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -617,7 +617,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -642,7 +642,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -667,7 +667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -692,7 +692,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -717,7 +717,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -742,7 +742,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -767,7 +767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -792,7 +792,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -817,7 +817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -842,7 +842,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -867,7 +867,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -892,7 +892,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -917,7 +917,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -942,7 +942,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -967,7 +967,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -992,7 +992,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1017,7 +1017,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1042,7 +1042,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1067,7 +1067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1092,7 +1092,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1117,7 +1117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1142,7 +1142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1167,7 +1167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1192,7 +1192,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1217,7 +1217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1242,7 +1242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1267,7 +1267,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1292,7 +1292,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1317,7 +1317,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1342,7 +1342,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1367,7 +1367,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1392,7 +1392,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1417,7 +1417,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1442,7 +1442,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1467,7 +1467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1492,7 +1492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1517,7 +1517,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1542,7 +1542,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1567,7 +1567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1592,7 +1592,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1617,7 +1617,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1642,7 +1642,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1667,7 +1667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1692,7 +1692,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1717,7 +1717,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1742,7 +1742,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1767,7 +1767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1792,7 +1792,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1817,7 +1817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1842,7 +1842,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1867,7 +1867,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1892,7 +1892,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1917,7 +1917,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1942,7 +1942,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1967,7 +1967,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -1992,7 +1992,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2017,7 +2017,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2042,7 +2042,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2067,7 +2067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -2092,7 +2092,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -2117,7 +2117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": ""
                 }
               }
@@ -2142,7 +2142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2167,7 +2167,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2192,7 +2192,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2217,7 +2217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2242,7 +2242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2267,7 +2267,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2292,7 +2292,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2317,7 +2317,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2342,7 +2342,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2367,7 +2367,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2392,7 +2392,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2417,7 +2417,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2442,7 +2442,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2467,7 +2467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2492,7 +2492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2517,7 +2517,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2542,7 +2542,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2567,7 +2567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2592,7 +2592,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2617,7 +2617,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2642,7 +2642,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2667,7 +2667,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2692,7 +2692,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2717,7 +2717,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2742,7 +2742,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2767,7 +2767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2792,7 +2792,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2817,7 +2817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2842,7 +2842,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2867,7 +2867,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2892,7 +2892,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2917,7 +2917,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2942,7 +2942,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2967,7 +2967,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -2992,7 +2992,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3017,7 +3017,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3042,7 +3042,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3067,7 +3067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3092,7 +3092,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3117,7 +3117,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3142,7 +3142,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result",
+                  "$ref": "#/components/schemas/net.kingborn.core.entry.Result",
                   "description": "net.kingborn.core.entry.Result"
                 }
               }
@@ -3157,6 +3157,28 @@
   "components": {
     "schemas": {
       "Result": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": ""
+          },
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": ""
+          }
+        }
+      },
+      "net.kingborn.core.entry.Result": {
         "type": "object",
         "properties": {
           "success": {
