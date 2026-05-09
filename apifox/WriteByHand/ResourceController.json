@@ -70,9 +70,9 @@
                 ]
               },
               "example": {
-                "type": 10,
+                "type": 20,
                 "query": {
-                  "keyword": "关键字"
+                  "keyword": ""
                 }
               }
             }
@@ -202,7 +202,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
