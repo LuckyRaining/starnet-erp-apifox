@@ -1239,8 +1239,8 @@
               },
               "example": {
                 "query": {
-                  "keyword": "关键字",
-                  "categoryId": "分类ID"
+                  "keyword": "",
+                  "categoryId": null
                 },
                 "current": 1,
                 "size": 10
@@ -1392,7 +1392,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
@@ -1450,11 +1451,11 @@
                         "title": "余额日期"
                       },
                       "beginReceivableAmount": {
-                        "type": "number",
+                        "type": "integer",
                         "title": "期初应收款"
                       },
                       "beginPrepaidAmount": {
-                        "type": "number",
+                        "type": "integer",
                         "title": "期初预付款"
                       },
                       "vatRate": {
@@ -1468,28 +1469,77 @@
                       }
                     },
                     "required": [
+                      "id",
                       "code",
                       "name",
-                      "categoryId"
+                      "categoryId",
+                      "balanceTime",
+                      "beginReceivableAmount",
+                      "beginPrepaidAmount",
+                      "vatRate",
+                      "remark"
                     ]
+                  },
+                  "contactList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "title": "联系人姓名"
+                        },
+                        "mobile": {
+                          "type": "string",
+                          "title": "手机号"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "title": "座机"
+                        },
+                        "qq": {
+                          "type": "string",
+                          "title": "QQ/微信"
+                        },
+                        "address": {
+                          "type": "string",
+                          "title": "联系地址"
+                        },
+                        "primary": {
+                          "type": "boolean",
+                          "title": "是否首要联系人"
+                        }
+                      }
+                    }
                   }
                 },
                 "required": [
-                  "supplier"
+                  "supplier",
+                  "contactList"
                 ]
               },
               "example": {
                 "supplier": {
-                  "id": "供应商ID（更新时必填，新增时不传）",
-                  "code": "GYS001",
-                  "name": "供应商名称",
-                  "categoryId": "分类ID",
+                  "id": "",
+                  "code": "wangzai001",
+                  "name": "旺仔",
+                  "categoryId": "2051706318347169794",
                   "balanceTime": "2024-01-01",
                   "beginReceivableAmount": 8000,
                   "beginPrepaidAmount": 3000,
                   "vatRate": 13,
                   "remark": "备注"
-                }
+                },
+                "contactList": [
+                  {
+                    "name": "联系人姓名",
+                    "mobile": "手机号",
+                    "phone": "座机",
+                    "qq": "QQ/微信",
+                    "address": "联系地址",
+                    "primary": true
+                  }
+                ]
               }
             }
           },
@@ -1600,7 +1650,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
@@ -2483,23 +2534,23 @@
               },
               "example": {
                 "product": {
-                  "id": "商品ID（更新时必填，新增时不传）",
-                  "code": "SP001",
-                  "name": "商品名称",
-                  "barcode": "6901234567890",
-                  "spec": "规格型号",
-                  "categoryId": "分类ID",
-                  "primaryWarehouseId": "仓库ID",
-                  "unitId": "单位ID",
-                  "retailPrice": 100,
-                  "wholesalePrice": 80,
-                  "vipPrice": 90,
-                  "discountRate1": 0.95,
-                  "discountRate2": 0.9,
-                  "estimatedPurchasePrice": 60,
-                  "remark": "备注",
-                  "minimumStock": 10,
-                  "maximumStock": 1000
+                  "id": "2052581651258576898",
+                  "code": "6907992100272",
+                  "name": "伊利纯牛奶250ml",
+                  "barcode": "6907992100272",
+                  "spec": "250ml",
+                  "categoryId": "2051716236273905666",
+                  "primaryWarehouseId": "2051710387774156801",
+                  "unitId": "1292602021718786049",
+                  "retailPrice": 2.5,
+                  "wholesalePrice": 2.125,
+                  "vipPrice": 0,
+                  "discountRate1": 0,
+                  "discountRate2": 0,
+                  "estimatedPurchasePrice": 2.125,
+                  "remark": null,
+                  "minimumStock": 0,
+                  "maximumStock": 0
                 }
               }
             }
@@ -2521,7 +2572,10 @@
                       "type": "string"
                     },
                     "data": {
-                      "type": "object",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
                       "properties": {
                         "product": {
                           "type": "object",
@@ -2569,7 +2623,10 @@
                               "type": "number"
                             },
                             "remark": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "minimumStock": {
                               "type": "number"
@@ -2581,10 +2638,16 @@
                               "type": "boolean"
                             },
                             "createdTime": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "updatedTime": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "required": [
@@ -2606,8 +2669,8 @@
                             "minimumStock",
                             "maximumStock",
                             "active",
-                            "createdTime",
-                            "updatedTime"
+                            "updatedTime",
+                            "createdTime"
                           ]
                         }
                       },
@@ -2618,8 +2681,7 @@
                   },
                   "required": [
                     "code",
-                    "message",
-                    "data"
+                    "message"
                   ]
                 },
                 "example": {
@@ -2651,7 +2713,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
