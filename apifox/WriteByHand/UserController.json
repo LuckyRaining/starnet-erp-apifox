@@ -523,11 +523,6 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "id": {
-                          "type": "string",
-                          "title": "联系人ID",
-                          "description": "新增时不传"
-                        },
                         "name": {
                           "type": "string",
                           "title": "联系人姓名"
@@ -538,15 +533,19 @@
                         },
                         "phone": {
                           "type": "string",
-                          "title": "电话"
-                        },
-                        "email": {
-                          "type": "string",
-                          "title": "邮箱"
+                          "title": "座机"
                         },
                         "position": {
                           "type": "string",
                           "title": "职位"
+                        },
+                        "qq": {
+                          "type": "string",
+                          "title": "QQ/微信"
+                        },
+                        "address": {
+                          "type": "string",
+                          "title": "联系地址"
                         },
                         "primary": {
                           "type": "boolean",
@@ -555,7 +554,8 @@
                         }
                       },
                       "required": [
-                        "name"
+                        "name",
+                        "address"
                       ]
                     }
                   }
@@ -567,25 +567,43 @@
               },
               "example": {
                 "customer": {
-                  "id": "客户ID（更新时必填，新增时不传）",
-                  "code": "KH001",
-                  "name": "客户名称",
-                  "categoryId": "分类ID",
-                  "level": "A",
-                  "balanceTime": "2024-01-01",
-                  "beginReceivableAmount": 10000,
-                  "beginPrepaidAmount": 5000,
-                  "remark": "备注"
+                  "id": "",
+                  "code": "qiulaoban001",
+                  "name": "邱老板",
+                  "categoryId": "2051706518298030082",
+                  "level": "1294753269708566530",
+                  "balanceTime": "2026-01-01",
+                  "beginReceivableAmount": 0,
+                  "beginPrepaidAmount": 0,
+                  "remark": null
                 },
                 "contactList": [
                   {
-                    "id": "联系人ID（更新时传，新增时不传）",
-                    "name": "联系人姓名",
-                    "mobile": "13800138000",
-                    "phone": "010-12345678",
-                    "email": "contact@example.com",
+                    "name": "邱老板",
+                    "mobile": "16520364120",
+                    "phone": "QLBphone001",
                     "position": "采购经理",
+                    "qq": "QLBqq001",
+                    "address": "QLBaddress001",
                     "primary": true
+                  },
+                  {
+                    "name": "刘浩",
+                    "mobile": "19881502972",
+                    "phone": "LHphone001",
+                    "position": "采购经理",
+                    "qq": "LHqq001",
+                    "address": "LHaddress001",
+                    "primary": false
+                  },
+                  {
+                    "name": "韩风",
+                    "mobile": "13950607080",
+                    "phone": "HFphone001",
+                    "position": "采购员",
+                    "qq": "HFqq001",
+                    "address": "HFaddress001",
+                    "primary": false
                   }
                 ]
               }
@@ -629,7 +647,10 @@
                               "type": "string"
                             },
                             "balanceTime": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "beginReceivableAmount": {
                               "type": "number"
@@ -638,16 +659,25 @@
                               "type": "number"
                             },
                             "remark": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "active": {
                               "type": "boolean"
                             },
                             "createdTime": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "updatedTime": {
-                              "type": "string"
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "required": [
@@ -698,7 +728,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
