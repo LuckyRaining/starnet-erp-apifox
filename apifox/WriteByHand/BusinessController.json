@@ -1551,61 +1551,82 @@
                           "type": "object",
                           "properties": {
                             "id": {
-                              "type": "string"
-                            },
-                            "type": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "ID主键"
                             },
                             "supplierId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "供应商ID"
+                            },
+                            "type": {
+                              "type": "string",
+                              "title": "类型：buy-购货，refund-购退",
+                              "description": "buy-购货，refund-购退"
                             },
                             "issueDate": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "单据日期"
                             },
                             "code": {
-                              "type": "string"
-                            },
-                            "quantity": {
-                              "type": "number"
-                            },
-                            "discountAmount": {
-                              "type": "number"
-                            },
-                            "amount": {
-                              "type": "number"
-                            },
-                            "preferentialRate": {
-                              "type": "number"
-                            },
-                            "preferentialAmount": {
-                              "type": "number"
-                            },
-                            "preferredAmount": {
-                              "type": "number"
-                            },
-                            "currentAmount": {
-                              "type": "number"
-                            },
-                            "debtAmount": {
-                              "type": "number"
-                            },
-                            "contracts": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "单据编号"
                             },
                             "status": {
-                              "type": "integer"
+                              "type": "integer",
+                              "title": "付/退款状态：10、未付/退款 20、已付/退部分金额 30、全部付/退款",
+                              "description": "10、未付/退款 20、已付/退部分金额 30、全部付/退款"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "数量"
+                            },
+                            "discountAmount": {
+                              "type": "number",
+                              "title": "折扣额"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "title": "购货金额"
+                            },
+                            "preferentialRate": {
+                              "type": "number",
+                              "title": "优惠率"
+                            },
+                            "preferentialAmount": {
+                              "type": "number",
+                              "title": "优惠金额"
+                            },
+                            "preferredAmount": {
+                              "type": "number",
+                              "title": "优惠后金额"
+                            },
+                            "currentAmount": {
+                              "type": "number",
+                              "title": "本次付/退款"
+                            },
+                            "debtAmount": {
+                              "type": "number",
+                              "title": "本次欠款"
+                            },
+                            "contracts": {
+                              "type": "string",
+                              "title": "采购合同"
                             },
                             "listerId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "制单人ID"
                             },
                             "auditorId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "审核人ID"
                             },
                             "checked": {
-                              "type": "boolean"
+                              "type": "boolean",
+                              "title": "是否已审核"
                             },
                             "remark": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "备注"
                             },
                             "productList": {
                               "type": "array",
@@ -1681,7 +1702,8 @@
                                     "title": "备注"
                                   }
                                 }
-                              }
+                              },
+                              "title": "商品列表"
                             },
                             "accountList": {
                               "type": "array",
@@ -1698,11 +1720,11 @@
                                   },
                                   "amount": {
                                     "type": "number",
-                                    "title": "金额"
+                                    "title": "结算金额"
                                   },
                                   "type": {
                                     "type": "string",
-                                    "title": "类型",
+                                    "title": "类型：in-收入，out-支出",
                                     "description": "in-收入，out-支出"
                                   },
                                   "issueDate": {
@@ -1711,7 +1733,8 @@
                                   },
                                   "businessType": {
                                     "type": "string",
-                                    "title": "业务类型"
+                                    "title": "业务类型：buy-购货，refund-购退",
+                                    "description": "buy-购货，refund-购退"
                                   },
                                   "businessId": {
                                     "type": "string",
@@ -1720,9 +1743,18 @@
                                   "remark": {
                                     "type": "string",
                                     "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
                                   }
                                 }
-                              }
+                              },
+                              "title": "单据账户列表"
                             }
                           },
                           "required": [
@@ -1821,7 +1853,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
@@ -2017,10 +2050,6 @@
                     "items": {
                       "type": "object",
                       "properties": {
-                        "code": {
-                          "type": "string",
-                          "title": "商品编码"
-                        },
                         "productId": {
                           "type": "string",
                           "title": "商品ID"
@@ -2039,15 +2068,19 @@
                         },
                         "discountRate": {
                           "type": "number",
-                          "title": "优惠率"
+                          "title": "折扣率"
                         },
                         "discountAmount": {
                           "type": "integer",
-                          "title": "优惠金额"
+                          "title": "折扣额"
                         },
                         "amount": {
                           "type": "integer",
                           "title": "金额"
+                        },
+                        "code": {
+                          "type": "string",
+                          "title": "序列号"
                         },
                         "remark": {
                           "type": "string",
@@ -3011,76 +3044,103 @@
                           "type": "object",
                           "properties": {
                             "id": {
-                              "type": "string"
-                            },
-                            "type": {
-                              "type": "string"
-                            },
-                            "issueDate": {
-                              "type": "string"
-                            },
-                            "code": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "ID主键"
                             },
                             "customerId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "客户ID"
                             },
-                            "sellerId": {
-                              "type": "string"
+                            "type": {
+                              "type": "string",
+                              "title": "类型：sell-销货，returned-销退",
+                              "description": "sell-销货，returned-销退"
                             },
-                            "contactName": {
-                              "type": "string"
+                            "issueDate": {
+                              "type": "string",
+                              "title": "单据日期"
                             },
-                            "address": {
-                              "type": "string"
-                            },
-                            "phone": {
-                              "type": "string"
-                            },
-                            "quantity": {
-                              "type": "number"
-                            },
-                            "discountAmount": {
-                              "type": "number"
-                            },
-                            "amount": {
-                              "type": "number"
-                            },
-                            "preferentialRate": {
-                              "type": "number"
-                            },
-                            "preferentialAmount": {
-                              "type": "number"
-                            },
-                            "preferredAmount": {
-                              "type": "number"
-                            },
-                            "customerFee": {
-                              "type": "number"
-                            },
-                            "currentAmount": {
-                              "type": "number"
-                            },
-                            "debtAmount": {
-                              "type": "number"
+                            "code": {
+                              "type": "string",
+                              "title": "单据编号"
                             },
                             "status": {
-                              "type": "integer"
+                              "type": "integer",
+                              "title": "收/退款状态：10、未收/退款 20、已收/退部分金额 30、全部收/退款",
+                              "description": "10、未收/退款 20、已收/退部分金额 30、全部收/退款"
+                            },
+                            "quantity": {
+                              "type": "number",
+                              "title": "数量"
+                            },
+                            "discountAmount": {
+                              "type": "number",
+                              "title": "折扣额"
+                            },
+                            "amount": {
+                              "type": "number",
+                              "title": "销货金额"
+                            },
+                            "preferentialRate": {
+                              "type": "number",
+                              "title": "优惠率"
+                            },
+                            "preferentialAmount": {
+                              "type": "number",
+                              "title": "优惠金额"
+                            },
+                            "preferredAmount": {
+                              "type": "number",
+                              "title": "优惠后金额"
+                            },
+                            "currentAmount": {
+                              "type": "number",
+                              "title": "本次收/退款"
+                            },
+                            "debtAmount": {
+                              "type": "number",
+                              "title": "本次欠款"
                             },
                             "attachments": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "销售附件"
                             },
                             "listerId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "制单人ID"
                             },
                             "auditorId": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "审核人ID"
                             },
                             "checked": {
-                              "type": "boolean"
+                              "type": "boolean",
+                              "title": "是否已审核"
                             },
                             "remark": {
-                              "type": "string"
+                              "type": "string",
+                              "title": "备注"
+                            },
+                            "sellerId": {
+                              "type": "string",
+                              "title": "销售人ID：职员",
+                              "description": "职员"
+                            },
+                            "contactName": {
+                              "type": "string",
+                              "title": "联系人姓名"
+                            },
+                            "address": {
+                              "type": "string",
+                              "title": "地址"
+                            },
+                            "phone": {
+                              "type": "string",
+                              "title": "电话号码"
+                            },
+                            "customerFee": {
+                              "type": "number",
+                              "title": "客户费用"
                             },
                             "productList": {
                               "type": "array",
@@ -3156,7 +3216,59 @@
                                     "title": "备注"
                                   }
                                 }
-                              }
+                              },
+                              "title": "商品列表"
+                            },
+                            "accountList": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string",
+                                    "title": "账户记录ID"
+                                  },
+                                  "accountId": {
+                                    "type": "string",
+                                    "title": "结算账户ID"
+                                  },
+                                  "amount": {
+                                    "type": "number",
+                                    "title": "结算金额"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "title": "类型：in-收入 out-支出",
+                                    "description": "in-收入，out-支出"
+                                  },
+                                  "issueDate": {
+                                    "type": "string",
+                                    "title": "单据日期"
+                                  },
+                                  "businessType": {
+                                    "type": "string",
+                                    "title": "业务类型：sell-销货，returned-销退",
+                                    "description": "sell-销货，returned-销退"
+                                  },
+                                  "businessId": {
+                                    "type": "string",
+                                    "title": "业务ID"
+                                  },
+                                  "remark": {
+                                    "type": "string",
+                                    "title": "备注"
+                                  },
+                                  "createdTime": {
+                                    "type": "string",
+                                    "title": "创建时间"
+                                  },
+                                  "updatedTime": {
+                                    "type": "string",
+                                    "title": "更新时间"
+                                  }
+                                }
+                              },
+                              "title": "单据账户列表"
                             }
                           },
                           "required": [
@@ -3184,7 +3296,8 @@
                             "auditorId",
                             "checked",
                             "remark",
-                            "productList"
+                            "productList",
+                            "accountList"
                           ]
                         }
                       },
@@ -3252,7 +3365,8 @@
                   }
                 }
               }
-            }
+            },
+            "headers": {}
           }
         },
         "security": []
